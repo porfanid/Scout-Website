@@ -3,7 +3,7 @@ name: FTP Deployment
 on:
   push:
     branches:
-      - main  # Change this if you want a different branch to trigger the deployment
+      - master  # Change this if you want a different branch to trigger the deployment
 
 jobs:
   deploy:
