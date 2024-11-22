@@ -1,4 +1,4 @@
-import { Box, Typography, Button, Grid2 as Grid, Link } from '@mui/material';
+import { Box, Typography, Button, Grid, Link } from '@mui/material';
 import ScoutLogo from './Navbar/logo.png';
 import { NavLink } from "react-router-dom";
 
@@ -9,12 +9,19 @@ const Footer = ({ toggleTheme, toggleLanguage }) => {
             sx={{
                 padding: '40px',
                 backgroundColor: '#1b1b1b',
+                width: '100%',
                 color: '#f0f0f0',
+                width: '100%', // Ensure the footer spans the full width
             }}
         >
-            <Grid container spacing={4}>
+            <Grid
+                container
+                justifyContent="space-between" // Distribute items across the full width
+                alignItems="center"
+                spacing={4}
+            >
                 {/* Column 1: Logo and Description */}
-                <Grid xs={12} md={4} sx={{ textAlign: 'center' }}>
+                <Grid item xs={12} md={4} sx={{ textAlign: 'center' }}>
                     <img src={ScoutLogo} alt="Scout Logo" style={{ height: '80px', marginBottom: '10px' }} />
                     <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                         1ο Σύστημα Προσκόπων Ιωαννίνων
@@ -25,7 +32,7 @@ const Footer = ({ toggleTheme, toggleLanguage }) => {
                 </Grid>
 
                 {/* Column 2: Navigation Links */}
-                <Grid xs={12} md={4} sx={{ textAlign: 'center' }}>
+                <Grid item xs={12} md={4} sx={{ textAlign: 'center' }}>
                     <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold' }}>
                         Χρήσιμοι Σύνδεσμοι
                     </Typography>
@@ -46,7 +53,7 @@ const Footer = ({ toggleTheme, toggleLanguage }) => {
                 </Grid>
 
                 {/* Column 3: Contact Information */}
-                <Grid xs={12} md={4} sx={{ textAlign: 'center' }}>
+                <Grid item xs={12} md={4} sx={{ textAlign: 'center' }}>
                     <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold' }}>
                         Επικοινωνία
                     </Typography>
@@ -71,20 +78,6 @@ const Footer = ({ toggleTheme, toggleLanguage }) => {
                     paddingTop: '20px',
                 }}
             >
-                {/* Language and Theme Toggles */}
-                {/**<>
-                    <Box sx={{mb: 2}}>
-                        <Button color="inherit" onClick={() => toggleLanguage('en')} sx={{mr: 1}}>
-                            English
-                        </Button>
-                        <Button color="inherit" onClick={() => toggleLanguage('gr')}>
-                            Ελληνικά
-                        </Button>
-                    </Box>
-                    <Button variant="outlined" color="inherit" onClick={toggleTheme}>
-                        Εναλλαγή Θέματος
-                    </Button>
-                </>**/}
                 {/* Copyright and Creator */}
                 <Typography variant="body2" sx={{ mt: 3, fontSize: '0.85rem' }}>
                     © {new Date().getFullYear()} 1ο Σύστημα Προσκόπων Ιωαννίνων. Όλα τα δικαιώματα κατοχυρωμένα.
