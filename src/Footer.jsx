@@ -10,8 +10,7 @@ const Footer = ({ toggleTheme, toggleLanguage }) => {
                 padding: '40px',
                 backgroundColor: '#1b1b1b',
                 width: '100%',
-                color: '#f0f0f0',
-                width: '100%', // Ensure the footer spans the full width
+                color: '#f0f0f0'// Ensure the footer spans the full width
             }}
         >
             <Grid

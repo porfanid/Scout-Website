@@ -23,4 +23,4 @@ const auth = getAuth(app);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
 const functions = getFunctions(app); // Get Firebase Functions instance
-export { auth, db, functions };
+export { app, auth, analytics, db, functions };
