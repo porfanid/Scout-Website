@@ -72,18 +72,19 @@ const Footer = ({ toggleTheme, toggleLanguage }) => {
                 }}
             >
                 {/* Language and Theme Toggles */}
-                <Box sx={{ mb: 2 }}>
-                    <Button color="inherit" onClick={() => toggleLanguage('en')} sx={{ mr: 1 }}>
-                        English
+                {(process.env.NODE_ENV === 'development')&&<>
+                    <Box sx={{mb: 2}}>
+                        <Button color="inherit" onClick={() => toggleLanguage('en')} sx={{mr: 1}}>
+                            English
+                        </Button>
+                        <Button color="inherit" onClick={() => toggleLanguage('gr')}>
+                            Ελληνικά
+                        </Button>
+                    </Box>
+                    <Button variant="outlined" color="inherit" onClick={toggleTheme}>
+                        Εναλλαγή Θέματος
                     </Button>
-                    <Button color="inherit" onClick={() => toggleLanguage('gr')}>
-                        Ελληνικά
-                    </Button>
-                </Box>
-                <Button variant="outlined" color="inherit" onClick={toggleTheme}>
-                    Εναλλαγή Θέματος
-                </Button>
-
+                </>}
                 {/* Copyright and Creator */}
                 <Typography variant="body2" sx={{ mt: 3, fontSize: '0.85rem' }}>
                     © {new Date().getFullYear()} 1ο Σύστημα Προσκόπων Ιωαννίνων. Όλα τα δικαιώματα κατοχυρωμένα.
