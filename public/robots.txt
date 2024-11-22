@@ -1,0 +1,15 @@
+# robots.txt for your React site
+# Allow all crawlers to access the site
+User-agent: *
+
+# Block sensitive routes
+Disallow: /admin
+Disallow: /login
+Disallow: /register
+Disallow: /profile
+
+# Allow everything else
+Allow: /
+
+# Point to your sitemap
+Sitemap: https://ioannina-scouts.gr/sitemap.xml

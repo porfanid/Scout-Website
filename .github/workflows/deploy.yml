@@ -1,0 +1,39 @@
+name: FTP Deployment
+
+on:
+  push:
+    branches:
+      - main  # Change this if you want a different branch to trigger the deployment
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'  # Use the desired version of Node.js
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Deploy to FTP server
+        env:
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_PORT: ${{ secrets.FTP_PORT }}
+        run: |
+          # Set up .env file dynamically
+          echo "FTP_USER=${{ secrets.FTP_USER }}" >> .env
+          echo "FTP_PASSWORD=${{ secrets.FTP_PASSWORD }}" >> .env
+          echo "FTP_HOST=${{ secrets.FTP_HOST }}" >> .env
+          echo "FTP_PORT=${{ secrets.FTP_PORT }}" >> .env
+          
+          # Run the deploy script
+          npm run publish
