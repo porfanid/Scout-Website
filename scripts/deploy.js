@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 
 // Load environment variables from .env file
-dotenv.config();
+dotenv.config({ path: path.resolve(__dirname, '..', '.env') });
 
 const ftpDeploy = new FtpDeploy();
 const __filename = fileURLToPath(import.meta.url);
