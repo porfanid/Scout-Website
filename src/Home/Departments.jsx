@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { db } from '../firebase';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { Card, CardContent, CardMedia, Typography, Grid2 as Grid, Box, CircularProgress, Alert, useMediaQuery } from '@mui/material';
