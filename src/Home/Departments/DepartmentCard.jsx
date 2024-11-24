@@ -7,6 +7,9 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { useSpring, animated } from '@react-spring/web';
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/styles";
+import '@fontsource/pacifico';
+import '@fontsource/roboto';
+import '@fontsource/indie-flower';
 
 const DepartmentCard = ({ department, chief }) => {
     const theme = useTheme();
@@ -21,7 +24,7 @@ const DepartmentCard = ({ department, chief }) => {
     const overlayAnimation = useSpring({
         loop: true,
         from: { transform: 'rotate(0deg)' },
-        to: { transform: 'rotate(30deg)' },
+        to: { transform: 'rotate(360deg)' },
         config: { duration: 5000 },
     });
 
@@ -116,59 +119,52 @@ const DepartmentCard = ({ department, chief }) => {
                     )
                 )}
             </Box>
-            <CardContent>
-                <Typography
-                    variant="h5"
-                    sx={{
-                        fontFamily: "'Comic Sans MS', cursive",
-                        fontWeight: 'bold',
-                        textAlign: 'center',
-                    }}
-                >
+            <CardContent sx={{ flexGrow: 1 }}>
+                <Typography variant="h5" component="div" sx={{ fontFamily: "'Comic Sans MS', 'Comic Sans', cursive",
+                    fontWeight: 'bold',
+                    textAlign: 'center', }}>
                     {department.name}
                 </Typography>
-                <Typography
-                    variant="subtitle1"
-                    sx={{
-                        marginTop: 2,
-                        fontWeight: 'bold',
-                        textAlign: 'center',
-                    }}
-                >
+                <Typography variant="subtitle1" component="div" sx={{ marginTop: "3vh", marginBottom: "2vh", fontWeight: 'italic', fontFamily: "'Indie Flower', cursive" }}>
                     {department.moto}
                 </Typography>
-
-                <Typography
-                    variant="subtitle2"
-                    sx={{
-                        marginTop: 2,
-                        fontWeight: 'bold',
-                        textAlign: 'center',
-                    }}
-                >
-                    {department.age} χρονών
-                </Typography>
-
-                {chief && (
-                    <Box sx={{ marginTop: 2 }}>
-                        <Typography variant="body1" sx={{ textAlign: 'center' }}>
-                            <FaceIcon sx={{ marginRight: 1, verticalAlign: 'middle' }} />
-                            Αρχηγός: {chief.name}
-                        </Typography>
-                        <Typography variant="body2" sx={{ textAlign: 'center', marginTop: 1 }}>
-                            <PhoneIcon sx={{ marginRight: 1, verticalAlign: 'middle' }} />
-                            Τηλέφωνο: {chief.phone}
-                        </Typography>
-                        <Typography variant="body2" sx={{ textAlign: 'center', marginTop: 1 }}>
-                            <EmailIcon sx={{ marginRight: 1, verticalAlign: 'middle' }} />
-                            Email: {chief.email}
-                        </Typography>
-                        <Typography variant="body2" sx={{ textAlign: 'center', marginTop: 1 }}>
-                            <CalendarTodayIcon sx={{ marginRight: 1, verticalAlign: 'middle' }} />
-                            Συνάντηση: {chief.meeting}
-                        </Typography>
-                    </Box>
+                {department.age && (
+                    <Typography variant="body2" sx={{ marginBottom: '10px', display: 'flex', alignItems: 'center', fontFamily: "'Roboto', sans-serif" }}>
+                        <FaceIcon sx={{ marginRight: '5px' }} />
+                        {department.age} χρονών
+                    </Typography>
                 )}
+                {chief && <>
+                    {chief.meetingDate && (
+                        <Typography variant="body2" sx={{ marginTop: '5px', display: 'flex', alignItems: 'center', fontFamily: "'Roboto', sans-serif" }}>
+                            <CalendarTodayIcon sx={{ marginRight: '5px' }} />
+                            {chief.meetingDate}
+                        </Typography>
+                    )}
+                    {chief.name ? (
+                        <Box sx={{ backgroundColor: '#B0BEC5', padding: '10px', borderRadius: '10px', marginTop: '10px' }}>
+                            <Typography variant="subtitle1" sx={{ fontWeight: 'bold', color: department.bgColor, fontFamily: "'Comic Sans MS', 'Comic Sans', cursive" }}>
+                                Chief: {chief.name}
+                            </Typography>
+                            {chief.phone && (
+                                <Typography variant="body2" sx={{ color: '#37474f', marginTop: '5px', display: 'flex', alignItems: 'center', fontFamily: "'Roboto', sans-serif" }}>
+                                    <PhoneIcon sx={{ marginRight: '5px' }} />
+                                    {chief.phone}
+                                </Typography>
+                            )}
+                            {chief.email && (
+                                <Typography variant="body2" sx={{ color: '#37474f', marginTop: '5px', display: 'flex', alignItems: 'center', fontFamily: "'Roboto', sans-serif" }}>
+                                    <EmailIcon sx={{ marginRight: '5px' }} />
+                                    {chief.email}
+                                </Typography>
+                            )}
+                        </Box>
+                    ) : (
+                        <Typography variant="body2" color="text.secondary" sx={{ marginTop: '10px', fontFamily: "'Roboto', sans-serif" }}>
+                            No chief information available.
+                        </Typography>
+                    )}
+                </>}
             </CardContent>
         </Card>
     );

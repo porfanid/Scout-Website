@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Typography, TextField, Button, Alert, CircularProgress, Box, Paper, Grid } from '@mui/material';
-import { getFunctions, httpsCallable } from 'firebase/functions';
+import { Typography, TextField, Button, Alert, CircularProgress, Box, Paper, Skeleton } from '@mui/material';
+import Grid2 from '@mui/material/Grid2'; // Import Grid2 from MUI
+import { httpsCallable } from 'firebase/functions';
 import { functions } from "./firebase.js";
 
 function Contact() {
@@ -10,6 +11,7 @@ function Contact() {
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [mapLoading, setMapLoading] = useState(true);
 
     const sendContactMessage = httpsCallable(functions, 'sendContactMessage');
 
@@ -44,9 +46,30 @@ function Contact() {
                 <Typography variant="body1" gutterBottom>
                     Συμπληρώστε την παρακάτω φόρμα για να επικοινωνήσετε μαζί μας.
                 </Typography>
-                <Grid container spacing={4}>
-                    <Grid item xs={12} md={6}>
-                        <form onSubmit={handleSubmit}>
+                {/* Main Container */}
+                <Grid2 container spacing={3} sx={{display: 'flex',justifyContent: 'evenly',}}>
+                    {/* Left Column (Form) */}
+                    <Grid2
+                        item
+                        xs={12}  // Full width on small screens
+                        md={2}
+                        lg={2}// 50% width on medium and larger screens
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'flex-start',
+                            width: {
+                                sm:"100%",
+                                md:"40%"
+                            },
+                            marginRight:{
+                                sm:0,
+                                md: "100px"
+                            }
+                        }}
+                    >
+                        <form onSubmit={handleSubmit} style={{ width: '100%' }}>
                             <TextField
                                 label="Όνομα"
                                 variant="outlined"
@@ -79,17 +102,34 @@ function Contact() {
                         </form>
                         {success && <Alert severity="success" sx={{ marginTop: 2 }}>Το μήνυμα στάλθηκε με επιτυχία!</Alert>}
                         {error && <Alert severity="error" sx={{ marginTop: 2 }}>{error}</Alert>}
-                    </Grid>
-                    <Grid item xs={12} md={6}>
+                    </Grid2>
+
+                    {/* Right Column (Map) */}
+                    <Grid2
+                        item
+                        xs={12}  // Full width on small screens
+                        md={5}   // 50% width on medium and larger screens
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: {
+                                sm:"100%",
+                                md:"40%"
+                            },
+                        }}
+                    >
+                        {mapLoading && <Skeleton variant="rectangular" width="100%" height={400} />}
                         <iframe
                             width="100%"
                             height="400"
-                            style={{ border: 0 }}
+                            style={{ border: 0, display: mapLoading ? 'none' : 'block' }}
                             src="https://www.google.com/maps/embed/v1/place?q=Pindarou%209,%20Ioannina,%2045332&key=AIzaSyDuSYLGWDUpKE0Mtc_SjG6OSp9Btt9mXzU"
+                            onLoad={() => setMapLoading(false)}
                             allowFullScreen
                         ></iframe>
-                    </Grid>
-                </Grid>
+                    </Grid2>
+                </Grid2>
             </Paper>
         </Box>
     );
