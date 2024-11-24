@@ -50,7 +50,6 @@ function Contact() {
                 <Grid2 container spacing={3} sx={{display: 'flex',justifyContent: 'evenly',}}>
                     {/* Left Column (Form) */}
                     <Grid2
-                        item
                         xs={12}  // Full width on small screens
                         md={2}
                         lg={2}// 50% width on medium and larger screens
@@ -106,7 +105,6 @@ function Contact() {
 
                     {/* Right Column (Map) */}
                     <Grid2
-                        item
                         xs={12}  // Full width on small screens
                         md={5}   // 50% width on medium and larger screens
                         sx={{
