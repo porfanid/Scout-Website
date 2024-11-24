@@ -2,10 +2,10 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Departments from './Departments';
-import { db } from '../firebase';
+import { db } from '../../firebase';
 import { collection, onSnapshot } from 'firebase/firestore';
 
-jest.mock('../firebase', () => ({
+jest.mock('../../firebase', () => ({
     db: {
         collection: jest.fn(),
     },

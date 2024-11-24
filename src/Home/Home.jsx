@@ -2,7 +2,7 @@ import { Box, Grid2 as Grid, Typography } from '@mui/material';
 
 import heroImage from "./hero.png";
 import siteTitleSvg from "./site_title.svg";
-import Departments from "./Departments.jsx";
+import Departments from "./Departments/Departments.jsx";
 import backgroundImage from "../Navbar/topShadow.png"
 import {useTheme} from "@mui/styles";
 
@@ -18,7 +18,7 @@ function Home({isMobile}) {
                 width: "100%",
                 padding: '2rem',
                 position: 'relative',
-                marginBottom:"100px",
+                marginBottom:"0px",
                 backgroundImage: `url(${backgroundImage})`, // Add the background image
                 backgroundSize: 'cover', // Ensure the image covers the entire area
                 backgroundPosition: 'center', // Center the image

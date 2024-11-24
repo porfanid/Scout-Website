@@ -1,3 +1,4 @@
+import React from "react";
 import { styled, alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
@@ -14,22 +15,23 @@ import Sitemark from "./SiteMarkIcon";
 import { useState, useEffect } from "react";
 import { auth, db } from "../firebase.js";
 import { doc, getDoc } from "firebase/firestore";
-import {lighten, Typography} from "@mui/material";
+import { lighten, Typography } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/styles";
 
 import bg from "./Pattern-PNG-Photos.png";
+
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     flexShrink: 0,
-    height: '80px', // Increase the height
+    height: '80px',
     backdropFilter: 'blur(24px)',
     borderTop: '1px solid',
     borderLeft: '1px solid',
     borderRight: '1px solid',
-    borderBottom: 'none', // No border at the bottom
+    borderBottom: 'none',
     borderColor: (theme.vars || theme).palette.divider,
     backgroundColor: theme.vars
         ? `rgba(${theme.vars.palette.background.defaultChannel} / 0.4)`
@@ -49,18 +51,17 @@ const StyledButton = styled(Button)(({ theme }) => ({
     boxShadow: 'none',
     border: 'none',
     position: 'relative',
-    overflow: 'hidden',  // Ensure that the hover effects stay inside the button's bounds
+    overflow: 'hidden',
     '&:hover': {
-        backgroundColor: "transparent", // Make background change on hover
+        backgroundColor: "transparent",
         boxShadow: 'none',
-        color: theme.palette.primary.main, // Text color change on hover
-        transition: 'all 0.3s ease', // Smooth transition for hover effects
+        color: theme.palette.primary.main,
+        transition: 'all 0.3s ease',
         transform: 'scale(1.1)'
     },
     '&:active': {
-        color: theme.palette.primary.main, // Text color change on click
+        color: theme.palette.primary.main,
     },
-    // Underline effect on hover
     '&:after': {
         content: '""',
         position: 'absolute',
@@ -71,13 +72,12 @@ const StyledButton = styled(Button)(({ theme }) => ({
         width: '0%',
         height: '2px',
         backgroundColor: theme.palette.primary.main,
-        transition: 'width 0.3s ease',  // Smooth underline effect
+        transition: 'width 0.3s ease',
     },
     '&:hover:after': {
-        width: '100%',  // Full underline on hover
+        width: '100%',
     }
 }));
-
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
     '.MuiDrawer-paper': {
@@ -100,7 +100,7 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)', // Adjust the opacity as needed
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
             zIndex: 1,
         },
         '& *': {
@@ -112,13 +112,13 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
 
 const StyledListItem = styled(ListItem)(({ theme }) => ({
     color: theme.palette.text.primary,
-    backgroundColor: alpha(theme.palette.background.paper, 0.8), // Add a semi-transparent background
-    margin: '8px auto', // Add some margin between items and center them
-    borderRadius: '20px', // Increase border radius for rounder buttons
-    width: '80%', // Reduce the width to make them not full width
+    backgroundColor: alpha(theme.palette.background.paper, 0.8),
+    margin: '8px auto',
+    borderRadius: '20px',
+    width: '80%',
     '&:hover': {
-        backgroundColor: alpha(theme.palette.primary.main, 0.2), // Change background color on hover
-        color: theme.palette.primary.main, // Change text color on hover
+        backgroundColor: alpha(theme.palette.primary.main, 0.2),
+        color: theme.palette.primary.main,
         transition: 'background-color 0.3s ease, color 0.3s ease',
     },
 }));
@@ -128,46 +128,43 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
     zIndex: theme.zIndex.appBar,
     border: 'none',
     backgroundColor: theme.palette.background.default,
-    marginBottom: 0, // Ensure no margin at the bottom
-    paddingBottom: 0, // Ensure no padding at the bottom
-    boxShadow: 'none', // Optional: remove box-shadow if any
-    height: '80px', // Increase the height
+    marginBottom: 0,
+    paddingBottom: 0,
+    boxShadow: 'none',
+    height: '80px',
 }));
-
 
 const WaveContainer = styled('div')(({ theme }) => ({
     position: 'absolute',
-    top: '100%', // Positioned directly below the AppBar
+    top: '100%',
     left: 0,
     width: '100%',
     height: '80px',
     lineHeight: 0,
-    zIndex: theme.zIndex.appBar - 1, // Ensure it layers properly
-    margin: 0, // Ensure no margin
-    padding: 0, // Ensure no padding
-    overflow:"hidden"
+    zIndex: theme.zIndex.appBar - 1,
+    margin: 0,
+    padding: 0,
+    overflow: "hidden"
 }));
-
 
 const Wave = styled('svg')(({ theme }) => ({
     position: 'absolute',
     top: 0,
     left: 0,
-    width: '200%', // Extend the width for continuous effect
+    width: '200%',
     height: '100%',
     animation: 'wave-animation 10s linear infinite',
-    fill: theme.palette.background.default, // Match the color of the navbar
-    zIndex: 11, // Ensure the wave is above the wave container
+    fill: theme.palette.background.default,
+    zIndex: 11,
     '@keyframes wave-animation': {
         '0%': { transform: 'translateX(0)' },
         '100%': { transform: 'translateX(-50%)' },
     },
 }));
 
-
 export default function Navbar() {
     const [open, setOpen] = useState(false);
-    const [defaultOptions, setDefaultOptions] =  useState([
+    const [defaultOptions, setDefaultOptions] = useState([
         { name: "Αρχική", link: "/" },
         { name: "Επικοινωνία", link: "/contact" }
     ]);
@@ -176,10 +173,10 @@ export default function Navbar() {
         { name: "Διαχειριστής", link: "/admin" },
     ];
 
-    const loggedInLinks=[
+    const loggedInLinks = [
         { name: "Προφίλ", link: "/profile" },
         { name: "Αποσύνδεση", link: "/logout" }
-    ]
+    ];
 
     const [menuOptions, setMenuOptions] = useState(defaultOptions);
 
@@ -192,7 +189,7 @@ export default function Navbar() {
                     const data = snapshot.data();
                     if (data.role === "admin") {
                         setMenuOptions([...defaultOptions, ...adminLinks, ...loggedInLinks]);
-                    }else{
+                    } else {
                         setMenuOptions([...defaultOptions, ...loggedInLinks]);
                     }
                 })
@@ -216,7 +213,7 @@ export default function Navbar() {
                         </Typography>
                         {isMobile ? (
                             <>
-                                <IconButton color={theme.palette.primary.contrastText} edge="end" onClick={toggleDrawer(true)}>
+                                <IconButton aria-label="menu" color={theme.palette.primary.contrastText} edge="end" onClick={toggleDrawer(true)}>
                                     <MenuIcon />
                                 </IconButton>
                                 <StyledDrawer anchor="right" open={open} onClose={toggleDrawer(false)}>
