@@ -14,12 +14,18 @@ service cloud.firestore {
       allow write: if request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
     match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if request.auth != null && request.auth.uid == userId && !(request.resource.data.keys().hasAny(['role']));
     }
     match /chiefs/{document=**} {
       allow read: if true; // Public read access
       allow write: if request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
       //allow write: if true;
+    }
+    match /gallery/{document=**} {
+          allow read: if true; // Public read access
+          //allow write: if request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
+          allow write: if true;
     }
     match /{document=**} {
       allow read, write: if false;

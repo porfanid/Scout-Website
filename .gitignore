@@ -1,5 +1,6 @@
 .env
 BackUp/
+public/gallery/*
 
 # Logs
 logs
@@ -25,3 +26,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+scripts/ioannina-scouts-firebase-adminsdk-g6qgn-f625d59955.json

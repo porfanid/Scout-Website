@@ -1,11 +1,8 @@
-// src/firebaseConfig.js
-
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getAnalytics } from "firebase/analytics";
-import { getFirestore } from 'firebase/firestore';
-import {getFunctions} from "firebase/functions";
-
+import { getAuth} from 'firebase/auth';
+import { getAnalytics } from 'firebase/analytics';
+import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
+import { getFunctions, connectFunctionsEmulator } from 'firebase/functions';
 
 const firebaseConfig = {
     apiKey: "AIzaSyBPI1rSdv3if62Dp67hjHKqGk-Vwbq58vo",
@@ -17,10 +14,15 @@ const firebaseConfig = {
     measurementId: "G-VQMCWMXT54"
 };
 
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
-const functions = getFunctions(app); // Get Firebase Functions instance
+const functions = getFunctions(app);
+
+if (import.meta.env.MODE === 'development') {
+    connectFirestoreEmulator(db, 'localhost', 8080);
+    connectFunctionsEmulator(functions, 'localhost', 5001);
+}
+
 export { app, auth, analytics, db, functions };

@@ -29,6 +29,7 @@ import Calendar from "./Calendar/Calendar.jsx";
 import ProfilePage from "./auth/ProfilePage.jsx";
 import Home from './Home/Home.jsx';
 import Contact from './Contact.jsx';
+import {Gallery} from "./Gallery/Gallery.jsx";
 
 // Map keys to components
 const componentMap = {
@@ -42,6 +43,7 @@ const componentMap = {
     Logout,
     Calendar,
     ProfilePage,
+    Gallery
 };
 
 const NextComponent = styled(Box)(({ theme }) => ({

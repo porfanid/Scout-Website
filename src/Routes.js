@@ -9,6 +9,7 @@ const routes = [
     { path: '/logout', componentKey: 'Logout' },
     { path: '/calendar', componentKey: 'Calendar' },
     { path: '/profile', componentKey: 'ProfilePage' },
+    { path: '/events', componentKey: 'Gallery' },
 ];
 
 export default routes;
