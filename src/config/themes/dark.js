@@ -65,6 +65,7 @@ export const darkTheme = createTheme({
                     padding: '10px 20px',
                     textTransform: 'none',
                     backgroundColor: '#4C8BF5', // Vibrant blue for buttons
+                    color: '#FFFFFF',
                     boxShadow: '0px 4px 8px rgba(76, 139, 245, 0.4)', // Glow effect
                     '&:hover': {
                         backgroundColor: '#3A73D0', // Slightly darker blue on hover

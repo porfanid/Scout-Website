@@ -122,7 +122,7 @@ const ProfilePage = () => {
                                     <Button
                                         fullWidth
                                         variant="outlined"
-                                        color="primary"
+                                        color="secondary"
                                         onClick={() => setEditingDisplayName(true)}
                                     >
                                         Edit Display Name
