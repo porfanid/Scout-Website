@@ -24,8 +24,8 @@ service cloud.firestore {
     }
     match /gallery/{document=**} {
           allow read: if true; // Public read access
-          //allow write: if request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
-          allow write: if true;
+          allow write: if request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
+          //allow write: if true;
     }
     match /{document=**} {
       allow read, write: if false;

@@ -11,6 +11,8 @@
   "description": "",
   "dependencies": {
     "firebase-admin": "^13.0.1",
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.1-security",
+    "react-image-lightbox": "^5.1.4",
+    "yet-another-react-lightbox": "^3.21.7"
   }
 }
