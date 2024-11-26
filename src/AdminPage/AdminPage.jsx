@@ -24,6 +24,7 @@ const AdminPage = () => {
                     if (userData && userData.role === 'admin') {
                         setUserRole('admin');
                     } else {
+                        console.log(user.uid)
                         navigate('/'); // Redirect if not admin
                     }
                 } else {

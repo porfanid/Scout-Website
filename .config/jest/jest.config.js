@@ -1,6 +1,6 @@
 export default {
     testEnvironment: 'jsdom',
-    setupFilesAfterEnv: ['<rootDir>/jest.setup.mjs'],
+    setupFilesAfterEnv: ['<rootDir>/.config/jest/jest.setup.mjs'],
     moduleNameMapper: {
         '\\.css$': 'identity-obj-proxy',
         '\\.svg$': '<rootDir>/__mocks__/fileMock.js',
