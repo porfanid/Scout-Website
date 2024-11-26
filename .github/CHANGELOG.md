@@ -1,5 +1,6 @@
 ## 0.0.0 (2024-11-26)
 
+* chore: update changelog 9c1ce4d
 * Added basic test suite c5ff2dc
 * Added emulators and fixed upload to server aaeb677
 * Added gzip compression to reduce the size of the data sent to the client 332fcdb
