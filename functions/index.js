@@ -8,7 +8,7 @@
  */
 
 const {onCall, HttpsError} = require("firebase-functions/v2/https");
-
+const functions = require('firebase-functions');
 
 const nodemailer = require('nodemailer');
 
@@ -18,8 +18,8 @@ const transporter = nodemailer.createTransport({
     port: 587, // Replace with your SMTP port
     secure: false, // Use true for 465, false for other ports
     auth: {
-        user: 'noreply@ioannina-scouts.gr', // Replace with your SMTP user
-        pass: 'B%iq38p13', // Replace with your SMTP password
+        user: functions.config().email.user,
+        pass: functions.config().email.pass,
     },
 });
 
