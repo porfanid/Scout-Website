@@ -1,11 +1,17 @@
 import { Box, Grid2 as Grid, Typography } from '@mui/material';
-
+import React from 'react';
 import heroImage from "./hero.png";
 import siteTitleSvg from "./site_title.svg";
 import Departments from "./Departments/Departments.jsx";
 import backgroundImage from "../Navbar/topShadow.png"
 import {useTheme} from "@mui/styles";
 
+
+/**
+ * Toggles the drawer open or closed.
+ * @param {boolean} newOpen - The new open state of the drawer.
+ * @returns {Function} The function to toggle the drawer.
+ */
 function Home({isMobile}) {
 
     const theme = useTheme();

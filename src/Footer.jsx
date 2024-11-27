@@ -1,7 +1,16 @@
+import React from 'react';
 import { Box, Typography, Button, Grid, Link } from '@mui/material';
 import ScoutLogo from './Navbar/logo.png';
 import { NavLink } from "react-router-dom";
 
+
+/**
+ * Footer component for the website.
+ * @param {Object} props - The component props.
+ * @param {Function} props.toggleTheme - Function to toggle the website theme.
+ * @param {Function} props.toggleLanguage - Function to toggle the website language.
+ * @returns {JSX.Element} The rendered Footer component.
+ */
 const Footer = ({ toggleTheme, toggleLanguage }) => {
     return (
         <Box
@@ -88,6 +97,11 @@ const Footer = ({ toggleTheme, toggleLanguage }) => {
             </Box>
         </Box>
     );
+};
+
+Footer.propTypes = {
+    toggleTheme: PropTypes.func.isRequired,
+    toggleLanguage: PropTypes.func.isRequired,
 };
 
 export default Footer;

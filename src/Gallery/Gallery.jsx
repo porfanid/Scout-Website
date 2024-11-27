@@ -18,6 +18,12 @@ import FolderUpload from './FolderUpload';
 import LightboxGallery from './LightboxGallery';
 import axios from 'axios';
 
+
+/**
+ * Gallery component that displays a collection of event galleries.
+ * Allows admin users to upload new events and delete existing ones.
+ * @returns {JSX.Element} The rendered Gallery component.
+ */
 const Gallery = () => {
     const [galleryData, setGalleryData] = useState([]);
     const [isAdmin, setIsAdmin] = useState(false);
@@ -45,6 +51,10 @@ const Gallery = () => {
         });
     }, []);
 
+    /**
+     * Handle the deletion of a gallery folder.
+     * @param {string} folderId - The ID of the folder to delete.
+     */
     const handleDelete = async (folderId) => {
         try {
             // Delete the folder from the server

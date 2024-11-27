@@ -1,6 +1,10 @@
 import { Box, Typography, Paper, Button, CircularProgress } from '@mui/material';
 import React, { useState } from 'react';
 
+/**
+ * VolunteerForm component for the 4-week volunteer program.
+ * @returns {JSX.Element} The rendered VolunteerForm component.
+ */
 const VolunteerForm = () => {
     const [loading, setLoading] = useState(true);
 

@@ -5,6 +5,11 @@ import axios from 'axios';
 import {useTheme} from "@mui/styles";
 import {alpha} from "@mui/material/styles";
 
+
+/**
+ * Handle the deletion of a gallery folder.
+ * @param {string} folderId - The ID of the folder to delete.
+ */
 const LightboxGallery = ({ folderId, onClose }) => {
     const [photoIndex, setPhotoIndex] = useState(0);
     const [isOpen, setIsOpen] = useState(true);

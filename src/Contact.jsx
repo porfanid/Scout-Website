@@ -4,6 +4,11 @@ import Grid2 from '@mui/material/Grid2'; // Import Grid2 from MUI
 import { httpsCallable } from 'firebase/functions';
 import { functions } from "./firebase.js";
 
+
+/**
+ * Contact component for the website.
+ * @returns {JSX.Element} The rendered Contact component.
+ */
 function Contact() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');

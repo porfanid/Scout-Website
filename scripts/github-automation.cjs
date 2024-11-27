@@ -2,6 +2,10 @@ const simpleGit = require('simple-git');
 const { execSync } = require('child_process');
 const git = simpleGit();
 
+/**
+ * Create a new tag and push it to the remote repository according to the latest version in package.json.
+ * @returns {Promise<void>}
+ */
 async function createTagAndPush() {
     try {
         // Generate the changelog

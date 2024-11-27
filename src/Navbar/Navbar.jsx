@@ -21,6 +21,11 @@ import { useTheme } from "@mui/styles";
 
 import bg from "./Pattern-PNG-Photos.png";
 
+
+/**
+ * VolunteerForm component for the 4-week volunteer program.
+ * @returns {JSX.Element} The rendered VolunteerForm component.
+ */
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
@@ -39,6 +44,11 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     padding: '8px 12px'
 }));
 
+
+/**
+ * Styled component for the button.
+ * @param {Object} theme - The theme object.
+ */
 const StyledButton = styled(Button)(({ theme }) => ({
     color: theme.palette.text.primary,
     fontWeight: 'bold',
@@ -79,6 +89,11 @@ const StyledButton = styled(Button)(({ theme }) => ({
     }
 }));
 
+
+/**
+ * Styled component for the drawer.
+ * @param {Object} theme - The theme object.
+ */
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
     '.MuiDrawer-paper': {
         position: 'fixed',
@@ -110,6 +125,11 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
     },
 }));
 
+
+/**
+ * Styled component for the list item.
+ * @param {Object} theme - The theme object.
+ */
 const StyledListItem = styled(ListItem)(({ theme }) => ({
     color: theme.palette.text.primary,
     backgroundColor: alpha(theme.palette.background.paper, 0.8),
@@ -123,6 +143,11 @@ const StyledListItem = styled(ListItem)(({ theme }) => ({
     },
 }));
 
+
+/**
+ * Styled component for the app bar.
+ * @param {Object} theme - The theme object.
+ */
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
     position: 'relative',
     zIndex: theme.zIndex.appBar,
@@ -134,6 +159,11 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
     height: '80px',
 }));
 
+
+/**
+ * Styled component for the wave container.
+ * @param {Object} theme - The theme object.
+ */
 const WaveContainer = styled('div')(({ theme }) => ({
     position: 'absolute',
     top: '100%',
@@ -147,6 +177,11 @@ const WaveContainer = styled('div')(({ theme }) => ({
     overflow: "hidden"
 }));
 
+
+/**
+ * Styled component for the wave.
+ * @param {Object} theme - The theme object.
+ */
 const Wave = styled('svg')(({ theme }) => ({
     position: 'absolute',
     top: 0,
@@ -162,6 +197,11 @@ const Wave = styled('svg')(({ theme }) => ({
     },
 }));
 
+
+/**
+ * Navbar component for the website.
+ * @returns {JSX.Element} The rendered Navbar component.
+ */
 export default function Navbar() {
     const [open, setOpen] = useState(false);
     const [defaultOptions, setDefaultOptions] = useState([
@@ -197,6 +237,12 @@ export default function Navbar() {
         })
     }, []);
 
+
+    /**
+     * Toggles the drawer open or closed.
+     * @param {boolean} newOpen - The new open state of the drawer.
+     * @returns {Function} The function to toggle the drawer.
+     */
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
     };

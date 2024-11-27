@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React,{ useState } from 'react';
 import { ThemeProvider, createTheme, styled } from '@mui/material/styles';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -46,6 +46,10 @@ const componentMap = {
     Gallery
 };
 
+/**
+ * Styled component for the main content area.
+ * @param {Object} theme - The theme object.
+ */
 const NextComponent = styled(Box)(({ theme }) => ({
     position: 'relative',
     zIndex: 1, // Above the wave
@@ -53,15 +57,26 @@ const NextComponent = styled(Box)(({ theme }) => ({
     marginTop: '-50px', // Pull into the wave
 }));
 
+/**
+ * Main application component.
+ * @returns {JSX.Element} The rendered App component.
+ */
 function App() {
     const { t } = useTranslation(); // Use translation hook
     const [theme, setTheme] = useState(darkTheme);
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
+    /**
+     * Toggles the theme between light and dark mode.
+     */
     const toggleTheme = () => {
         setTheme((prevTheme) => (prevTheme.palette.mode === 'dark' ? lightTheme : darkTheme));
     };
 
+    /**
+     * Contact component for the website.
+     * @returns {JSX.Element} The rendered Contact component.
+     */
     const changeLanguage = (lang) => {
         i18n.changeLanguage(lang).then();
     };

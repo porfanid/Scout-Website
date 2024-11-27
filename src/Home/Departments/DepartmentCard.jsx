@@ -10,7 +10,28 @@ import { useTheme } from "@mui/styles";
 import '@fontsource/pacifico';
 import '@fontsource/roboto';
 import '@fontsource/indie-flower';
+import PropTypes from 'prop-types';
 
+
+/**
+ * DepartmentCard component that displays information about a department and its chief.
+ * @param {Object} props - The component props.
+ * @param {Object} props.department - The department details.
+ * @param {string} props.department.name - The name of the department.
+ * @param {string} props.department.moto - The motto of the department.
+ * @param {string} props.department.img_url - The URL of the department image.
+ * @param {string} props.department.overlay_img_url - The URL of the overlay image.
+ * @param {boolean} props.department.is_animated - Flag indicating if the overlay image is animated.
+ * @param {boolean} props.department.is_component - Flag indicating if the overlay image is a component.
+ * @param {string} props.department.age - The age range for the department.
+ * @param {string} props.department.bgColor - The background color for the department card.
+ * @param {Object} props.chief - The chief details.
+ * @param {string} props.chief.name - The name of the chief.
+ * @param {string} props.chief.phone - The phone number of the chief.
+ * @param {string} props.chief.email - The email address of the chief.
+ * @param {string} props.chief.meetingDate - The meeting date of the department.
+ * @returns {JSX.Element} The rendered DepartmentCard component.
+ */
 const DepartmentCard = ({ department, chief }) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -168,6 +189,25 @@ const DepartmentCard = ({ department, chief }) => {
             </CardContent>
         </Card>
     );
+};
+
+DepartmentCard.propTypes = {
+    department: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        moto: PropTypes.string,
+        img_url: PropTypes.string.isRequired,
+        overlay_img_url: PropTypes.string,
+        is_animated: PropTypes.bool,
+        is_component: PropTypes.bool,
+        age: PropTypes.string,
+        bgColor: PropTypes.string.isRequired,
+    }).isRequired,
+    chief: PropTypes.shape({
+        name: PropTypes.string,
+        phone: PropTypes.string,
+        email: PropTypes.string,
+        meetingDate: PropTypes.string,
+    }),
 };
 
 export default DepartmentCard;

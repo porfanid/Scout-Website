@@ -9,7 +9,10 @@ import scouts from "./assets/animated_scouts.gif";
 import explorers from "../../assets/simatakia_kladou_anixneuton/Logo_explorers_letterless.png";
 import diktyo from "./assets/animated_network_transparrent.gif";
 
-
+/**
+ * Departments component that displays a list of departments with their respective details.
+ * @returns {JSX.Element} The rendered Departments component.
+ */
 const Departments = () => {
     const [departments] = useState([
         {

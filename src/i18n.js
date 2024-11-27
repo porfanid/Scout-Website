@@ -3,7 +3,10 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-// Translations
+/**
+ * Translation system for the website using the i18next library
+ * @type {{en: {translation: {contact: string, menu: string, welcome: string, home: string}}, gr: {translation: {contact: string, menu: string, welcome: string, home: string}}}}
+ */
 const resources = {
     en: {
         translation: {
