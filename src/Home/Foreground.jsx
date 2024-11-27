@@ -3,6 +3,12 @@ import { Box, Typography, Button } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { animated, useSpring } from '@react-spring/web';
 
+// Import fonts from Fontsource
+import '@fontsource/pacifico';
+import '@fontsource/playfair-display';
+import '@fontsource/roboto-slab';
+import '@fontsource/montserrat';
+
 const Foreground = () => {
     // Animation for the button
     const buttonAnimation = useSpring({
@@ -15,7 +21,7 @@ const Foreground = () => {
     const headingAnimation = useSpring({
         from: { opacity: 0, transform: 'translateY(-20px)' },
         to: { opacity: 1, transform: 'translateY(0px)' },
-        delay: 300
+        delay: 300,
     });
 
     return (
@@ -32,8 +38,9 @@ const Foreground = () => {
                             gutterBottom
                             sx={{
                                 marginBottom: 2,
-                                fontFamily: "'Roboto', sans-serif",
-                                textShadow: '2px 2px #FF6347',
+                                fontFamily: "'Pacifico', cursive", // Fancy handwritten style
+                                textShadow: '3px 3px #FF6347',
+                                color: '#4A90E2',
                             }}
                     >
                         Γίνε Πρόσκοπος!
@@ -42,7 +49,7 @@ const Foreground = () => {
                             variant="h4"
                             sx={{
                                 marginBottom: 3,
-                                fontFamily: "'Open Sans', sans-serif",
+                                fontFamily: "'Playfair Display', serif", // Elegant serif style
                                 fontStyle: 'italic',
                                 color: '#000000',
                             }}
@@ -55,10 +62,9 @@ const Foreground = () => {
                         variant="body1"
                         sx={{
                             marginBottom: 3,
-                            fontFamily: "'Lora', serif",
+                            fontFamily: "'Roboto Slab', serif", // Clean and modern serif
                             lineHeight: 1.6,
                             fontSize: '30px',
-                            letterSpacing: '0.5px',
                             color: '#000000',
                         }}
                 >
@@ -73,7 +79,7 @@ const Foreground = () => {
                             component={NavLink}
                             to="/contact"
                             sx={{
-                                fontFamily: "'Verdana', sans-serif",
+                                fontFamily: "'Montserrat', sans-serif", // Professional sans-serif
                                 fontWeight: 'bold',
                                 padding: '10px 20px',
                             }}
