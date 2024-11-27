@@ -1,0 +1,32 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+    <rect fill="#262A46" width="200" height="200" />
+    <g fill-opacity="1">
+        <!-- Central star-like element -->
+        <path fill="#303960" d="M100 50 L120 90 L80 90 Z" />
+        <path fill="#42497A" d="M100 150 L120 110 L80 110 Z" />
+        <path fill="#505B91" d="M150 100 L110 120 L110 80 Z" />
+        <path fill="#282E4A" d="M50 100 L90 80 L90 120 Z" />
+
+        <!-- Orbiting hexagons -->
+        <polygon fill="#303960" points="160,40 170,50 160,60 150,50" />
+        <polygon fill="#42497A" points="40,160 50,170 40,180 30,170" />
+        <polygon fill="#505B91" points="160,160 170,170 160,180 150,170" />
+        <polygon fill="#3A3E63" points="40,40 50,50 40,60 30,50" />
+
+        <!-- Diagonal lines crossing the canvas -->
+        <line x1="0" y1="0" x2="200" y2="200" stroke="#505071" stroke-width="2" />
+        <line x1="0" y1="200" x2="200" y2="0" stroke="#505071" stroke-width="2" />
+
+        <!-- Random dots for texture -->
+        <circle cx="30" cy="30" r="2" fill="#3A3E63" />
+        <circle cx="170" cy="30" r="2" fill="#282E4A" />
+        <circle cx="30" cy="170" r="2" fill="#3A3E63" />
+        <circle cx="170" cy="170" r="2" fill="#282E4A" />
+
+        <!-- Random smaller squares -->
+        <rect x="80" y="80" width="10" height="10" fill="#505B91" />
+        <rect x="110" y="110" width="10" height="10" fill="#303960" />
+        <rect x="80" y="110" width="10" height="10" fill="#42497A" />
+        <rect x="110" y="80" width="10" height="10" fill="#3A3E63" />
+    </g>
+</svg>

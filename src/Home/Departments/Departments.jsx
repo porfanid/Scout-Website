@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { db } from '../../firebase.js';
 import { Typography, Grid2 as Grid, Box, CircularProgress, Alert } from '@mui/material';
-import bgImage from '../6604334.png';
 import { collection, onSnapshot } from 'firebase/firestore';
 import DepartmentCard from './DepartmentCard.jsx';
 import lykopoyla from "../../assets/simatakia_kladou_lukopoulon/Logo_cubs_letterless.png";
 import scouts from "./assets/animated_scouts.gif";
 import explorers from "../../assets/simatakia_kladou_anixneuton/Logo_explorers_letterless.png";
 import diktyo from "./assets/animated_network_transparrent.gif";
+import waveyFingerprint from './assets/hollowed-boxes.svg'; // Import the SVG file
 import { useSpring, animated } from '@react-spring/web';
 
 const Departments = () => {
-
     const getAnimationProps = (index) => {
         const animations = [
             { from: { opacity: 0, transform: 'translateX(-100%)' }, to: { opacity: 1, transform: 'translateX(0)' } },
@@ -37,7 +36,7 @@ const Departments = () => {
             moto: "Έσο έτοιμος!",
             img_url: "/CMS/site/images/participate-2.png",
             overlay_img_url: scouts,
-            is_animated:true,
+            is_animated: true,
             is_component: false,
             age: "11-15",
             bgColor: "#005B33",
@@ -81,16 +80,21 @@ const Departments = () => {
             animationProps: useSpring(getAnimationProps(5))
         },
     ]);
+    const backgroundAnimation = useSpring({
+        backgroundPosition: '0% 0%',
+        to: async (next) => {
+            while (true) {
+                await next({ backgroundPosition: '100% 50%' });
+                await next({ backgroundPosition: '0% 0%' });
+            }
+        },
+        config: { duration: 15000 }, // Adjust speed
+    });
+
 
     const [chiefs, setChiefs] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
-
-
-
-
-
 
     useEffect(() => {
         const unsubscribe = onSnapshot(
@@ -116,62 +120,64 @@ const Departments = () => {
     if (loading) return <CircularProgress />;
     if (error) return <Alert severity="error">Error fetching chiefs: {error}</Alert>;
 
-
-
     return (
-            <Box
-                    sx={{
-                        backgroundImage: `url(${bgImage})`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        padding: 3,
-                        marginTop: '0px',
-                    }}
-            >
-                <Typography
-                        variant="h4"
-                        gutterBottom
+            <animated.div style={{
+                ...backgroundAnimation,
+                backgroundImage: `url(${waveyFingerprint})`,
+                backgroundSize: '150%',
+                backgroundRepeat: 'repeat'
+            }}>
+                <Box
                         sx={{
-                            textAlign: 'center',
-                            marginTop: '40px',
-                            fontFamily: "'Comic Sans MS', cursive",
-                            textShadow: '2px 2px #FF6347',
+                            padding: 3,
+                            marginTop: '0px',
                         }}
                 >
-                    Δείτε τα διαθέσιμα τμήματα
-                </Typography>
-                <Grid
-                        container
-                        spacing={3}
-                        columnSpacing={{ xs: 0, sm: 2, md: 3 }}
-                        justifyContent="center"
-                        sx={{ marginTop: 2, width: "100%" }}
-                >
-                    {departments.map((department, index) => {
-                        return (
-                                <Grid
-                                        xs={12}
-                                        sm={12}
-                                        md={4}
-                                        lg={4}
-                                        key={department.name}
-                                        sx={{
-                                            display: 'flex',
-                                            justifyContent: 'center',
-                                            minWidth: { xs: '100%', sm: '100%', md: '30%' },
-                                            maxWidth: { md: '33.33%' },
-                                            boxSizing: 'border-box',
-                                        }}
-                                >
-                                    <animated.div style={department.animationProps}>
-                                        <DepartmentCard department={department} chief={chiefs[department.name]} />
-                                    </animated.div>
-                                </Grid>
-                        );
-                    })}
-                </Grid>
-            </Box>
-    );
-};
+                    <Typography
+                            variant="h4"
+                            gutterBottom
+                            sx={{
+                                textAlign: 'center',
+                                marginTop: '40px',
+                                fontFamily: "'Comic Sans MS', cursive",
+                                textShadow: '2px 2px #FF6347',
+                            }}
+                    >
+                        Δείτε τα διαθέσιμα τμήματα
+                    </Typography>
+                    <Grid
+                            container
+                            spacing={3}
+                            columnSpacing={{xs: 0, sm: 2, md: 3}}
+                            justifyContent="center"
+                            sx={{marginTop: 2, width: "100%"}}
+                    >
+                        {departments.map((department, index) => {
+                            return (
+                                    <Grid
+                                            xs={12}
+                                            sm={12}
+                                            md={4}
+                                            lg={4}
+                                            key={department.name}
+                                            sx={{
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                minWidth: {xs: '100%', sm: '100%', md: '30%'},
+                                                maxWidth: {md: '33.33%'},
+                                                boxSizing: 'border-box',
+                                            }}
+                                    >
+                                        <animated.div style={department.animationProps}>
+                                            <DepartmentCard department={department} chief={chiefs[department.name]}/>
+                                        </animated.div>
+                                    </Grid>
+                            );
+                        })}
+                    </Grid>
+                </Box>
+            </animated.div>
+                );
+                };
 
-export default Departments;
+                export default Departments;

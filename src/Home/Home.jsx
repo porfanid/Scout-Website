@@ -13,7 +13,7 @@ import BecomeScout from "./BecomeScout.jsx";
  * @param {boolean} newOpen - The new open state of the drawer.
  * @returns {Function} The function to toggle the drawer.
  */
-function Home({isMobile}) {
+function Home() {
 
     const theme = useTheme();
     const mainBgColor = theme.palette.background.default;
@@ -56,14 +56,15 @@ function Home({isMobile}) {
                             padding: { xs: '20px', md: '0' }, // Add padding for smaller screens
                         }}
                     >
-                        <img
-                            src={siteTitleSvg}
-                            alt="Site Title"
-                            style={{
-                                minWidth: '50vw', // Set the SVG width to 100% to occupy the full width of the Grid
-                                maxWidth: '80vw', // Ensure it doesn't exceed a reasonable width
-                                height: 'auto' // Maintain the aspect ratio
-                            }}
+                        <Box
+                                component="img"
+                                src={siteTitleSvg}
+                                alt="Site Title"
+                                sx={{
+                                    minWidth: { md: '50vw', xs: '90vw' },
+                                    maxWidth: '100vw',
+                                    height: 'auto'
+                                }}
                         />
                     </Grid>
 

@@ -1,32 +1,31 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Box } from '@mui/material';
-import { animated, useSpring } from '@react-spring/web';
+import {animated, useSpring} from '@react-spring/web';
 
 const Background = () => {
     const boxRef = useRef(null);
     const [dimensions, setDimensions] = useState({ width: 0, height: 0, top: 0, left: 0 });
 
     const circleAnimation = useSpring({
-        loop: {reverse:true}, // Continuous looping
+        loop: { reverse: true },
         from: { transform: 'translateY(-20px)' },
         to: { transform: `translateY(${dimensions.height}px)` },
         config: { duration: 3000 },
     });
 
     const rectAnimation = useSpring({
-        loop: {reverse:true}, // Continuous looping
+        loop: true,
         from: { transform: 'rotate(0deg)' },
-        to: { transform: 'rotate(365deg)' },
+        to: [{ transform: 'rotate(180deg)' }, { transform: 'rotate(0deg)' }],
         config: { duration: 3000 },
     });
 
     const polygonAnimation = useSpring({
-        loop: {reverse:true}, // Continuous looping
+        loop: { reverse: true },
         from: { transform: 'scale(1)' },
         to: { transform: 'scale(1.5)' },
         config: { duration: 3000 },
     });
-
 
     useEffect(() => {
         const resizeObserver = new ResizeObserver((entries) => {
