@@ -126,7 +126,7 @@ const FolderUpload = () => {
                                 value={previewImage}
                                 onChange={(e) => setPreviewImage(e.target.value)}
                                 required
-                            >
+                             variant={"secondary"}>
                                 {Array.from(selectedFiles).map((file, index) => (
                                     <MenuItem key={index} value={file.name}>
                                         {file.name}

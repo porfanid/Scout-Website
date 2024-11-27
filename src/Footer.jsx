@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Typography, Button, Grid, Link } from '@mui/material';
 import ScoutLogo from './Navbar/logo.png';
 import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 
 
 /**

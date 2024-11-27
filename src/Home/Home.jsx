@@ -5,6 +5,7 @@ import siteTitleSvg from "./site_title.svg";
 import Departments from "./Departments/Departments.jsx";
 import backgroundImage from "../Navbar/topShadow.png"
 import {useTheme} from "@mui/styles";
+import BecomeScout from "./BecomeScout.jsx";
 
 
 /**
@@ -88,6 +89,8 @@ function Home({isMobile}) {
                     </Grid>
                 </Grid>
             </Box>
+
+            <BecomeScout/>
 
             {/* Departments Section */}
 

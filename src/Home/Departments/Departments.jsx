@@ -8,12 +8,20 @@ import lykopoyla from "../../assets/simatakia_kladou_lukopoulon/Logo_cubs_letter
 import scouts from "./assets/animated_scouts.gif";
 import explorers from "../../assets/simatakia_kladou_anixneuton/Logo_explorers_letterless.png";
 import diktyo from "./assets/animated_network_transparrent.gif";
+import { useSpring, animated } from '@react-spring/web';
 
-/**
- * Departments component that displays a list of departments with their respective details.
- * @returns {JSX.Element} The rendered Departments component.
- */
 const Departments = () => {
+
+    const getAnimationProps = (index) => {
+        const animations = [
+            { from: { opacity: 0, transform: 'translateX(-100%)' }, to: { opacity: 1, transform: 'translateX(0)' } },
+            { from: { opacity: 0, transform: 'translateX(100%)' }, to: { opacity: 1, transform: 'translateX(0)' } },
+            { from: { opacity: 0, transform: 'translateY(-100%)' }, to: { opacity: 1, transform: 'translateY(0)' } },
+            { from: { opacity: 0, transform: 'translateY(100%)' }, to: { opacity: 1, transform: 'translateY(0)' } },
+        ];
+        return animations[index % animations.length];
+    };
+
     const [departments] = useState([
         {
             name: 'Λυκόπουλα',
@@ -22,6 +30,7 @@ const Departments = () => {
             overlay_img_url: lykopoyla,
             age: "7-11",
             bgColor: "#B8860B",
+            animationProps: useSpring(getAnimationProps(0))
         },
         {
             name: 'Πρόσκοποι',
@@ -32,6 +41,7 @@ const Departments = () => {
             is_component: false,
             age: "11-15",
             bgColor: "#005B33",
+            animationProps: useSpring(getAnimationProps(1))
         },
         {
             name: 'Ανιχνευτές',
@@ -40,6 +50,7 @@ const Departments = () => {
             overlay_img_url: explorers,
             age: "15-18",
             bgColor: "#a32121",
+            animationProps: useSpring(getAnimationProps(2))
         },
         {
             name: 'Προσκοπικό Δίκτυο',
@@ -49,6 +60,7 @@ const Departments = () => {
             is_animated: true,
             age: "18-24",
             bgColor: "#003C5B",
+            animationProps: useSpring(getAnimationProps(3))
         },
         {
             name: 'Εθελοντές',
@@ -57,6 +69,7 @@ const Departments = () => {
             overlay_img_url: null,
             age: "",
             bgColor: "#4B2C6D",
+            animationProps: useSpring(getAnimationProps(4))
         },
         {
             name: 'Γονείς και Κηδεμόνες',
@@ -65,6 +78,7 @@ const Departments = () => {
             overlay_img_url: null,
             age: "",
             bgColor: "#C75B00",
+            animationProps: useSpring(getAnimationProps(5))
         },
     ]);
 
@@ -72,22 +86,28 @@ const Departments = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+
+
+
+
+
+
     useEffect(() => {
         const unsubscribe = onSnapshot(
-            collection(db, 'chiefs'),
-            (snapshot) => {
-                const data = {};
-                snapshot.docs.forEach((doc) => {
-                    data[doc.id] = doc.data();
-                });
-                setChiefs(data);
-                setLoading(false);
-            },
-            (err) => {
-                console.error('Error fetching chiefs:', err);
-                setError(err.message);
-                setLoading(false);
-            }
+                collection(db, 'chiefs'),
+                (snapshot) => {
+                    const data = {};
+                    snapshot.docs.forEach((doc) => {
+                        data[doc.id] = doc.data();
+                    });
+                    setChiefs(data);
+                    setLoading(false);
+                },
+                (err) => {
+                    console.error('Error fetching chiefs:', err);
+                    setError(err.message);
+                    setLoading(false);
+                }
         );
 
         return () => unsubscribe();
@@ -96,57 +116,61 @@ const Departments = () => {
     if (loading) return <CircularProgress />;
     if (error) return <Alert severity="error">Error fetching chiefs: {error}</Alert>;
 
+
+
     return (
-        <Box
-            sx={{
-                backgroundImage: `url(${bgImage})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                padding: 3,
-                marginTop: '0px',
-            }}
-        >
-            <Typography
-                variant="h4"
-                gutterBottom
-                sx={{
-                    textAlign: 'center',
-                    marginTop: '40px',
-                    fontFamily: "'Comic Sans MS', cursive",
-                    textShadow: '2px 2px #FF6347',
-                }}
+            <Box
+                    sx={{
+                        backgroundImage: `url(${bgImage})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        padding: 3,
+                        marginTop: '0px',
+                    }}
             >
-                Δείτε τα διαθέσιμα τμήματα
-            </Typography>
-            <Grid
-                container
-                spacing={3}
-                columnSpacing={{ xs: 0, sm: 2, md: 3 }}
-                justifyContent="center"
-                sx={{ marginTop: 2, width: "100%" }}
-            >
-                {departments.map((department) => (
-                    <Grid
-                        xs={12}
-                        sm={12}
-                        md={4}
-                        lg={4}
-                        key={department.name}
+                <Typography
+                        variant="h4"
+                        gutterBottom
                         sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            minWidth: { xs: '100%', sm: '100%', md: '30%' },
-                            maxWidth: { md: '33.33%' },
-                            boxSizing: 'border-box',
+                            textAlign: 'center',
+                            marginTop: '40px',
+                            fontFamily: "'Comic Sans MS', cursive",
+                            textShadow: '2px 2px #FF6347',
                         }}
-                    >
-
-                            <DepartmentCard department={department} chief={chiefs[department.name]} />
-                    </Grid>
-                ))}
-            </Grid>
-
-        </Box>
+                >
+                    Δείτε τα διαθέσιμα τμήματα
+                </Typography>
+                <Grid
+                        container
+                        spacing={3}
+                        columnSpacing={{ xs: 0, sm: 2, md: 3 }}
+                        justifyContent="center"
+                        sx={{ marginTop: 2, width: "100%" }}
+                >
+                    {departments.map((department, index) => {
+                        return (
+                                <Grid
+                                        xs={12}
+                                        sm={12}
+                                        md={4}
+                                        lg={4}
+                                        key={department.name}
+                                        sx={{
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            minWidth: { xs: '100%', sm: '100%', md: '30%' },
+                                            maxWidth: { md: '33.33%' },
+                                            boxSizing: 'border-box',
+                                        }}
+                                >
+                                    <animated.div style={department.animationProps}>
+                                        <DepartmentCard department={department} chief={chiefs[department.name]} />
+                                    </animated.div>
+                                </Grid>
+                        );
+                    })}
+                </Grid>
+            </Box>
     );
 };
 

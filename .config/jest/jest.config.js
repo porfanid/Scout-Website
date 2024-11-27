@@ -9,14 +9,13 @@ export default {
         '^firebase/functions$': '<rootDir>/__mocks__/firebaseFunctionsMock.js',
         '^firebase/(.*)$': '<rootDir>/__mocks__/firebase.js',
     },
-
     transform: {
         '^.+\\.(js|jsx|mjs|ts|tsx)$': 'babel-jest',
     },
     transformIgnorePatterns: [
-        '/node_modules/(?!@firebase)', // Add any other modules that need to be transformed
-        'node_modules/(?!@fontsource)',
+        '/node_modules/(?!yet-another-react-lightbox)',
+        '/node_modules/(?!@fontsource)',
     ],
     moduleFileExtensions: ['js', 'jsx', 'json', 'node', 'mjs'],
-    extensionsToTreatAsEsm: ['.jsx'],
+    extensionsToTreatAsEsm: ['.jsx'], // Treat these files as ESM
 };
