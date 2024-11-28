@@ -61,7 +61,7 @@ function Home() {
                                 src={siteTitleSvg}
                                 alt="Site Title"
                                 sx={{
-                                    minWidth: { md: '50vw', xs: '90vw' },
+                                    minWidth: { md: '50vw', xs: '80vw' },
                                     maxWidth: '100vw',
                                     height: 'auto'
                                 }}
