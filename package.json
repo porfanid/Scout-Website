@@ -36,7 +36,7 @@
     "@fontsource/roboto-slab": "^5.1.0",
     "@mui/icons-material": "^6.1.6",
     "@mui/material": "^6.1.6",
-    "@mui/styles": "^6.1.6",
+    "@mui/styles": "^6.1.9",
     "@react-spring/web": "^9.7.5",
     "add-to-calendar-button-react": "^2.7.3",
     "axios": "^1.7.8",
