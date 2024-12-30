@@ -1,33 +1,159 @@
-# .github Directory
+# Scout Website
 
-The `.github` directory contains GitHub-specific configuration files and templates that help manage and streamline project workflows, contributions, and community interactions.
+Welcome to the **Scout Website** project! This repository contains the source code for a React-based web application built with Vite. The project leverages various modern web development tools and libraries to provide a robust and efficient development experience.
 
-## Contents
+## Table of Contents
 
-- **`ISSUE_TEMPLATE/`**: Contains templates for creating GitHub issues.
-  - **`bug_report.md`**: Template for reporting bugs.
-  - **`feature_request.md`**: Template for requesting new features.
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [Project Structure](#project-structure)
+- [Scripts](#scripts)
+- [Dependencies](#dependencies)
+- [Development](#development)
+- [Testing](#testing)
+- [Contributing](#contributing)
+- [License](#license)
 
-- **`PULL_REQUEST_TEMPLATE.md`**: Template for creating pull requests.
+## Features
 
-- **`workflows/`**: Contains GitHub Actions workflow files.
-  - **`ci.yml`**: Continuous integration workflow configuration.
-  - **`deploy.yml`**: Deployment workflow configuration.
+- **React**: A JavaScript library for building user interfaces.
+- **Vite**: A fast build tool and development server.
+- **Material-UI**: A popular React UI framework.
+- **Firebase**: Backend services for authentication, database, and more.
+- **i18next**: Internationalization framework for React.
+- **Jest**: JavaScript testing framework.
+- **ESLint**: A tool for identifying and fixing problems in JavaScript code.
 
-- **`CODEOWNERS`**: Defines individuals or teams responsible for code in the repository.
+## Getting Started
 
-## Issue Templates
+To get a local copy of the project up and running, follow these steps:
 
-The `ISSUE_TEMPLATE` directory contains markdown files that serve as templates for creating standardized issues. This helps maintain consistency and ensures that all necessary information is provided when reporting bugs or requesting features.
+### Prerequisites
 
-## Pull Request Template
+- Node.js (v14 or higher)
+- npm (v6 or higher) or Yarn
 
-The `PULL_REQUEST_TEMPLATE.md` file provides a template for creating pull requests. It helps contributors provide all necessary information and follow a consistent format when submitting changes.
+### Installation
 
-## Workflows
+1. Clone the repository:
 
-The `workflows` directory contains YAML files that define automated workflows using GitHub Actions. These workflows can include tasks such as running tests, building the project, and deploying updates.
+   ```sh
+   git clone https://github.com/porfanid/scout-website.git
+   cd scout-website
+   ```
 
-## Code Owners
+2. Install dependencies:
 
-The `CODEOWNERS` file specifies the users or teams responsible for different parts of the codebase. This ensures that the right people are notified when changes are made to specific areas of the project.
+   ```sh
+   npm install
+   ```
+
+   or
+
+   ```sh
+   yarn install
+   ```
+
+### Running the Development Server
+
+To start the development server, run:
+
+```sh
+npm run dev
+```
+
+or
+
+```sh
+yarn dev
+```
+
+This will start the Vite development server and open the application in your default web browser.
+
+## Project Structure
+
+```plaintext
+scout-website/
+├── public/                 # Static assets
+├── src/                    # Source files
+│   ├── components/         # React components
+│   ├── config/             # Configuration files
+│   ├── hooks/              # Custom hooks
+│   ├── pages/              # Page components
+│   ├── styles/             # Styling files
+│   ├── utils/              # Utility functions
+│   ├── App.jsx             # Main application component
+│   ├── index.jsx           # Entry point
+│   └── ...                 # Other source files
+├── .babelrc                # Babel configuration
+├── .eslintrc.json          # ESLint configuration
+├── package.json            # Project metadata and scripts
+├── README.md               # Project documentation
+└── ...                     # Other project files
+```
+
+## Scripts
+
+The following scripts are available in the `package.json` file:
+
+- `dev`: Start the development server.
+- `build`: Build the project for production.
+- `preview`: Preview the production build.
+- `lint`: Run ESLint to check for code issues.
+- `test`: Run Jest tests.
+- `publish`: Deploy the project.
+- `generate-sitemap`: Generate the sitemap.
+
+## Dependencies
+
+### Main Dependencies
+
+- `react`: ^18.3.1
+- `react-dom`: ^18.3.1
+- `@mui/material`: ^6.1.6
+- `firebase`: ^11.0.1
+- `i18next`: ^23.16.4
+
+### Development Dependencies
+
+- `vite`: ^5.4.10
+- `jest`: ^29.7.0
+- `eslint`: ^9.13.0
+- `@babel/preset-env`: ^7.26.0
+- `@babel/preset-react`: ^7.25.9
+
+## Development
+
+To contribute to the project, follow these steps:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/YourFeature`).
+3. Make your changes.
+4. Commit your changes (`git commit -m 'Add some feature'`).
+5. Push to the branch (`git push origin feature/YourFeature`).
+6. Open a pull request.
+
+## Testing
+
+To run the tests, use the following command:
+
+```sh
+npm run test
+```
+
+or
+
+```sh
+yarn test
+```
+
+This will execute all the Jest tests in the project.
+
+## Contributing
+
+Contributions are welcome! Please read the [CONTRIBUTING.md](CONTRIBUTING.md) file for guidelines on how to contribute to this project.
+
+
+---
+
+Happy coding! 🚀

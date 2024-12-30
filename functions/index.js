@@ -11,6 +11,10 @@ const {onCall, HttpsError} = require("firebase-functions/v2/https");
 const functions = require('firebase-functions');
 
 const nodemailer = require('nodemailer');
+const { defineInt, defineString } = require('firebase-functions/params');
+
+const email_user_name = defineString('EMAIL_USER_NAME');
+const email_password = defineString('EMAIL_PASSWORD');
 
 // Configure nodemailer with your SMTP credentials
 const transporter = nodemailer.createTransport({
@@ -18,8 +22,8 @@ const transporter = nodemailer.createTransport({
     port: 587, // Replace with your SMTP port
     secure: false, // Use true for 465, false for other ports
     auth: {
-        user: functions.config().email.user,
-        pass: functions.config().email.pass,
+        user: email_user_name,
+        pass: email_password,
     },
 });
 
@@ -39,20 +43,20 @@ exports.sendContactMessage = onCall(async (request, context) => {
 
     const mailOptions = {
         from: `noreply<noreply@ioannina-scouts.gr>`,
-        to: 'pavlos@orfanidis.net.gr', // Replace with your recipient email
-        subject: `New Contact Message from ${name} <${email}>`,
+        to: '1ioaninon@sep.org.gr', // Replace with your recipient email
+        subject: `Νέο Μήνυμα από ${name} <${email}>`,
         replyTo: `${email}`,
         text: `
-        You have received a new contact message!
+        Λάβατε νέο μήνυμα!
 
         **Sender Information:**
-        - **Name:** ${name}
+        - **Όνομα:** ${name}
         - **Email:** ${email}
 
-        **Message:**
+        **Μήνυμα:**
         ${message}
 
-        Please reply directly to the sender if you wish to respond.
+        Σε περίπτωση που θέλετε να απαντήσετε, μπορείτε να απαντήσετε κατευθείαν σε αυτό το μήνυμα.
     `,
     };
 

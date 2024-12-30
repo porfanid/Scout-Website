@@ -70,10 +70,10 @@ const Footer = ({ toggleTheme, toggleLanguage }) => {
                         📍 Πινδάρου 9, Ιωάννινα
                     </Typography>
                     <Typography variant="body2" sx={{ mb: 1 }}>
-                        📞 Τηλέφωνο: <Link href="tel:+302651234567" color="inherit">26510 12345</Link>
+                        📞 Τηλέφωνο: <Link href="tel:+306946624436" color="inherit">694 662 4436</Link>
                     </Typography>
                     <Typography variant="body2">
-                        📧 Email: <Link href="mailto:info@scoutsioannina.gr" color="inherit">info@scoutsioannina.gr</Link>
+                        📧 Email: <Link href="mailto:1ioaninon@sep.org.gr" color="inherit">1ioaninon@sep.org.gr</Link>
                     </Typography>
                 </Grid>
             </Grid>

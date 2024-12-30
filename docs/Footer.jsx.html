@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Footer.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Footer.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import { Box, Typography, Button, Grid, Link } from '@mui/material';
+import ScoutLogo from './Navbar/logo.png';
+import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
+
+
+/**
+ * Footer component for the website.
+ * @param {Object} props - The component props.
+ * @param {Function} props.toggleTheme - Function to toggle the website theme.
+ * @param {Function} props.toggleLanguage - Function to toggle the website language.
+ * @returns {JSX.Element} The rendered Footer component.
+ */
+const Footer = ({ toggleTheme, toggleLanguage }) => {
+    return (
+        &lt;Box
+            component="footer"
+            sx={{
+                padding: '40px',
+                backgroundColor: '#1b1b1b',
+                width: '100%',
+                color: '#f0f0f0'// Ensure the footer spans the full width
+            }}
+        >
+            &lt;Grid
+                container
+                justifyContent="space-between" // Distribute items across the full width
+                alignItems="center"
+                spacing={4}
+            >
+                {/* Column 1: Logo and Description */}
+                &lt;Grid item xs={12} md={4} sx={{ textAlign: 'center' }}>
+                    &lt;img src={ScoutLogo} alt="Scout Logo" style={{ height: '80px', marginBottom: '10px' }} />
+                    &lt;Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                        1ο Σύστημα Προσκόπων Ιωαννίνων
+                    &lt;/Typography>
+                    &lt;Typography variant="body2" sx={{ mt: 1 }}>
+                        Εξερεύνηση, αλληλεγγύη, ηγεσία και δράση στην καρδιά της Ηπείρου.
+                    &lt;/Typography>
+                &lt;/Grid>
+
+                {/* Column 2: Navigation Links */}
+                &lt;Grid item xs={12} md={4} sx={{ textAlign: 'center' }}>
+                    &lt;Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold' }}>
+                        Χρήσιμοι Σύνδεσμοι
+                    &lt;/Typography>
+                    &lt;NavLink style={{ color: "#FFFFFF", display: 'block', marginBottom: '8px' }} to="/about">
+                        Σχετικά με εμάς
+                    &lt;/NavLink>
+                    &lt;NavLink style={{ color: "#FFFFFF", display: 'block', marginBottom: '8px' }} to="/contact">
+                        Επικοινωνία
+                    &lt;/NavLink>
+                    &lt;NavLink
+                        to="https://www.scout.org"
+                        style={{ color: "#FFFFFF", display: 'block' }}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Παγκόσμιο Προσκοπικό Κίνημα
+                    &lt;/NavLink>
+                &lt;/Grid>
+
+                {/* Column 3: Contact Information */}
+                &lt;Grid item xs={12} md={4} sx={{ textAlign: 'center' }}>
+                    &lt;Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold' }}>
+                        Επικοινωνία
+                    &lt;/Typography>
+                    &lt;Typography variant="body2" sx={{ mb: 1 }}>
+                        📍 Πινδάρου 9, Ιωάννινα
+                    &lt;/Typography>
+                    &lt;Typography variant="body2" sx={{ mb: 1 }}>
+                        📞 Τηλέφωνο: &lt;Link href="tel:+302651234567" color="inherit">26510 12345&lt;/Link>
+                    &lt;/Typography>
+                    &lt;Typography variant="body2">
+                        📧 Email: &lt;Link href="mailto:info@scoutsioannina.gr" color="inherit">info@scoutsioannina.gr&lt;/Link>
+                    &lt;/Typography>
+                &lt;/Grid>
+            &lt;/Grid>
+
+            {/* Bottom Section */}
+            &lt;Box
+                sx={{
+                    textAlign: 'center',
+                    borderTop: '1px solid #444',
+                    marginTop: '30px',
+                    paddingTop: '20px',
+                }}
+            >
+                {/* Copyright and Creator */}
+                &lt;Typography variant="body2" sx={{ mt: 3, fontSize: '0.85rem' }}>
+                    © {new Date().getFullYear()} 1ο Σύστημα Προσκόπων Ιωαννίνων. Όλα τα δικαιώματα κατοχυρωμένα.
+                &lt;/Typography>
+                &lt;Typography variant="body2" sx={{ mt: 1, fontSize: '0.75rem' }}>
+                    Created by Pavlos Orfanidis{' '}
+                    &lt;Link href="https://github.com/porfanid" color="inherit">github.com/porfanid&lt;/Link>
+                &lt;/Typography>
+            &lt;/Box>
+        &lt;/Box>
+    );
+};
+
+Footer.propTypes = {
+    toggleTheme: PropTypes.func.isRequired,
+    toggleLanguage: PropTypes.func.isRequired,
+};
+
+export default Footer;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#App">App</a></li><li><a href="global.html#Contact">Contact</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#NextComponent">NextComponent</a></li><li><a href="global.html#VolunteerForm">VolunteerForm</a></li><li><a href="global.html#resources">resources</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Dec 30 2024 15:05:30 GMT+0200 (Eastern European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
