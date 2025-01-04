@@ -1,52 +1,66 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
+import {setDefaultRole} from './utils/creatingUser.js';
+import {HttpsError, onCall} from "firebase-functions/v2/https";
+import {onSchedule} from "firebase-functions/v2/scheduler";
+import admin from 'firebase-admin';
+import {sendMail} from "./utils/sendMail.js";
+import {sendSMS} from "./utils/sendSMS/sendSMS.js";
+import getWeekOfMonth from "./utils/sendChores.js";
 
-const {onCall, HttpsError} = require("firebase-functions/v2/https");
-const functions = require('firebase-functions');
+admin.initializeApp();
 
-const nodemailer = require('nodemailer');
-const { defineInt, defineString } = require('firebase-functions/params');
+const db = admin.firestore();
 
-const email_user_name = defineString('EMAIL_USER_NAME');
-const email_password = defineString('EMAIL_PASSWORD');
-
-// Configure nodemailer with your SMTP credentials
-const transporter = nodemailer.createTransport({
-    host: 'webmail.ioannina-scouts.gr', // Replace with your SMTP server
-    port: 587, // Replace with your SMTP port
-    secure: false, // Use true for 465, false for other ports
-    auth: {
-        user: email_user_name,
-        pass: email_password,
-    },
-});
+//const sendChores = onSchedule('every minute', async (context) => {
+export const testChores = onCall(async (request, context) => {
+    db.doc("/cleaning/chores").get().then((doc) => {
+        const chores = doc.data();
+        db.doc("/cleaning/departents").get().then((doc) => {
+            const departments =  Object.values(doc.data());
+            const weekOfMonth = getWeekOfMonth(new Date())-1;
+            departments.forEach((department) => {
+                if(department.chores.length<1){
+                    return;
+                }
+                const choresOfDepartment = department.chores.map((chore) => {
+                    return chores[chore]; // Retrieves the array of chores for key '04'
+                }).filter(Boolean); // Filters out undefined values
 
 
 
+                if(department.phone){
+                    const phonesToSendSMS = department.phone[weekOfMonth];
+                    const coresAsString = choresOfDepartment[0].map((chore) => {
+                        return chore.name
+                    }).join(",\n\t");
+                    const message = `Καλημέρα! Σήμερα έχετε τα εξής καθήκοντα:\n\t${coresAsString}`;
+                    phonesToSendSMS.forEach((phone) => {
+                        sendSMS(phone, message).then(()=>{
+                            console.log("SMS sent to", phone, "with message", message);
+                        });
+                    })
+                }
+            })
+        })
+    })
+})
 
 
-exports.sendContactMessage = onCall(async (request, context) => {
+export const setDefaultROle = setDefaultRole;
+
+export const sendSMSFunction = onCall(async (request, context)=> {
+    const {to, message} = request.data;
+    await sendSMS(to, message);
+})
+
+export const sendContactMessage = onCall(async (request, context) => {
+
     const { name, email, message } = request.data;
-
-    console.log("Sending contact message:", { name, email, message });
-
     // Validate user input
     if (!name || !email || !message) {
         throw new HttpsError('invalid-argument', 'All fields are required');
     }
 
-    const mailOptions = {
-        from: `noreply<noreply@ioannina-scouts.gr>`,
-        to: '1ioaninon@sep.org.gr', // Replace with your recipient email
-        subject: `Νέο Μήνυμα από ${name} <${email}>`,
-        replyTo: `${email}`,
-        text: `
+    const mail_message= `
         Λάβατε νέο μήνυμα!
 
         **Sender Information:**
@@ -57,12 +71,12 @@ exports.sendContactMessage = onCall(async (request, context) => {
         ${message}
 
         Σε περίπτωση που θέλετε να απαντήσετε, μπορείτε να απαντήσετε κατευθείαν σε αυτό το μήνυμα.
-    `,
-    };
-
-
+    `
+    const to= 'pavlos@orfanidis.net.gr';
+    const subject = `Νέο Μήνυμα από ${name} <${email}>`
     try {
-        await transporter.sendMail(mailOptions);
+        await sendMail(to, email, subject, mail_message);
+        //sendSMS("+306946624436", "Κάποιος έστειλε μήνυμα στην φόρμα. Δες το").then();
         return { success: true, message: 'Message sent successfully' };
     } catch (error) {
         console.error('Error sending email:', error);

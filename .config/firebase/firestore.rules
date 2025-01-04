@@ -5,30 +5,47 @@ service cloud.firestore {
     match /users/{document=**} {
       allow read: if true; // Public read access
     }
+    match /cleaning/{document=**} {
+      allow read: if true; // Public read access
+      allow write: if request.auth != null &&
+        // Check if the user's roles array contains 'admin' or 'cleaning'
+        anyRoleIn(database,request.auth.uid, ['admin', 'cleaning']);
+    }
     match /events/{event} {
       allow read: if true;
-      allow write: if request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+      allow write: if request.auth != null &&
+        // Check if the user's roles array contains 'admin'
+        anyRoleIn(database,request.auth.uid, ['admin']);
     }
     match /labels/{label} {
       allow read: if true;
-      allow write: if request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+      allow write: if request.auth != null &&
+        // Check if the user's roles array contains 'admin'
+        anyRoleIn(database,request.auth.uid, ['admin']);
     }
     match /users/{userId} {
-      allow read: if request.auth != null && request.auth.uid == userId;
-      allow write: if request.auth != null && request.auth.uid == userId && !(request.resource.data.keys().hasAny(['role']));
+      allow read, write: if request.auth != null && request.auth.uid == userId;
     }
     match /chiefs/{document=**} {
       allow read: if true; // Public read access
-      allow write: if request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
-      //allow write: if true;
+      allow write: if request.auth != null &&
+        // Check if the user's roles array contains 'admin'
+        anyRoleIn(database,request.auth.uid, ['admin']);
     }
     match /gallery/{document=**} {
-          allow read: if true; // Public read access
-          allow write: if request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
-          //allow write: if true;
+      allow read: if true; // Public read access
+      // If you need to control writes, adjust this condition as needed
+      allow write: if true;
     }
     match /{document=**} {
       allow read, write: if false;
     }
   }
+}
+
+// Helper function to check if the user has any of the specified roles
+function anyRoleIn(database, uid, roles) {
+  return exists(/databases/$(database)/documents/users/$(uid)) &&
+    // Use 'in' to check if the user's role array contains any of the specified roles
+    get(/databases/$(database)/documents/users/$(uid)).data.role.hasAny(roles);
 }

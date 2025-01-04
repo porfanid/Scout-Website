@@ -31,6 +31,8 @@ const Gallery = () => {
     const [isAdmin, setIsAdmin] = useState(false);
     const [selectedFolderId, setSelectedFolderId] = useState(null);
 
+    const [tagembedCode] = useState("2145365");//"ioannina-scouts")
+
     useEffect(() => {
         const fetchGallery = async () => {
             const querySnapshot = await getDocs(collection(db, 'gallery'));
@@ -39,6 +41,18 @@ const Gallery = () => {
         };
 
         fetchGallery();
+    }, []);
+
+
+    useEffect(() => {
+        const script = document.createElement('script');
+        script.src = "https://widget.tagembed.com/embed.min.js";
+        script.async = true;
+        document.body.appendChild(script);
+
+        return () => {
+            document.body.removeChild(script);
+        };
     }, []);
 
     useEffect(() => {
@@ -74,120 +88,113 @@ const Gallery = () => {
     };
 
     return (
-        <Box sx={{ p: 4, marginTop: 3 }}>
-            <Typography variant="h3" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
-                Event Gallery
-            </Typography>
-            <Typography variant="body1" align="center" sx={{ mb: 4, color: 'text.secondary' }}>
-                Explore past events and their memorable moments below.
-            </Typography>
-
-            {isAdmin && (
-                <Paper
-                    elevation={3}
-                    sx={{
-                        p: 4,
-                        mb: 4,
-                        border: '1px solid #e0e0e0',
-                        borderRadius: 2,
-                    }}
-                >
-                    <Typography variant="h5" gutterBottom>
-                        Admin: Upload New Event
-                    </Typography>
-                    <FolderUpload />
-                </Paper>
-            )}
-
-            <Divider sx={{ my: 4 }} />
-
-            <Grid container spacing={4}>
-                {galleryData.map((item) => (
-                    <Grid size={{xs:12,md:4,sm:6}} xs={12} sm={6} md={4} key={item.id}>
-                        <Card
-                            elevation={3}
-                            sx={{
-                                transition: 'transform 0.3s, box-shadow 0.3s',
-                                '&:hover': {
-                                    transform: 'scale(1.05)',
-                                    boxShadow: '0px 8px 20px rgba(0,0,0,0.15)',
-                                },
-                                height: '100%',
-                                display: 'flex',
-                                flexDirection: 'column',
-                            }}
-                        >
-                            <CardMedia
-                                component="img"
-                                height="200"
-                                image={`/gallery/${item.id}/${item.previewImage}`}
-                                alt={item.title}
-                                sx={{
-                                    borderTopLeftRadius: '4px',
-                                    borderTopRightRadius: '4px',
-                                }}
-                            />
-                            <CardContent sx={{ textAlign: 'center', flexGrow: 1 }}>
-                                <Typography variant="h6" gutterBottom>
-                                    {item.title}
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary">
-                                    {item.date}
-                                </Typography>
-                                <Typography
-                                    variant="body1"
-                                    color="text.secondary"
-                                    sx={{ mt: 1 }}
-                                >
-                                    {item.description}
-                                </Typography>
-                                <Button
-                                    size="small"
-                                    variant="outlined"
-                                    color="secondary"
-                                    sx={{ mt: 2 }}
-                                    onClick={() => {
-                                        console.log('Selected Folder ID:', item.id);
-                                        setSelectedFolderId(item.id)
-                                    }}
-                                >
-                                    View Details
-                                </Button>
-                                {isAdmin && (
-                                    <IconButton
-                                        aria-label="delete"
-                                        color="error"
-                                        onClick={() => handleDelete(item.id)}
-                                        sx={{ mt: 2 }}
-                                    >
-                                        <DeleteIcon />
-                                    </IconButton>
-                                )}
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                ))}
-            </Grid>
-
-            {galleryData.length === 0 && (
-                <Typography
-                    variant="h6"
-                    color="text.secondary"
-                    align="center"
-                    sx={{ mt: 4 }}
-                >
-                    No events found. Check back soon!
+            <Box sx={{p: 4, marginTop: 3}}>
+                <Typography variant="h3" gutterBottom align="center" sx={{fontWeight: 'bold'}}>
+                    Event Gallery
                 </Typography>
-            )}
+                <Typography variant="body1" align="center" sx={{mb: 4, color: 'text.secondary'}}>
+                    Explore past events and their memorable moments below.
+                </Typography>
 
-            {selectedFolderId && (
-                <LightboxGallery
-                    folderId={selectedFolderId}
-                    onClose={() => setSelectedFolderId(null)}
-                />
-            )}
-        </Box>
+                {isAdmin && (
+                        <Paper
+                                elevation={3}
+                                sx={{
+                                    p: 4,
+                                    mb: 4,
+                                    border: '1px solid #e0e0e0',
+                                    borderRadius: 2,
+                                }}
+                        >
+                            <Typography variant="h5" gutterBottom>
+                                Admin: Upload New Event
+                            </Typography>
+                            <FolderUpload/>
+                        </Paper>
+                )}
+
+                <Divider sx={{my: 4}}/>
+
+                <Grid container spacing={4}>
+                    {galleryData.map((item) => (
+                            <Grid size={{xs: 12, md: 4, sm: 6}} xs={12} sm={6} md={4} key={item.id}>
+                                <Card
+                                        elevation={3}
+                                        sx={{
+                                            transition: 'transform 0.3s, box-shadow 0.3s',
+                                            '&:hover': {
+                                                transform: 'scale(1.05)',
+                                                boxShadow: '0px 8px 20px rgba(0,0,0,0.15)',
+                                            },
+                                            height: '100%',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                        }}
+                                >
+                                    <CardMedia
+                                            component="img"
+                                            height="200"
+                                            image={`/gallery/${item.id}/${item.previewImage}`}
+                                            alt={item.title}
+                                            sx={{
+                                                borderTopLeftRadius: '4px',
+                                                borderTopRightRadius: '4px',
+                                            }}
+                                    />
+                                    <CardContent sx={{textAlign: 'center', flexGrow: 1}}>
+                                        <Typography variant="h6" gutterBottom>
+                                            {item.title}
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            {item.date}
+                                        </Typography>
+                                        <Typography
+                                                variant="body1"
+                                                color="text.secondary"
+                                                sx={{mt: 1}}
+                                        >
+                                            {item.description}
+                                        </Typography>
+                                        <Button
+                                                size="small"
+                                                variant="outlined"
+                                                color="secondary"
+                                                sx={{mt: 2}}
+                                                onClick={() => {
+                                                    console.log('Selected Folder ID:', item.id);
+                                                    setSelectedFolderId(item.id)
+                                                }}
+                                        >
+                                            View Details
+                                        </Button>
+                                        {isAdmin && (
+                                                <IconButton
+                                                        aria-label="delete"
+                                                        color="error"
+                                                        onClick={() => handleDelete(item.id)}
+                                                        sx={{mt: 2}}
+                                                >
+                                                    <DeleteIcon/>
+                                                </IconButton>
+                                        )}
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                    ))}
+
+                    <div className="tagembed-widget" style={{width:"100%", height:"100%"}} data-widget-id={tagembedCode}
+                         data-tags="false" view-url={`https://widget.tagembed.com/${tagembedCode}`}></div>
+
+                </Grid>
+
+                {selectedFolderId && (
+                        <LightboxGallery
+                                folderId={selectedFolderId}
+                                onClose={() => setSelectedFolderId(null)}
+                        />
+                )}
+            </Box>
     );
 };
 
-export { Gallery };
+export {Gallery};

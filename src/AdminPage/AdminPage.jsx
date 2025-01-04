@@ -4,6 +4,7 @@ import { auth, db } from '../firebase'; // Make sure Firebase is configured
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { Button, TextField, CircularProgress, Alert, Box, Paper, Typography, Grid2 as Grid } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
+import {fetchUserRole} from "../auth/check_permission.js";
 
 const AdminPage = () => {
     const [userRole, setUserRole] = useState(null);
@@ -12,39 +13,14 @@ const AdminPage = () => {
     const [chiefs, setChiefs] = useState({});
     const [updatedChiefs, setUpdatedChiefs] = useState({});
     const navigate = useNavigate();
-
     useEffect(() => {
-        // Check if user is logged in and fetch their role
-        const fetchUserRole = async (user) => {
-            setLoading(true);
-            try {
-                if (user) {
-                    const userDoc = await getDoc(doc(db, 'users', user.uid));
-                    const userData = userDoc.data();
-                    if (userData && userData.role === 'admin') {
-                        setUserRole('admin');
-                    } else {
-                        console.log(user.uid)
-                        navigate('/'); // Redirect if not admin
-                    }
-                } else {
-                    navigate('/login'); // Redirect to login page
-                }
-            } catch (err) {
-                console.error('Error fetching user role:', err);
-                setError('Failed to verify admin access.');
-            } finally {
-                setLoading(false);
-            }
-        };
         return auth.onAuthStateChanged((user)=>{
-            fetchUserRole(user).then();
+            fetchUserRole(user, ["admin"], setLoading, setError, navigate, setUserRole).then();
         });
-
-    }, [navigate]);
+    }, []);
 
     useEffect(() => {
-        if (userRole === 'admin') {
+        if (userRole.includes('admin')) {
             // Fetch current chief information from Firestore
             const fetchChiefs = async () => {
                 try {

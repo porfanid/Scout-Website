@@ -31,7 +31,10 @@ function Contact() {
         setLoading(true);
 
         try {
+            console.log("Started");
             await sendContactMessage({ name, email, message });
+            console.log("Test");
+
             setSuccess(true);
             setError(null);
             setName('');

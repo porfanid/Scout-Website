@@ -20,9 +20,11 @@ const analytics = getAnalytics(app);
 const db = getFirestore(app);
 const functions = getFunctions(app);
 
+/**
 if (import.meta.env.MODE === 'development') {
     connectFirestoreEmulator(db, 'localhost', 8080);
     connectFunctionsEmulator(functions, 'localhost', 5001);
 }
+ **/
 
 export { app, auth, analytics, db, functions };

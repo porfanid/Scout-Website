@@ -10,6 +10,7 @@ const routes = [
     { path: '/calendar', componentKey: 'Calendar' },
     { path: '/profile', componentKey: 'ProfilePage' },
     { path: '/events', componentKey: 'Gallery' },
+    { path: '/chores', componentKey: 'ChoresAdmin' },
 ];
 
 export default routes;
