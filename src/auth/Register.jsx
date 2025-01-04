@@ -1,9 +1,8 @@
-// src/components/Register.js
-
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { auth } from '../firebase';
-import { TextField, Button, Typography, Container, Box, Alert } from '@mui/material';
+import { TextField, Button, Typography, Container, Box, Alert, Link as MuiLink } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 
 const Register = () => {
     const [email, setEmail] = useState('');
@@ -27,51 +26,70 @@ const Register = () => {
     };
 
     return (
-        <Container maxWidth="xs">
-            <Box
-                component="form"
-                onSubmit={handleRegister}
-                sx={{
-                    mt: 8,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                }}
+            <Container
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        height: '80vh',
+                    }}
+                    maxWidth="xs"
             >
-                <Typography component="h1" variant="h5" gutterBottom>
-                    Register
-                </Typography>
-                {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-                {successMessage && <Alert severity="success" sx={{ mb: 2 }}>{successMessage}</Alert>}
-                <TextField
-                    label="Email"
-                    type="email"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <TextField
-                    label="Password"
-                    type="password"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    sx={{ mt: 3 }}
+                <Box
+                        component="form"
+                        onSubmit={handleRegister}
+                        sx={{
+                            mt: 8,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                        }}
                 >
-                    Register
-                </Button>
-            </Box>
-        </Container>
+                    <Typography component="h1" variant="h5" gutterBottom>
+                        Register
+                    </Typography>
+                    {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+                    {successMessage && <Alert severity="success" sx={{ mb: 2 }}>{successMessage}</Alert>}
+                    <TextField
+                            label="Email"
+                            type="email"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <TextField
+                            label="Password"
+                            type="password"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            sx={{ mt: 3 }}
+                    >
+                        Register
+                    </Button>
+                    <Typography sx={{ mt: 2 }}>
+                        Already have an account?{' '}
+                        <MuiLink
+                                component={RouterLink}
+                                to="/login"
+                                underline="hover"
+                                sx={{ textDecoration: 'none', color: '#1976d2' }}
+                        >
+                            Login here
+                        </MuiLink>
+                    </Typography>
+                </Box>
+            </Container>
     );
 };
 

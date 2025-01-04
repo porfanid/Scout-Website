@@ -221,31 +221,31 @@ export default function Navbar() {
         { name: "Αποσύνδεση", link: "/logout" }
     ];
 
+    const loggedOutLinks = [
+        { name: "Σύνδεση/Εγγραφή", link: "/login" }
+    ];
+
     const [menuOptions, setMenuOptions] = useState(defaultOptions);
 
     useEffect(() => {
-        return auth.onAuthStateChanged((user) => {
-            setMenuOptions(defaultOptions);
+        return auth.onAuthStateChanged(async (user) => {
+            let menuEntries = [...defaultOptions];
             if (user) {
-                getDoc(doc(db, "users", user.uid)).then((snapshot) => {
-                    if (!snapshot.exists) { return null; }
-                    const data = snapshot.data();
+                const snapshot = await getDoc(doc(db, "users", user.uid));//.then((snapshot) => {
+                if (!snapshot.exists) { return null; }
+                const data = snapshot.data();
 
-                    let menuEntries = [...defaultOptions];
-
-                    if (data.role.includes("admin")) {
-                        menuEntries = [...menuEntries, ...adminLinks, ...cleanerLinks];
-                    }
-
-                    if (data.role.includes("cleaning")) {
-                        menuEntries = [...menuEntries, ...cleanerLinks];
-                    }
-
-                    menuEntries=[...menuEntries, ...loggedInLinks]
-
-                    setMenuOptions(menuEntries);
-                })
+                if (data.role.includes("admin")) {
+                    menuEntries = [...menuEntries, ...adminLinks, ...cleanerLinks];
+                }
+                if (data.role.includes("cleaning")) {
+                    menuEntries = [...menuEntries, ...cleanerLinks];
+                }
+                menuEntries=[...menuEntries, ...loggedInLinks]
+            }else{
+                menuEntries = [...menuEntries, ...loggedOutLinks]
             }
+            setMenuOptions(menuEntries);
         })
     }, []);
 
