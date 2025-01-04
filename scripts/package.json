@@ -10,9 +10,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "canvas": "^3.0.1",
     "firebase-admin": "^13.0.1",
     "fs": "^0.0.1-security",
+    "qrcode": "^1.5.4",
     "react-image-lightbox": "^5.1.4",
+    "sharp": "^0.33.5",
     "yet-another-react-lightbox": "^3.21.7"
   }
 }

@@ -10,6 +10,7 @@ import {fetchUserRole} from "../auth/check_permission.js";
 import {useNavigate} from "react-router-dom";
 import {httpsCallable} from "firebase/functions";
 import {Button} from "@mui/material";
+import ResetChoresButton from "./ResetChoresButton.jsx";
 
 const ChoresAdmin = () => {
     const [chores, setChores] = useState({});
@@ -129,11 +130,13 @@ const ChoresAdmin = () => {
                         }}
                         className="chores-admin"
                 >
+                    <ResetChoresButton/>
                     <Button onClick={async ()=>{
                         const testChores = httpsCallable(functions, 'testChores');
                         await testChores(); // Pass any data as the payload if needed
                         console.log("Function has been run");
                     }}>Test Button</Button>
+
                     <Grid2 container
                            style={{
                                display:"flex",
