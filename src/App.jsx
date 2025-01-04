@@ -1,4 +1,4 @@
-import React,{ useState } from 'react';
+import React,{ useState, useEffect } from 'react';
 import { ThemeProvider, createTheme, styled } from '@mui/material/styles';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -17,6 +17,8 @@ import Navbar from "./Navbar/Navbar.jsx";
 import { lightTheme } from "./config/themes/light.js";
 import { darkTheme } from "./config/themes/dark.js";
 import routes from "./Routes.js";
+import {auth, db, messaging} from './firebase';
+import { getToken } from 'firebase/messaging';
 
 // Import all components
 import VolunteerForm from "./4WeekVolunteer.jsx";
@@ -31,6 +33,7 @@ import Home from './Home/Home.jsx';
 import Contact from './Contact.jsx';
 import {Gallery} from "./Gallery/Gallery.jsx";
 import ChoresAdmin from "./Chores/Chores.jsx";
+import {doc, getDoc, setDoc} from "firebase/firestore";
 
 // Map keys to components
 const componentMap = {
@@ -67,6 +70,50 @@ function App() {
     const { t } = useTranslation(); // Use translation hook
     const [theme, setTheme] = useState(darkTheme);
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+    useEffect(() => {
+        return auth.onAuthStateChanged((user) => {
+            if (!user) {
+                return;
+            }
+            // Request permission for push notifications
+            Notification.requestPermission().then((permission) => {
+                if (permission === 'granted') {
+                    console.log('Notification permission granted.');
+
+                    // Get FCM Token
+                    getToken(messaging, {vapidKey: 'BOmvL1kN2Y7Tm1x4HylBWGCZCOcFRznP8yGWK3ea6m7B4JWY4U5wB0846o33jLQIH2jfJyj3r_gadPbIF5Msxco'})
+                            .then(async (currentToken) => {
+                                if (currentToken) {
+                                    const userRef = doc(db, 'users', user.uid);
+                                    const userData = (await getDoc(userRef)).data();
+
+                                    if (userData.fcm === currentToken) {
+                                        console.log('Token already synced to Firestore.');
+                                        return;
+                                    }else {
+                                        userData.fcm = currentToken;
+                                    }
+                                    setDoc(userRef, userData)
+                                            .then(() => {
+                                                console.log('FCM token synced to Firestore.');
+                                            })
+                                            .catch((error) => {
+                                                console.error('Error syncing token to Firestore: ', error);
+                                            });
+                                } else {
+                                    console.log('No registration token available');
+                                }
+                            })
+                            .catch((err) => {
+                                console.log('An error occurred while retrieving token. ', err);
+                            });
+                } else {
+                    console.log('Notification permission denied');
+                }
+            });
+        });
+    }, []);
 
     /**
      * Toggles the theme between light and dark mode.

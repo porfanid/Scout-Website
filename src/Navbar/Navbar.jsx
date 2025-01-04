@@ -231,14 +231,14 @@ export default function Navbar() {
         return auth.onAuthStateChanged(async (user) => {
             let menuEntries = [...defaultOptions];
             if (user) {
-                const snapshot = await getDoc(doc(db, "users", user.uid));//.then((snapshot) => {
+                const snapshot = await getDoc(doc(db, "users", user.uid))
                 if (!snapshot.exists) { return null; }
                 const data = snapshot.data();
-
-                if (data.role.includes("admin")) {
+                console.log(data);
+                if (data.role&&data.role.includes("admin")) {
                     menuEntries = [...menuEntries, ...adminLinks, ...cleanerLinks];
                 }
-                if (data.role.includes("cleaning")) {
+                if (data.role&&data.role.includes("cleaning")) {
                     menuEntries = [...menuEntries, ...cleanerLinks];
                 }
                 menuEntries=[...menuEntries, ...loggedInLinks]
