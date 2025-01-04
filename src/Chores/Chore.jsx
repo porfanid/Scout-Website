@@ -1,8 +1,12 @@
 import React from "react";
 import { useDrag } from "react-dnd";
 import {Box, Card, CardContent, Typography} from "@mui/material";
+import {useTheme} from "@mui/styles";
 
 const Chore = ({ choreId, chores }) => {
+
+    const theme = useTheme();
+
     const [{ isDragging }, drag] = useDrag(() => ({
         type: "chore",
         item: { choreId },
@@ -27,7 +31,7 @@ const Chore = ({ choreId, chores }) => {
                     <CardContent>
                         {chores[choreId].map((task, index) => (
                                 <div key={index} style={{marginBottom: "10px"}}>
-                                    <Typography variant="h6" component="div" gutterBottom>
+                                    <Typography color={task.completed?theme.palette.primary.main:theme.palette.fancy.main} variant="h6" component="div" gutterBottom>
                                         {task.name}
                                     </Typography>
                                 </div>

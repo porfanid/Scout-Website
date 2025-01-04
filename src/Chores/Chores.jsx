@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, collection, onSnapshot, setDoc } from "firebase/firestore";
 import {auth, db, functions} from "../firebase.js";
 import ChoresColumn from "./ChoresColumn.jsx";
 import Department from "./Department.jsx";
@@ -24,24 +24,40 @@ const ChoresAdmin = () => {
     }, []);
 
     useEffect(() => {
-        const fetchChoresAndDepartments = async () => {
-            const choresDoc = doc(collection(db, "cleaning"), "chores");
-            const choresDocument = await getDoc(choresDoc);
-            const choresData = choresDocument.data();
-            setChores(choresData);
+        const unsubscribeChores = onSnapshot(
+                doc(collection(db, "cleaning"), "chores"),
+                (choresDoc) => {
+                    const choresData = choresDoc.data();
+                    setChores(choresData);
+                },
+                (error) => {
+                    console.error("Error fetching chores: ", error);
+                }
+        );
 
-            const depDoc = doc(collection(db, "cleaning"), "departents");
-            const depDocument = await getDoc(depDoc);
-            const departmentsData = depDocument.data();
-            const departmentsList = Object.keys(departmentsData || {}).map((id) => ({
-                chores: departmentsData[id].chores || [],
-                ...departmentsData[id]
-            }));
-            setDepartments(departmentsList);
+        const unsubscribeDepartments = onSnapshot(
+                doc(collection(db, "cleaning"), "departents"),
+                (depDoc) => {
+                    const departmentsData = depDoc.data();
+                    const departmentsList = Object.keys(departmentsData || {}).map((id) => ({
+                        chores: departmentsData[id].chores || [],
+                        ...departmentsData[id],
+                    }));
+                    setDepartments(departmentsList);
+                },
+                (error) => {
+                    console.error("Error fetching departments: ", error);
+                }
+        );
+
+        // Cleanup listeners on component unmount
+        return () => {
+            unsubscribeChores();
+            unsubscribeDepartments();
         };
-
-        fetchChoresAndDepartments();
     }, []);
+
+
 
     const syncDepartmentsToFirestore = async (updatedDepartments) => {
         const depDoc = doc(collection(db, "cleaning"), "departents");
