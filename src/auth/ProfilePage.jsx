@@ -19,7 +19,7 @@ import {
     Typography,
     Button,
     Box,
-    Grid,
+    Grid2,
     Divider,
     TextField,
 } from '@mui/material';
@@ -142,8 +142,8 @@ const ProfilePage = () => {
                         alignItems: 'center',
                     }}
             >
-                <Grid container justifyContent="center">
-                    <Grid item xs={12} sm={8} md={6}>
+                <Grid2 container justifyContent="center">
+                    <Grid2 item xs={12} sm={8} md={6}>
                         <Card
                                 sx={{
                                     borderRadius: 3,
@@ -326,8 +326,8 @@ const ProfilePage = () => {
                                 </Box>
                             </CardContent>
                         </Card>
-                    </Grid>
-                </Grid>
+                    </Grid2>
+                </Grid2>
             </Box>
     );
 };

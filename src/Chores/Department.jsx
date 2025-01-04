@@ -2,14 +2,14 @@ import { useDrop } from "react-dnd";
 import Chore from "./Chore.jsx";
 import "./ChoresAdmin.css";
 import { TextField, Button, IconButton, Collapse } from "@mui/material";
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import Grid2 from "@mui/material/Grid2";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
-const Department = ({ department, onDrop, choresData, onUpdatePhone }) => {
+const Department = ({ department, onDrop, choresData, onUpdatePhone, currentMonth }) => {
     const [{ isOver }, drop] = useDrop(() => ({
         accept: "chore",
         drop: (item) => {
@@ -118,7 +118,7 @@ const Department = ({ department, onDrop, choresData, onUpdatePhone }) => {
                 </div>
 
                 {/* Display chores */}
-                {department.chores.map((chore) => (
+                {department.chores[currentMonth]?.map((chore) => (
                         <Grid2 container xs={12} md={2} spacing={3} key={chore}>
                             <Chore chores={choresData} choreId={chore} />
                         </Grid2>

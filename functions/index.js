@@ -11,17 +11,18 @@ admin.initializeApp();
 
 const db = admin.firestore();
 
-export const sendChores = onSchedule('every friday 12:00', async (context) => {
+const sendChoresGeneric = async () => {
     db.doc("/cleaning/chores").get().then((doc) => {
         const chores = doc.data();
         db.doc("/cleaning/departents").get().then((doc) => {
+            const currentMonth = new Date().getMonth();
             const departments =  Object.values(doc.data());
             const weekOfMonth = getWeekOfMonth(new Date())-1;
             departments.forEach((department) => {
-                if(department.chores.length<1){
+                if(department.chores[currentMonth].length<1){
                     return;
                 }
-                const choresOfDepartment = department.chores.map((chore) => {
+                const choresOfDepartment = department.chores[currentMonth].map((chore) => {
                     return chores[chore]; // Retrieves the array of chores for key '04'
                 }).filter(Boolean); // Filters out undefined values
 
@@ -42,6 +43,14 @@ export const sendChores = onSchedule('every friday 12:00', async (context) => {
             })
         })
     })
+}
+
+export const sendChores = onSchedule('every friday 12:00', async (context) => {
+    sendChoresGeneric().then();
+});
+
+export const testChores = onCall(async (request, context) => {
+   sendChoresGeneric().then();
 });
 
 const resetChores=async (choresRef, choresData)=>{
