@@ -20,6 +20,9 @@ const AdminPage = () => {
     }, []);
 
     useEffect(() => {
+        if(!userRole){
+            return;
+        }
         if (userRole.includes('admin')) {
             // Fetch current chief information from Firestore
             const fetchChiefs = async () => {

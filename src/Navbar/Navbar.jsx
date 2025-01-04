@@ -213,6 +213,9 @@ export default function Navbar() {
         { name: "Διαχειριστής", link: "/admin" },
     ];
 
+    const cleanerLinks = [
+        {name: "Καθαριότητες", link: "/chores"}
+    ];
     const loggedInLinks = [
         { name: "Προφίλ", link: "/profile" },
         { name: "Αποσύνδεση", link: "/logout" }
@@ -227,11 +230,20 @@ export default function Navbar() {
                 getDoc(doc(db, "users", user.uid)).then((snapshot) => {
                     if (!snapshot.exists) { return null; }
                     const data = snapshot.data();
+
+                    let menuEntries = [...defaultOptions];
+
                     if (data.role.includes("admin")) {
-                        setMenuOptions([...defaultOptions, ...adminLinks, ...loggedInLinks]);
-                    } else {
-                        setMenuOptions([...defaultOptions, ...loggedInLinks]);
+                        menuEntries = [...menuEntries, ...adminLinks, ...cleanerLinks];
                     }
+
+                    if (data.role.includes("cleaning")) {
+                        menuEntries = [...menuEntries, ...cleanerLinks];
+                    }
+
+                    menuEntries=[...menuEntries, ...loggedInLinks]
+
+                    setMenuOptions(menuEntries);
                 })
             }
         })
