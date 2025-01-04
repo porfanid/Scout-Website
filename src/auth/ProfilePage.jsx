@@ -1,9 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import { auth } from '../firebase'; // Assuming firebase.js is set up properly
-import { Card, CardContent, Avatar, Typography, Button, Box, Grid, Divider, TextField } from '@mui/material';
-import { reauthenticateWithCredential, EmailAuthProvider, updatePassword, updateProfile } from "firebase/auth";
+import { auth } from '../firebase'; // Ensure the firebase config is correct
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    updateDoc,
+} from 'firebase/firestore';
+import {
+    getStorage,
+    ref,
+    uploadBytes,
+    getDownloadURL,
+} from 'firebase/storage';
+import {
+    Card,
+    CardContent,
+    Avatar,
+    Typography,
+    Button,
+    Box,
+    Grid,
+    Divider,
+    TextField,
+} from '@mui/material';
+import {
+    reauthenticateWithCredential,
+    EmailAuthProvider,
+    updatePassword,
+} from 'firebase/auth';
+
 const ProfilePage = () => {
     const [user, setUser] = useState(null);
+    const [userData, setUserData] = useState(null);
     const [editingDisplayName, setEditingDisplayName] = useState(false);
     const [editingPassword, setEditingPassword] = useState(false);
     const [newDisplayName, setNewDisplayName] = useState('');
@@ -11,13 +39,22 @@ const ProfilePage = () => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [error, setError] = useState('');
+    const [uploading, setUploading] = useState(false);
+
+    const db = getFirestore();
+    const storage = getStorage();
 
     useEffect(() => {
-        // Listen to authentication state changes
-        const unsubscribe = auth.onAuthStateChanged(setUser);
+        const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
+            setUser(currentUser);
+            if (currentUser) {
+                const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+                setUserData(userDoc.exists() ? userDoc.data() : null);
+            }
+        });
 
-        return () => unsubscribe(); // Cleanup on unmount
-    }, []);
+        return () => unsubscribe();
+    }, [db]);
 
     const handleLogout = () => {
         auth.signOut();
@@ -39,12 +76,12 @@ const ProfilePage = () => {
         setConfirmNewPassword(e.target.value);
     };
 
-    const handleUpdateProfile = async () => {
+    const handleUpdateDisplayName = async () => {
         if (newDisplayName.trim()) {
             try {
-                await updateProfile(user,{ displayName: newDisplayName });
-                setUser({ ...user, displayName: newDisplayName });
-                setEditingDisplayName(false);  // Close the edit mode after update
+                await updateDoc(doc(db, 'users', user.uid), { displayName: newDisplayName });
+                setUserData((prev) => ({ ...prev, displayName: newDisplayName }));
+                setEditingDisplayName(false);
                 setNewDisplayName('');
             } catch (error) {
                 setError(error.message);
@@ -55,188 +92,243 @@ const ProfilePage = () => {
     const handleChangePassword = async () => {
         if (newPassword.trim().length >= 6 && newPassword === confirmNewPassword) {
             try {
-                // Re-authenticate user with the old password to allow password update
-                const credential = EmailAuthProvider.credential(
-                    user.email,
-                    oldPassword
-                );
+                const credential = EmailAuthProvider.credential(user.email, oldPassword);
                 await reauthenticateWithCredential(user, credential);
 
                 await updatePassword(user, newPassword);
                 setOldPassword('');
                 setNewPassword('');
                 setConfirmNewPassword('');
-                setEditingPassword(false); // Close the password edit mode after update
+                setEditingPassword(false);
                 alert('Password updated successfully!');
             } catch (error) {
                 setError(error.message);
             }
         } else {
-            setError('Password must be at least 6 characters long and the new passwords must match.');
+            setError('Passwords must match and be at least 6 characters.');
         }
     };
 
-    if (!user) {
+    const handleProfilePictureChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        setUploading(true);
+        try {
+            const fileRef = ref(storage, `profilePictures/${user.uid}`);
+            await uploadBytes(fileRef, file);
+            const photoURL = await getDownloadURL(fileRef);
+
+            await updateDoc(doc(db, 'users', user.uid), { photoURL });
+            setUserData((prev) => ({ ...prev, photoURL }));
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    if (!user || !userData) {
         return <div>Loading...</div>;
     }
 
     return (
-        <Box sx={{ padding: 3 }}>
-            <Grid container spacing={3} justifyContent="center">
-                <Grid item xs={12} sm={8} md={6}>
-                    <Card>
-                        <CardContent>
-                            {/* Profile Header */}
-                            <Box textAlign="center" mb={3}>
-                                <Avatar
-                                    src={user.photoURL || 'https://www.gravatar.com/avatar/00000000000000000000000000000000'}
-                                    alt="Profile"
-                                    sx={{ width: 120, height: 120, margin: '0 auto' }}
-                                />
-                                <Typography variant="h4" component="h1" sx={{ fontWeight: 'bold', mt: 2 }}>
-                                    {user.displayName || 'Anonymous User'}
-                                </Typography>
-                                <Typography variant="body1" color="textSecondary">
-                                    {user.email}
-                                </Typography>
-                            </Box>
-
-                            <Divider sx={{ marginBottom: 2 }} />
-
-                            {/* User Info */}
-                            <Box mb={2}>
-                                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>UID:</Typography>
-                                <Typography variant="body1" color="textSecondary" sx={{ marginBottom: 2 }}>
-                                    {user.uid}
-                                </Typography>
-
-                                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Email:</Typography>
-                                <Typography variant="body1" color="textSecondary" sx={{ marginBottom: 2 }}>
-                                    {user.email}
-                                </Typography>
-                            </Box>
-
-                            {/* Update Display Name */}
-                            {!editingDisplayName ? (
-                                <Box mb={2}>
-                                    <Button
-                                        fullWidth
-                                        variant="outlined"
-                                        color="secondary"
-                                        onClick={() => setEditingDisplayName(true)}
+            <Box
+                    sx={{
+                        minHeight: '100vh',
+                        padding: 4,
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}
+            >
+                <Grid container justifyContent="center">
+                    <Grid item xs={12} sm={8} md={6}>
+                        <Card
+                                sx={{
+                                    borderRadius: 3,
+                                    boxShadow: 6,
+                                    overflow: 'hidden',
+                                }}
+                        >
+                            <CardContent>
+                                <Box textAlign="center" mb={3}>
+                                    <Avatar
+                                            src={userData.photoURL || 'https://www.gravatar.com/avatar/00000000000000000000000000000000'}
+                                            alt="Profile"
+                                            sx={{
+                                                width: 140,
+                                                height: 140,
+                                                margin: '0 auto',
+                                                border: '4px solid #3f51b5',
+                                            }}
+                                    />
+                                    <Typography
+                                            variant="h5"
+                                            sx={{
+                                                fontWeight: 'bold',
+                                                mt: 2,
+                                            }}
                                     >
-                                        Edit Display Name
+                                        {userData.displayName || 'Anonymous User'}
+                                    </Typography>
+                                    <Typography
+                                            variant="body2"
+                                            color="textSecondary"
+                                            sx={{ mb: 1 }}
+                                    >
+                                        {user.email}
+                                    </Typography>
+                                    <Button
+                                            variant="outlined"
+                                            component="label"
+                                            sx={{
+                                                mt: 2,
+                                                borderColor: '#3f51b5',
+                                            }}
+                                    >
+                                        {uploading ? 'Uploading...' : 'Change Profile Picture'}
+                                        <input
+                                                type="file"
+                                                hidden
+                                                accept="image/*"
+                                                onChange={handleProfilePictureChange}
+                                        />
                                     </Button>
                                 </Box>
-                            ) : (
-                                <Box mb={2}>
-                                    <TextField
-                                        fullWidth
-                                        value={newDisplayName}
-                                        onChange={handleDisplayNameChange}
-                                        label="New Display Name"
-                                        variant="outlined"
-                                        sx={{ mb: 2 }}
-                                    />
+
+                                <Divider sx={{ my: 3 }} />
+
+                                {!editingDisplayName ? (
+                                        <Button
+                                                fullWidth
+                                                variant="outlined"
+                                                sx={{
+                                                    borderColor: '#3f51b5',
+                                                    mb: 2,
+                                                }}
+                                                onClick={() => setEditingDisplayName(true)}
+                                        >
+                                            Edit Display Name
+                                        </Button>
+                                ) : (
+                                        <Box mb={3}>
+                                            <TextField
+                                                    fullWidth
+                                                    value={newDisplayName}
+                                                    onChange={handleDisplayNameChange}
+                                                    label="New Display Name"
+                                                    variant="outlined"
+                                                    sx={{ mb: 2 }}
+                                            />
+                                            <Button
+                                                    fullWidth
+                                                    variant="contained"
+                                                    sx={{ backgroundColor: '#3f51b5', mb: 2 }}
+                                                    onClick={handleUpdateDisplayName}
+                                            >
+                                                Save Changes
+                                            </Button>
+                                            <Button
+                                                    fullWidth
+                                                    variant="contained"
+                                                    sx={{ backgroundColor: '#e53935' }}
+                                                    onClick={() => setEditingDisplayName(false)}
+                                            >
+                                                Cancel
+                                            </Button>
+                                        </Box>
+                                )}
+
+                                {!editingPassword ? (
+                                        <Button
+                                                fullWidth
+                                                variant="outlined"
+                                                sx={{
+                                                    borderColor: '#3f51b5',
+                                                    mb: 2,
+                                                }}
+                                                onClick={() => setEditingPassword(true)}
+                                        >
+                                            Change Password
+                                        </Button>
+                                ) : (
+                                        <Box mb={3}>
+                                            <TextField
+                                                    fullWidth
+                                                    type="password"
+                                                    value={oldPassword}
+                                                    onChange={handleOldPasswordChange}
+                                                    label="Old Password"
+                                                    variant="outlined"
+                                                    sx={{ mb: 2 }}
+                                            />
+                                            <TextField
+                                                    fullWidth
+                                                    type="password"
+                                                    value={newPassword}
+                                                    onChange={handlePasswordChange}
+                                                    label="New Password"
+                                                    variant="outlined"
+                                                    sx={{ mb: 2 }}
+                                            />
+                                            <TextField
+                                                    fullWidth
+                                                    type="password"
+                                                    value={confirmNewPassword}
+                                                    onChange={handleConfirmNewPasswordChange}
+                                                    label="Confirm New Password"
+                                                    variant="outlined"
+                                                    sx={{ mb: 2 }}
+                                            />
+                                            <Button
+                                                    fullWidth
+                                                    variant="contained"
+                                                    sx={{ backgroundColor: '#3f51b5', mb: 2 }}
+                                                    onClick={handleChangePassword}
+                                            >
+                                                Save Changes
+                                            </Button>
+                                            <Button
+                                                    fullWidth
+                                                    variant="contained"
+                                                    sx={{ backgroundColor: '#e53935' }}
+                                                    onClick={() => setEditingPassword(false)}
+                                            >
+                                                Cancel
+                                            </Button>
+                                        </Box>
+                                )}
+
+                                {error && (
+                                        <Typography
+                                                variant="body2"
+                                                color="error"
+                                                sx={{ mt: 2, textAlign: 'center' }}
+                                        >
+                                            {error}
+                                        </Typography>
+                                )}
+
+                                <Box textAlign="center" mt={3}>
                                     <Button
-                                        fullWidth
-                                        variant="contained"
-                                        color="primary"
-                                        onClick={handleUpdateProfile}
+                                            variant="contained"
+                                            sx={{
+                                                backgroundColor: '#e53935',
+                                                color: '#ffffff',
+                                                fontWeight: 'bold',
+                                                px: 4,
+                                            }}
+                                            onClick={handleLogout}
                                     >
-                                        Save Changes
-                                    </Button>
-                                    <Button
-                                        fullWidth
-                                        variant="outlined"
-                                        color="secondary"
-                                        sx={{ mt: 2 }}
-                                        onClick={() => setEditingDisplayName(false)}
-                                    >
-                                        Cancel
+                                        Log Out
                                     </Button>
                                 </Box>
-                            )}
-
-                            {/* Change Password */}
-                            {!editingPassword ? (
-                                <Box mb={2}>
-                                    <Button
-                                        fullWidth
-                                        variant="outlined"
-                                        color="secondary"
-                                        onClick={() => setEditingPassword(true)}
-                                    >
-                                        Change Password
-                                    </Button>
-                                </Box>
-                            ) : (
-                                <Box mb={2}>
-                                    <TextField
-                                        fullWidth
-                                        type="password"
-                                        value={oldPassword}
-                                        onChange={handleOldPasswordChange}
-                                        label="Old Password"
-                                        variant="outlined"
-                                        sx={{ mb: 2 }}
-                                    />
-                                    <TextField
-                                        fullWidth
-                                        type="password"
-                                        value={newPassword}
-                                        onChange={handlePasswordChange}
-                                        label="New Password"
-                                        variant="outlined"
-                                        sx={{ mb: 2 }}
-                                    />
-                                    <TextField
-                                        fullWidth
-                                        type="password"
-                                        value={confirmNewPassword}
-                                        onChange={handleConfirmNewPasswordChange}
-                                        label="Confirm New Password"
-                                        variant="outlined"
-                                        sx={{ mb: 2 }}
-                                    />
-                                    <Button
-                                        fullWidth
-                                        variant="contained"
-                                        color="primary"
-                                        onClick={handleChangePassword}
-                                    >
-                                        Save Changes
-                                    </Button>
-                                    <Button
-                                        fullWidth
-                                        variant="outlined"
-                                        color="secondary"
-                                        sx={{ mt: 2 }}
-                                        onClick={() => setEditingPassword(false)}
-                                    >
-                                        Cancel
-                                    </Button>
-                                </Box>
-                            )}
-
-                            {/* Error Messages */}
-                            {error && (
-                                <Typography variant="body2" color="error" sx={{ mt: 2 }}>
-                                    {error}
-                                </Typography>
-                            )}
-
-                            {/* Logout Button */}
-                            <Box textAlign="center" mt={3}>
-                                <Button variant="contained" color="primary" size="large" onClick={handleLogout}>
-                                    Log out
-                                </Button>
-                            </Box>
-                        </CardContent>
-                    </Card>
+                            </CardContent>
+                        </Card>
+                    </Grid>
                 </Grid>
-            </Grid>
-        </Box>
+            </Box>
     );
 };
 
