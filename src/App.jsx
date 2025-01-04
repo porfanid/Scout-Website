@@ -33,7 +33,7 @@ import Home from './Home/Home.jsx';
 import Contact from './Contact.jsx';
 import {Gallery} from "./Gallery/Gallery.jsx";
 import ChoresAdmin from "./Chores/Chores.jsx";
-import {doc, getDoc, setDoc} from "firebase/firestore";
+import {doc, getDoc, setDoc, updateDoc, arrayUnion} from "firebase/firestore";
 
 // Map keys to components
 const componentMap = {
@@ -88,19 +88,13 @@ function App() {
                                     const userRef = doc(db, 'users', user.uid);
                                     const userData = (await getDoc(userRef)).data();
 
-                                    if (userData.fcm === currentToken) {
+                                    if (userData.fcm&&userData.fcm.includes(currentToken)) {
                                         console.log('Token already synced to Firestore.');
-                                        return;
                                     }else {
-                                        userData.fcm = currentToken;
+                                        await updateDoc(doc(db, 'users', user.uid), {
+                                            fcm: arrayUnion(currentToken),
+                                        });
                                     }
-                                    setDoc(userRef, userData)
-                                            .then(() => {
-                                                console.log('FCM token synced to Firestore.');
-                                            })
-                                            .catch((error) => {
-                                                console.error('Error syncing token to Firestore: ', error);
-                                            });
                                 } else {
                                     console.log('No registration token available');
                                 }
