@@ -227,7 +227,7 @@ export default function Navbar() {
                 getDoc(doc(db, "users", user.uid)).then((snapshot) => {
                     if (!snapshot.exists) { return null; }
                     const data = snapshot.data();
-                    if (data.role === "admin") {
+                    if (data.role.includes("admin")) {
                         setMenuOptions([...defaultOptions, ...adminLinks, ...loggedInLinks]);
                     } else {
                         setMenuOptions([...defaultOptions, ...loggedInLinks]);
