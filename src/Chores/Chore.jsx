@@ -1,6 +1,6 @@
 import React from "react";
 import { useDrag } from "react-dnd";
-import {Box, Card, CardContent, Grid, Typography} from "@mui/material";
+import {Box, Card, CardContent, Typography} from "@mui/material";
 
 const Chore = ({ choreId, chores }) => {
     const [{ isDragging }, drag] = useDrag(() => ({

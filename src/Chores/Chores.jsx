@@ -115,7 +115,7 @@ const ChoresAdmin = () => {
                 >
                     <Button onClick={async ()=>{
                         const testChores = httpsCallable(functions, 'testChores');
-                        const result = await testChores(); // Pass any data as the payload if needed
+                        await testChores(); // Pass any data as the payload if needed
                         console.log("Function has been run");
                     }}>Test Button</Button>
                     <Grid2 container

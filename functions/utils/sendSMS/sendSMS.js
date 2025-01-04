@@ -13,29 +13,13 @@ async function getDevices(pusher) {
 
         // Parse the JSON response after decompression
         const data = JSON.parse(decompressedBody.toString()).devices;
-        const androidDevices=data.map(device => {
-            if(device.type==="android") {
+        return data.map(device => {
+            if (device.type === "android") {
                 return device.iden
             }
-        })
-        return androidDevices;
+        });
     } catch (error) {
         console.error('Error retrieving devices:', error);
-    }
-}
-
-async function getUserInfo(pusher) {
-    try {
-        const response = await pusher.me(); // Retrieve user info
-
-        // Use the decompressResponse function to handle gzip decompression automatically
-        const decompressedBody = await decompressResponse(response);
-
-        // Parse the JSON response after decompression
-        const data = JSON.parse(decompressedBody.toString());
-        return data.iden;
-    } catch (error) {
-        console.error('Error retrieving user info:', error);
     }
 }
 

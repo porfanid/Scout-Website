@@ -1,7 +1,7 @@
 import { useDrop } from "react-dnd";
 import Chore from "./Chore.jsx";
 import "./ChoresAdmin.css";
-import { Grid, TextField, Button, IconButton, Collapse } from "@mui/material";
+import { TextField, Button, IconButton, Collapse } from "@mui/material";
 import React, { useState } from "react";
 import Grid2 from "@mui/material/Grid2";
 import AddIcon from '@mui/icons-material/Add';
