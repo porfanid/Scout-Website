@@ -1,0 +1,13 @@
+.chores-column {
+    width: 100%;
+    padding: 16px;
+    box-sizing: border-box; /* Ensures padding doesn't affect dimensions */
+    overflow-y: auto; /* Adds scroll if content overflows */
+}
+
+.chores-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Adds spacing between chores */
+    flex-grow: 1; /* Makes this section grow with available space */
+}
