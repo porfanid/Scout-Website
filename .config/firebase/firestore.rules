@@ -24,8 +24,20 @@ service cloud.firestore {
         anyRoleIn(database,request.auth.uid, ['admin']);
     }
     match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-    }
+          // Allow read if authenticated and the user is accessing their own data
+          allow read: if request.auth != null && request.auth.uid == userId;
+
+          // Allow write only if:
+          // 1. User is updating their own data but not the 'role' field, or
+          // 2. User has an admin role (in the list of roles), or
+          // 3. User is updating their own role and is an admin.
+          allow write: if request.auth != null && request.auth.uid == userId && (
+            // Case 1: Updating their own data, excluding 'role' field
+            !(request.resource.data.keys().hasAny(['role']) && request.resource.data.role != resource.data.role)
+            // Case 2: Admin role check
+            || anyRoleIn(database, request.auth.uid, ['admin'])
+          );
+        }
     match /chiefs/{document=**} {
       allow read: if true; // Public read access
       allow write: if request.auth != null &&

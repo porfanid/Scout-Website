@@ -20,7 +20,7 @@ const auth = getAuth(app);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
 const functions = getFunctions(app);
-const messaging = getMessaging(app);
+let messaging = null
 
 /**
 if (import.meta.env.MODE === 'development') {
@@ -29,7 +29,10 @@ if (import.meta.env.MODE === 'development') {
 }
  **/
 
-if ("serviceWorker" in navigator) {
+if (navigator.serviceWorker) {
+
+    messaging = getMessaging(app);
+
     navigator.serviceWorker.register("/firebase-messaging-sw.js")
         .then((registration) => {
             console.log("Service Worker registered with scope:", registration.scope);
