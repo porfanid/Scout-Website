@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, db } from '../firebase'; // Make sure Firebase is configured
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import {doc, onSnapshot, setDoc} from 'firebase/firestore';
 import { Button, TextField, CircularProgress, Alert, Box, Paper, Typography, Grid2 as Grid } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import {fetchUserRole} from "../auth/check_permission.js";
@@ -20,28 +20,48 @@ const AdminPage = () => {
     }, []);
 
     useEffect(() => {
-        if(!userRole){
-            return;
-        }
-        if (userRole.includes('admin')) {
-            // Fetch current chief information from Firestore
-            const fetchChiefs = async () => {
-                try {
-                    const chiefsData = {};
-                    const chiefsList = ['Λυκόπουλα', 'Πρόσκοποι', 'Ανιχνευτές', 'Προσκοπικό Δίκτυο']; // Add more if necessary
-                    for (let department of chiefsList) {
-                        const chiefDoc = await getDoc(doc(db, 'chiefs', department));
-                        chiefsData[department] = chiefDoc.data();
-                    }
-                    setChiefs(chiefsData);
-                    setUpdatedChiefs(chiefsData); // Initialize updated state
-                } catch (err) {
-                    setError('Failed to load chiefs data.');
-                }
-            };
-            fetchChiefs();
-        }
-    }, [userRole]);
+        // Function to fetch and listen to Firestore changes
+        const fetchChiefs = () => {
+            try {
+                const chiefsList = ['Λυκόπουλα', 'Πρόσκοποι', 'Ανιχνευτές', 'Προσκοπικό Δίκτυο']; // Add more if necessary
+                const chiefsData = {};
+                const unsubscribeList = [];
+
+                // Add a listener for each department
+                chiefsList.forEach((department) => {
+                    const chiefDocRef = doc(db, 'chiefs', department);
+                    const unsubscribe = onSnapshot(chiefDocRef, (snapshot) => {
+                        if (snapshot.exists()) {
+                            chiefsData[department] = snapshot.data();
+                        } else {
+                            chiefsData[department] = null; // Handle deleted documents
+                        }
+
+                        // Update state for every change
+                        setChiefs({ ...chiefsData });
+                        setUpdatedChiefs({ ...chiefsData }); // Keep updatedChiefs in sync
+                    }, (error) => {
+                        console.error(`Error fetching chiefs for ${department}:`, error);
+                        setError('Failed to load chiefs data.');
+                    });
+
+                    // Save the unsubscribe function
+                    unsubscribeList.push(unsubscribe);
+                });
+
+                // Cleanup function to unsubscribe from all listeners
+                return () => unsubscribeList.forEach((unsubscribe) => unsubscribe());
+            } catch (err) {
+                setError('Failed to initialize chiefs listener.');
+            }
+        };
+
+        const unsubscribe = fetchChiefs();
+
+        return () => {
+            if (unsubscribe) unsubscribe(); // Cleanup on unmount
+        };
+    }, [userRole]); // Re-run the effect if `userRole` changes
 
     const handleInputChange = (department, field, value) => {
         setUpdatedChiefs({
