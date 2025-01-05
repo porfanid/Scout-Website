@@ -1,5 +1,5 @@
 import React,{ useState, useEffect } from 'react';
-import { ThemeProvider, createTheme, styled } from '@mui/material/styles';
+import { ThemeProvider, styled } from '@mui/material/styles';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import {
@@ -34,7 +34,7 @@ import Contact from './Contact.jsx';
 import {Gallery} from "./Gallery/Gallery.jsx";
 import ChoresAdmin from "./Chores/Chores.jsx";
 import AdminUserManagement from "./AdminPage/AdminUserManagement.jsx";
-import {doc, getDoc, setDoc, updateDoc, arrayUnion} from "firebase/firestore";
+import {doc, getDoc, updateDoc, arrayUnion} from "firebase/firestore";
 
 // Map keys to components
 const componentMap = {

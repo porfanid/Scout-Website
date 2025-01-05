@@ -9,6 +9,7 @@ export const fetchUserRole = async (
     navigate,
     setUserRole
 ) => {
+    let response = false;
     setLoading(true);
     try {
         if (user) {
@@ -18,8 +19,8 @@ export const fetchUserRole = async (
             // Check if the user has any of the accepted roles
             if (userData && userData.role && userData.role.some(role => acceptedRoles.includes(role))) {
                 // Set the role if user has any accepted role
-                console.log(userData.role);
                 setUserRole(userData.role); // You can modify this depending on how you want to handle multiple roles
+                response =  true;
             } else {
                 console.log(user.uid);
                 navigate("/"); // Redirect if the user doesn't have an accepted role
@@ -33,4 +34,5 @@ export const fetchUserRole = async (
     } finally {
         setLoading(false);
     }
+    return response;
 };

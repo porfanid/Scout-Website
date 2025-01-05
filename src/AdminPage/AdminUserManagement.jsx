@@ -1,31 +1,13 @@
 import React, { useState, useEffect } from "react";
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Paper,
-    TextField,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    Chip,
-    Typography,
-    Box,
-    CircularProgress,
-    MenuItem,
-    Select,
-    FormControl,
-    InputLabel,
+    Grid2 as Grid, Card, CardContent, CardActions, Typography, Chip, TextField,
+    Button, Dialog, DialogActions, DialogContent, DialogTitle, Box, CircularProgress,
+    MenuItem, Select, FormControl, InputLabel
 } from "@mui/material";
 import { collection, getDocs, doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
-import {auth, db} from "../firebase";
-import {fetchUserRole} from "../auth/check_permission.js";
-import {useNavigate} from "react-router-dom"; // Replace with your Firebase config
+import { auth, db } from "../firebase";
+import { fetchUserRole } from "../auth/check_permission.js";
+import { useNavigate } from "react-router-dom";
 
 const AdminUserManagement = () => {
     const [users, setUsers] = useState([]);
@@ -36,22 +18,27 @@ const AdminUserManagement = () => {
     const [selectedRole, setSelectedRole] = useState("");
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-    // Role options (Greek -> English)
     const roles = {
-        "admin": "Διαχειρηστής",
-        "cleaning": "Καθαριότητες",
-        "viewer": "Απλός χρήστης",
+        admin: "Διαχειρηστής",
+        cleaning: "Καθαριότητες",
+        viewer: "Απλός χρήστης",
     };
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        return auth.onAuthStateChanged((user)=>{
-            fetchUserRole(user, ["admin"], setLoading, setError, navigate, (role)=>{}).then();
+        return auth.onAuthStateChanged((user) => {
+            fetchUserRole(
+                    user,
+                    ["admin"],
+                    setLoading,
+                    setError,
+                    navigate,
+                    (role) => console.log(role)
+            );
         });
     }, []);
 
-    // Fetch users from Firestore
     useEffect(() => {
         const fetchUsers = async () => {
             setLoading(true);
@@ -71,14 +58,13 @@ const AdminUserManagement = () => {
             }
         };
 
-        fetchUsers().then();
+        fetchUsers();
     }, []);
 
-    // Add a new role to the selected user
     const handleAddRole = async () => {
         if (!selectedRole) return;
 
-        if(selectedUser.role && selectedUser.role.includes(selectedRole)) {
+        if (selectedUser.role && selectedUser.role.includes(selectedRole)) {
             setError("Role already exists.");
             setIsDialogOpen(false);
             return;
@@ -86,13 +72,10 @@ const AdminUserManagement = () => {
 
         try {
             const userDocRef = doc(db, "users", selectedUser.id);
-
-            // Update Firestore with arrayUnion
             await updateDoc(userDocRef, {
                 role: arrayUnion(selectedRole),
             });
 
-            // Update local state
             setUsers((prevUsers) =>
                     prevUsers.map((user) =>
                             user.id === selectedUser.id
@@ -105,7 +88,7 @@ const AdminUserManagement = () => {
             );
 
             setIsDialogOpen(false);
-            setError(""); // Clear error
+            setError("");
             setSelectedRole("");
         } catch (err) {
             setError("Failed to add role.");
@@ -113,17 +96,14 @@ const AdminUserManagement = () => {
         }
     };
 
-    // Remove a role from the selected user
     const handleRemoveRole = async (selectedUser, role) => {
         try {
             const userDocRef = doc(db, "users", selectedUser.id);
 
-            // Update Firestore with arrayRemove
             await updateDoc(userDocRef, {
                 role: arrayRemove(role),
             });
 
-            // Update local state
             setUsers((prevUsers) =>
                     prevUsers.map((user) =>
                             user.id === selectedUser.id
@@ -140,13 +120,11 @@ const AdminUserManagement = () => {
         }
     };
 
-    // Open dialog for adding a role
     const openDialog = (user) => {
         setSelectedUser(user);
         setIsDialogOpen(true);
     };
 
-    // Filter users by search input
     const filteredUsers = users.filter((user) =>
             user.email.toLowerCase().includes(search.toLowerCase())
     );
@@ -173,20 +151,16 @@ const AdminUserManagement = () => {
                             <CircularProgress />
                         </Box>
                 ) : (
-                        <TableContainer component={Paper}>
-                            <Table>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Email</TableCell>
-                                        <TableCell>Roles</TableCell>
-                                        <TableCell>Actions</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {filteredUsers.map((user) => (
-                                            <TableRow key={user.id}>
-                                                <TableCell>{user.email}</TableCell>
-                                                <TableCell>
+                        <Grid container spacing={4}>
+                            {filteredUsers.map((user) => (
+                                    <Grid
+                                            size={{ xs: 12, sm: 6, md: 4, lg: 3}}
+                                            key={user.id}
+                                    >
+                                        <Card elevation={3}>
+                                            <CardContent>
+                                                <Typography variant="h6">{user.email}</Typography>
+                                                <Box mt={2}>
                                                     {user.role &&
                                                             user.role.map((role, index) => (
                                                                     <Chip
@@ -194,28 +168,27 @@ const AdminUserManagement = () => {
                                                                             label={roles[role]}
                                                                             color="primary"
                                                                             size="small"
-                                                                            sx={{ mr: 1 }}
+                                                                            sx={{ mr: 1, mb: 1 }}
                                                                             onDelete={() => handleRemoveRole(user, role)}
                                                                     />
                                                             ))}
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Button
-                                                            variant="contained"
-                                                            color="primary"
-                                                            onClick={() => openDialog(user)}
-                                                    >
-                                                        Add Role
-                                                    </Button>
-                                                </TableCell>
-                                            </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                                                </Box>
+                                            </CardContent>
+                                            <CardActions>
+                                                <Button
+                                                        variant="contained"
+                                                        color="primary"
+                                                        onClick={() => openDialog(user)}
+                                                >
+                                                    Add Role
+                                                </Button>
+                                            </CardActions>
+                                        </Card>
+                                    </Grid>
+                            ))}
+                        </Grid>
                 )}
 
-                {/* Dialog for adding a new role */}
                 <Dialog open={isDialogOpen} onClose={() => setIsDialogOpen(false)}>
                     <DialogTitle>Add Role</DialogTitle>
                     <DialogContent>
@@ -225,7 +198,7 @@ const AdminUserManagement = () => {
                                     labelId="role-select-label"
                                     value={selectedRole}
                                     onChange={(e) => setSelectedRole(e.target.value)}
-                             >
+                            >
                                 {Object.entries(roles).map(([role, description]) => (
                                         <MenuItem key={role} value={role}>
                                             {description}

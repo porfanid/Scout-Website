@@ -11,6 +11,8 @@ import EditEventModal from './EditEventModal';
 import EventDetailsModal from './EventDetailsModal';
 import LabelModal from './LabelModal';
 import CustomEvent from './CustomEvent';
+import {fetchUserRole} from "../auth/check_permission.js";
+import {useNavigate} from "react-router-dom";
 
 const localizer = momentLocalizer(moment);
 
@@ -31,16 +33,6 @@ function EventCalendar() {
     const [editEventOpen, setEditEventOpen] = useState(false);
     const [editEvent, setEditEvent] = useState({ id: '', title: '', start: '', end: '', label: '' });
 
-    const handleEditEventOpen = (event) => {
-        setEditEvent({
-            id: event.id,
-            title: event.title,
-            start: moment(event.start).format('YYYY-MM-DD'),
-            end: moment(event.end).format('YYYY-MM-DD'),
-            label: event.label
-        });
-        setEditEventOpen(true);
-    };
 
     const handleEditEventClose = () => setEditEventOpen(false);
 
@@ -92,25 +84,17 @@ function EventCalendar() {
     }, []);
 
     useEffect(() => {
-        const fetchUserRole = async (user) => {
-            setLoading(true);
-            try {
-                if (user) {
-                    const userDoc = await getDoc(doc(db, 'users', user.uid));
-                    const userData = userDoc.data();
-                    if (userData && userData.role === 'admin') {
-                        setIsAdmin(true);
-                    }
-                }
-            } catch (err) {
-                console.error('Error fetching user role:', err);
-                setError('Failed to verify admin access.');
-            } finally {
-                setLoading(false);
-            }
-        };
         return auth.onAuthStateChanged((user) => {
-            fetchUserRole(user).then();
+            fetchUserRole(
+                    user,
+                    ["admin"],
+                    setLoading,
+                    setError,
+                    (link)=>{return link},
+                    (role) => console.log(role)
+            ).then((response)=>{
+                setIsAdmin(response);
+            });
         });
     }, []);
 

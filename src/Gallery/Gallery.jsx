@@ -19,6 +19,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FolderUpload from './FolderUpload';
 import LightboxGallery from './LightboxGallery';
 import axios from 'axios';
+import {fetchUserRole} from "../auth/check_permission.js";
 
 
 /**
@@ -57,13 +58,16 @@ const Gallery = () => {
 
     useEffect(() => {
         return auth.onAuthStateChanged((user) => {
-            if (user) {
-                getDoc(doc(db, "users", user.uid)).then((snapshot) => {
-                    if (!snapshot.exists) { return null; }
-                    const data = snapshot.data();
-                    setIsAdmin(data.role === "admin");
-                });
-            }
+            fetchUserRole(
+                    user,
+                    ["admin"],
+                    (loading)=>{return loading},
+                    (loading)=>{return loading},
+                    (link)=>{return link},
+                    (role) => console.log(role)
+            ).then((response)=>{
+                setIsAdmin(response);
+            });
         });
     }, []);
 
