@@ -33,6 +33,7 @@ import Home from './Home/Home.jsx';
 import Contact from './Contact.jsx';
 import {Gallery} from "./Gallery/Gallery.jsx";
 import ChoresAdmin from "./Chores/Chores.jsx";
+import AdminUserManagement from "./AdminPage/AdminUserManagement.jsx";
 import {doc, getDoc, setDoc, updateDoc, arrayUnion} from "firebase/firestore";
 
 // Map keys to components
@@ -48,7 +49,8 @@ const componentMap = {
     Calendar,
     ProfilePage,
     Gallery,
-    ChoresAdmin
+    ChoresAdmin,
+    AdminUserManagement
 };
 
 /**
