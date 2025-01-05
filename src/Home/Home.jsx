@@ -1,4 +1,4 @@
-import { Box, Grid2 as Grid, Typography } from '@mui/material';
+import { Box, Grid2 as Grid } from '@mui/material';
 import React from 'react';
 import heroImage from "./hero.png";
 import siteTitleSvg from "./site_title.svg";
@@ -10,7 +10,6 @@ import BecomeScout from "./BecomeScout.jsx";
 
 /**
  * Toggles the drawer open or closed.
- * @param {boolean} newOpen - The new open state of the drawer.
  * @returns {Function} The function to toggle the drawer.
  */
 function Home() {
@@ -44,7 +43,6 @@ function Home() {
                 <Grid container spacing={0} alignItems="center" justifyContent="center" sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
                     {/* First Grid item with the SVG image */}
                     <Grid
-                        item
                         xs={12}
                         md={6}
                         sx={{
@@ -70,7 +68,6 @@ function Home() {
 
                     {/* Second Grid item with the hero image */}
                     <Grid
-                        item
                         xs={12}
                         md={6}
                         sx={{
