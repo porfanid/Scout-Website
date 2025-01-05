@@ -2,7 +2,7 @@ name: Close Stale Issues
 
 on:
   schedule:
-    - cron: '0 0 * * 7' # Weekly
+    - cron: '0 0 * * 0' # Weekly
 
 permissions:
   contents: write # only for delete-branch option
