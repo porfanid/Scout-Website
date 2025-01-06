@@ -76,7 +76,7 @@ export default function Navbar() {
             loggedIn: false,
             role: null,
             links: [
-                {name: "Σύνδεση/Εγγραφή", link: "/login"}
+                {name: "Περιοχή Μελών", link: "/login"}
             ]
         }
     ]
