@@ -8,23 +8,16 @@ import AppBar from "@mui/material/AppBar";
 
 
 export const StyledToolbar = styled(Toolbar)(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
     flexShrink: 0,
     height: '80px',
     backdropFilter: 'blur(24px)',
-    borderTop: '1px solid',
-    borderLeft: '1px solid',
-    borderRight: '1px solid',
-    borderBottom: 'none',
-    borderColor: (theme.vars || theme).palette.divider,
-    backgroundColor: alpha(theme.palette.background.default, 0.4),
-    padding: '8px 12px'
+    backgroundColor: theme.palette.menu.background,
+    padding: '8px 12px',
+    width: '100%', // Default width
 }));
 
 export const StyledButton = styled(Button)(({ theme }) => ({
-    color: theme.palette.text.primary,
+    color: theme.palette.menu.dark,
     fontWeight: 'bold',
     fontSize: '16px',
     margin: '0 15px',
@@ -112,15 +105,13 @@ export const StyledAppBar = styled(AppBar)(({ theme }) => ({
     position: 'relative',
     zIndex: theme.zIndex.appBar,
     border: 'none',
-    backgroundColor: theme.palette.customBlue.main,
     marginBottom: 0,
     paddingBottom: 0,
     boxShadow: 'none',
     height: '80px',
-    width: '80%', // Default width
-    [theme.breakpoints.down('md')]: {
-        width: '100%', // 80% width on small screens and above
-    },
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
 }));
 
 export const WaveContainer = styled('div')(({ theme }) => ({
@@ -143,7 +134,7 @@ export const Wave = styled('svg')(({ theme }) => ({
     width: '200%',
     height: '100%',
     animation: 'wave-animation 10s linear infinite',
-    fill: alpha(theme.palette.customBlue.dark,0.4),
+    fill: theme.palette.menu.background,
     zIndex: 11,
     '@keyframes wave-animation': {
         '0%': { transform: 'translateX(0)' },

@@ -9,14 +9,13 @@ import Grid2 from "@mui/material/Grid2";
 import { fetchUserRole } from "../auth/check_permission.js";
 import { useNavigate } from "react-router-dom";
 import { httpsCallable } from "firebase/functions";
-import { Button } from "@mui/material";
+import {Button, Typography} from "@mui/material";
 import ResetChoresButton from "./ResetChoresButton.jsx";
 
 const ChoresAdmin = () => {
     const [chores, setChores] = useState({});
     const [departments, setDepartments] = useState([]);
     const [currentMonth, setCurrentMonth] = useState(0); // Tracks the current month (0 = January, 1 = February, etc.)
-
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -171,11 +170,11 @@ const ChoresAdmin = () => {
 
                     <div style={{ display: "flex", justifyContent: "center", gap: "16px" }}>
                         <Button onClick={() => changeMonth(-1)}>{"<"}</Button>
-                        <h2 style={{ textAlign: "center", color: "white" }}>
+                        <Typography variant="h2" align="center">
                             {new Date(0, currentMonth).toLocaleString("el-GR", {
                                 month: "long",
                             })}
-                        </h2>
+                        </Typography>
                         <Button onClick={() => changeMonth(1)}>{">"}</Button>
                     </div>
 

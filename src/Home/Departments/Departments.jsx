@@ -1,22 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { db } from '../../firebase.js';
-import { Typography, Grid2 as Grid, Box, CircularProgress, Alert } from '@mui/material';
-import { collection, onSnapshot } from 'firebase/firestore';
+import React, {useEffect, useState} from 'react';
+import {db} from '../../firebase.js';
+import {Alert, Box, CircularProgress, Grid2 as Grid, Typography} from '@mui/material';
+import {collection, onSnapshot} from 'firebase/firestore';
 import DepartmentCard from './DepartmentCard.jsx';
 import lykopoyla from "../../assets/simatakia_kladou_lukopoulon/Logo_cubs_letterless.png";
 import scouts from "./assets/animated_scouts.gif";
 import explorers from "../../assets/simatakia_kladou_anixneuton/Logo_explorers_letterless.png";
 import diktyo from "./assets/animated_network_transparrent.gif";
-import waveyFingerprint from './assets/hollowed-boxes.svg'; // Import the SVG file
-import { useSpring, animated } from '@react-spring/web';
+import departmentsBackground from './assets/hollowed-boxes.svg'; // Import the SVG file
+import departmentsBackgroundDark from './assets/hollowed-boxes.dark.svg'; // Import the SVG file
+import {animated, useSpring} from '@react-spring/web';
+import {useTheme} from "@mui/styles";
 
 const Departments = () => {
+
+    const theme = useTheme();
+
     const getAnimationProps = (index) => {
         const animations = [
-            { from: { opacity: 0, transform: 'translateX(-100%)' }, to: { opacity: 1, transform: 'translateX(0)' } },
-            { from: { opacity: 0, transform: 'translateX(100%)' }, to: { opacity: 1, transform: 'translateX(0)' } },
-            { from: { opacity: 0, transform: 'translateY(-100%)' }, to: { opacity: 1, transform: 'translateY(0)' } },
-            { from: { opacity: 0, transform: 'translateY(100%)' }, to: { opacity: 1, transform: 'translateY(0)' } },
+            {from: {opacity: 0, transform: 'translateX(-100%)'}, to: {opacity: 1, transform: 'translateX(0)'}},
+            {from: {opacity: 0, transform: 'translateX(100%)'}, to: {opacity: 1, transform: 'translateX(0)'}},
+            {from: {opacity: 0, transform: 'translateY(-100%)'}, to: {opacity: 1, transform: 'translateY(0)'}},
+            {from: {opacity: 0, transform: 'translateY(100%)'}, to: {opacity: 1, transform: 'translateY(0)'}},
         ];
         return animations[index % animations.length];
     };
@@ -84,11 +89,11 @@ const Departments = () => {
         backgroundPosition: '0% 0%',
         to: async (next) => {
             while (true) {
-                await next({ backgroundPosition: '100% 50%' });
-                await next({ backgroundPosition: '0% 0%' });
+                await next({backgroundPosition: '100% 50%'});
+                await next({backgroundPosition: '0% 0%'});
             }
         },
-        config: { duration: 15000 }, // Adjust speed
+        config: {duration: 15000}, // Adjust speed
     });
 
 
@@ -117,15 +122,16 @@ const Departments = () => {
         return () => unsubscribe();
     }, []);
 
-    if (loading) return <CircularProgress />;
+    if (loading) return <CircularProgress/>;
     if (error) return <Alert severity="error">Error fetching chiefs: {error}</Alert>;
 
     return (
             <animated.div style={{
                 ...backgroundAnimation,
-                backgroundImage: `url(${waveyFingerprint})`,
+                backgroundImage: `url(${theme.palette.mode==='dark'?departmentsBackgroundDark:departmentsBackground})`,
                 backgroundSize: '150%',
-                backgroundRepeat: 'repeat'
+                backgroundRepeat: 'repeat',
+                height:"100%"
             }}>
                 <Box
                         sx={{
@@ -134,13 +140,12 @@ const Departments = () => {
                         }}
                 >
                     <Typography
-                            variant="h4"
+                            variant="h1"
                             gutterBottom
                             sx={{
                                 textAlign: 'center',
                                 marginTop: '40px',
                                 fontFamily: "'Comic Sans MS', cursive",
-                                textShadow: '2px 2px #FF6347',
                             }}
                     >
                         Δείτε τα διαθέσιμα τμήματα
@@ -152,20 +157,21 @@ const Departments = () => {
                             justifyContent="center"
                             sx={{marginTop: 2, width: "100%"}}
                     >
-                        {departments.map((department, index) => {
+                        {departments.map((department) => {
                             return (
                                     <Grid
-                                            xs={12}
-                                            sm={12}
-                                            md={4}
-                                            lg={4}
+                                            size={{
+                                                xs: 12,
+                                                sm: 12,
+                                                md: 4,
+                                                lg: 4,
+                                            }}
                                             key={department.name}
                                             sx={{
                                                 display: 'flex',
                                                 justifyContent: 'center',
-                                                minWidth: {xs: '100%', sm: '100%', md: '30%'},
-                                                maxWidth: {md: '33.33%'},
                                                 boxSizing: 'border-box',
+                                                height:"100%"
                                             }}
                                     >
                                         <animated.div style={department.animationProps}>
@@ -177,7 +183,7 @@ const Departments = () => {
                     </Grid>
                 </Box>
             </animated.div>
-                );
-                };
+    );
+};
 
-                export default Departments;
+export default Departments;

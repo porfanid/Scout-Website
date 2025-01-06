@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import {Box, Grid2} from '@mui/material';
 import React from 'react';
 import heroImage from "./hero.png";
 import siteTitlePng from "./site_title.png";
@@ -27,7 +27,7 @@ function Home() {
                             backgroundPosition: 'center',
                             paddingTop: { xs: "10vh", md: "10vh" },
                             maxHeight: {
-                                md:"100vh",
+                                md: "100vh",
                                 lg: "100vh"
                             },
                             '::before': theme.palette.mode === "dark"
@@ -44,20 +44,22 @@ function Home() {
                                     : {},
                         }}
                 >
-                    <Grid
+                    <Grid2
                             container
                             spacing={2}
                             alignItems="center"
                             justifyContent="center"
                             sx={{
-                                flexDirection: { xs: 'row', sm: 'row', md:"column" }, // Stack on extra-small screens, row on small and larger
+                                flexDirection: { xs: 'row', sm: 'row', md: "column" }, // Stack on extra-small screens, row on small and larger
                             }}
                     >
-                        <Grid
+                        <Grid2
                                 item
-                                xs={12} // Full width on extra-small screens
-                                sm={12} // Full width on small screens
-                                md={6} // Half width on medium screens and above
+                                size={{
+                                    xs: 12,
+                                    sm: 12,
+                                    md: 6
+                                }}
                         >
                             <Box
                                     component="img"
@@ -68,13 +70,15 @@ function Home() {
                                         height: 'auto',
                                     }}
                             />
-                        </Grid>
+                        </Grid2>
 
-                        <Grid
+                        <Grid2
                                 item
-                                xs={12} // Full width on extra-small screens
-                                sm={12} // Full width on small screens
-                                md={6} // Half width on medium screens and above
+                                size={{
+                                    xs: 12,
+                                    sm: 12,
+                                    md: 6
+                                }}
                         >
                             <Box
                                     component="img"
@@ -83,14 +87,14 @@ function Home() {
                                     sx={{
                                         width: '100%',
                                         height: 'auto',
-                                        maxHeight:{
+                                        maxHeight: {
                                             xs: "100vh",
                                             md: "auto"
                                         }
                                     }}
                             />
-                        </Grid>
-                    </Grid>
+                        </Grid2>
+                    </Grid2>
                 </Box>
 
                 {/* Call-to-Action Section */}

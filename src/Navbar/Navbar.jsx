@@ -168,6 +168,18 @@ export default function Navbar() {
                 }}>
                     <StyledAppBar position="sticky">
                         <StyledToolbar>
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    width: "80%", // Use 80% of the StyledToolbar's width
+                                    [theme.breakpoints.down('md')]: {
+                                        width: '100%', // 80% width on small screens and above
+                                    },
+                                    margin: "0 auto", // Center the content horizontally
+                                }}
+                            >
                             <Typography variant="h6" sx={{flexGrow: 1, fontWeight: 'bold'}}>
                                 <Sitemark/>
                             </Typography>
@@ -256,6 +268,7 @@ export default function Navbar() {
                                         ))}
                                     </>
                             )}
+                            </Box>
                         </StyledToolbar>
 
                     <WaveContainer>

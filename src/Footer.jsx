@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Button, Grid, Link } from '@mui/material';
+import { Box, Typography, Grid2, Link } from '@mui/material';
 import ScoutLogo from './Navbar/logo.png';
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -23,14 +23,17 @@ const Footer = ({ toggleTheme, toggleLanguage }) => {
                 color: '#f0f0f0'// Ensure the footer spans the full width
             }}
         >
-            <Grid
+            <Grid2
                 container
                 justifyContent="space-between" // Distribute items across the full width
                 alignItems="center"
                 spacing={4}
             >
                 {/* Column 1: Logo and Description */}
-                <Grid item xs={12} md={4} sx={{ textAlign: 'center' }}>
+                <Grid2 size={{
+                    xs: 12,
+                    md: 4
+                }} sx={{ textAlign: 'center' }}>
                     <img src={ScoutLogo} alt="Scout Logo" style={{ height: '80px', marginBottom: '10px' }} />
                     <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                         1ο Σύστημα Προσκόπων Ιωαννίνων
@@ -38,10 +41,13 @@ const Footer = ({ toggleTheme, toggleLanguage }) => {
                     <Typography variant="body2" sx={{ mt: 1 }}>
                         Εξερεύνηση, αλληλεγγύη, ηγεσία και δράση στην καρδιά της Ηπείρου.
                     </Typography>
-                </Grid>
+                </Grid2>
 
                 {/* Column 2: Navigation Links */}
-                <Grid item xs={12} md={4} sx={{ textAlign: 'center' }}>
+                <Grid2 size={{
+                    xs: 12,
+                    md: 4
+                }} sx={{ textAlign: 'center' }}>
                     <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold' }}>
                         Χρήσιμοι Σύνδεσμοι
                     </Typography>
@@ -59,10 +65,13 @@ const Footer = ({ toggleTheme, toggleLanguage }) => {
                     >
                         Παγκόσμιο Προσκοπικό Κίνημα
                     </NavLink>
-                </Grid>
+                </Grid2>
 
                 {/* Column 3: Contact Information */}
-                <Grid item xs={12} md={4} sx={{ textAlign: 'center' }}>
+                <Grid2 size={{
+                    xs: 12,
+                    md: 4
+                }} sx={{ textAlign: 'center' }}>
                     <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold' }}>
                         Επικοινωνία
                     </Typography>
@@ -75,8 +84,8 @@ const Footer = ({ toggleTheme, toggleLanguage }) => {
                     <Typography variant="body2">
                         📧 Email: <Link href="mailto:1ioaninon@sep.org.gr" color="inherit">1ioaninon@sep.org.gr</Link>
                     </Typography>
-                </Grid>
-            </Grid>
+                </Grid2>
+            </Grid2>
 
             {/* Bottom Section */}
             <Box

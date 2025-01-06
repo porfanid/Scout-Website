@@ -4,30 +4,33 @@ export const darkTheme = createTheme({
     palette: {
         mode: 'dark',
         customBlue: {
-            main: '#3A4F8B', // Blueish main color
-            light: '#536BAE', // Lighter shade for hover effects
-            dark: '#283A67',  // Darker shade for contrast
-            darker: '#0069B1'
+            main: '#1A1A2E',
+            light: '#1A1A2E',
+            dark: '#1A1A2E',
+            darker: '#1A1A2E',
+        },
+        menu: {
+            background:'#1A1A2E',
         },
         background: {
-            default: '#E3F6FC', // Light whitish-cyan for the main background
-            paper: '#C8FFFF',   // Soft pastel cyan for content areas
+            default: '#1A1A2E', // Solid dark blue
+            paper: '#262A46',  // Slightly lighter for content areas
         },
         primary: {
-            main: '#00C2FF',    // Vibrant cyan for primary elements
+            main: '#4C8BF5',    // Vibrant blue
             contrastText: '#FFFFFF', // White for better contrast
         },
         secondary: {
-            main: '#58A5F5',    // Blue for secondary elements
-            contrastText: '#0069B1', // Deep blue for better readability
+            main: '#A0C4FF',    // Pastel blue for secondary elements
+            contrastText: '#1A1A2E', // Darker text
         },
         fancy: {
-            main: '#0069B1',    // Deep blue for accents
-            contrastText: '#FFFFFF', // White for readability
+            main: '#F5A623',    // Golden-orange for accents
+            contrastText: '#1A1A2E', // Dark text for readability
         },
         text: {
-            primary: '#004C6D', // Darker blue for main text
-            secondary: '#1A74A5', // Slightly muted blue for secondary text
+            primary: '#EDEDED', // Softer white for text
+            secondary: '#B0BEC5', // Muted gray for secondary text
         },
     },
     typography: {
@@ -36,31 +39,31 @@ export const darkTheme = createTheme({
             fontFamily: '"Arial Black", sans-serif',
             fontSize: '28pt',
             fontWeight: 'bold',
-            color: '#0069B1', // Deep blue for headers
-            textShadow: '1px 1px 3px rgba(0, 0, 0, 0.3)', // Subtle shadow
+            color: '#A0C4FF', // Light pastel blue for headers
+            textShadow: '2px 2px 6px rgba(0, 0, 0, 0.5)', // Fancy shadow for headers
         },
         h2: {
             fontSize: '24pt',
             fontWeight: '600',
-            color: '#00C2FF', // Vibrant cyan for secondary headers
+            color: '#4C8BF5', // Vibrant blue for secondary headers
         },
         body1: {
             fontSize: '1rem',
             lineHeight: 1.8,
-            color: '#004C6D', // Darker blue for body text
+            color: '#E0E0E0', // Soft white for body text
         },
         body2: {
             fontSize: '0.9rem',
-            color: '#1A74A5', // Muted blue for secondary text
+            color: '#B0BEC5', // Muted gray for secondary text
         },
     },
     components: {
         MuiAppBar: {
             styleOverrides: {
                 root: {
-                    background: '#0069B1', // Deep blue for the app bar
+                    background: '#1A1A2E',
                     color: '#FFFFFF',
-                    boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)', // Subtle shadow for depth
+                    boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.5)', // Subtle shadow for depth
                 },
             },
         },
@@ -70,12 +73,12 @@ export const darkTheme = createTheme({
                     borderRadius: '8px',
                     padding: '10px 20px',
                     textTransform: 'none',
-                    backgroundColor: '#00C2FF', // Vibrant cyan for buttons
+                    backgroundColor: '#4C8BF5', // Vibrant blue for buttons
                     color: '#FFFFFF',
-                    boxShadow: '0px 4px 8px rgba(0, 194, 255, 0.3)', // Subtle glow
+                    boxShadow: '0px 4px 8px rgba(76, 139, 245, 0.4)', // Glow effect
                     '&:hover': {
-                        backgroundColor: '#58A5F5', // Blue on hover
-                        boxShadow: '0px 6px 12px rgba(88, 165, 245, 0.5)', // Enhanced glow
+                        backgroundColor: '#3A73D0', // Slightly darker blue on hover
+                        boxShadow: '0px 6px 12px rgba(58, 115, 208, 0.6)', // Enhanced glow
                     },
                 },
             },
@@ -83,9 +86,9 @@ export const darkTheme = createTheme({
         MuiPaper: {
             styleOverrides: {
                 root: {
-                    backgroundColor: '#C8FFFF', // Soft pastel cyan for cards/dialogs
+                    backgroundColor: '#262A46', // Slightly lighter for cards/dialogs
                     borderRadius: '12px',
-                    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.2)', // Subtle shadow
+                    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.3)', // Subtle shadow
                 },
             },
         },
@@ -94,31 +97,65 @@ export const darkTheme = createTheme({
                 h1: {
                     fontSize: '2.5rem',
                     fontWeight: 'bold',
-                    color: '#0069B1', // Deep blue for headers
+                    color: '#A0C4FF',
                 },
                 body1: {
                     fontSize: '1rem',
-                    color: '#004C6D', // Darker blue for body text
+                    color: '#E0E0E0',
                 },
             },
         },
         MuiOutlinedInput: {
             styleOverrides: {
                 root: {
-                    backgroundColor: '#E3F6FC', // Light whitish-cyan for input background
+                    backgroundColor: '#2A2A4E', // Dark input background
                     borderRadius: '8px',
                     '& .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#58A5F5', // Blue border
+                        borderColor: '#4C8BF5', // Blue border
                     },
                     '&:hover .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#00C2FF', // Cyan on hover
+                        borderColor: '#A0C4FF', // Lighter blue hover
                     },
                     '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                        borderColor: '#0069B1', // Deep blue border on focus
-                        boxShadow: '0px 0px 8px rgba(0, 105, 177, 0.4)', // Fancy glow
+                        borderColor: '#F5A623', // Golden border on focus
+                        boxShadow: '0px 0px 8px rgba(245, 166, 35, 0.5)', // Fancy glow
                     },
                 },
             },
+        },
+        MuiCard: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: '#262A46', // Slightly lighter for dark mode cards
+                    borderRadius: '12px',
+                    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.3)',
+                    padding: '20px',
+                    margin: '16px',
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                        boxShadow: '0px 6px 24px rgba(0, 0, 0, 0.5)',
+                    },
+                },
+            },
+        },
+    },
+    customStyles: {
+        departmentCardOverlay: {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            height: 100,
+            width: 100,
+        },
+        departmentCardChiefBox: {
+            backgroundColor: '#B0BEC5',
+            padding: '10px',
+            borderRadius: '10px',
+            marginTop: '10px',
+        },
+        departmentCardChiefText: {
+            fontWeight: 'bold',
+            color: '#37474f',
         },
     },
 });
