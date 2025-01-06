@@ -135,10 +135,22 @@ function App() {
                     <NextComponent
                         component="main"
                         sx={{
+                            width: {
+                                xs:'100%',
+                                sm:'100%',
+                                md:'80%',
+                                lg:'80%'
+                            }, // Occupies 80% of the width
                             margin: '0 auto', // Center alignment
+                            minHeight: '67vh', // Maintain existing height constraint
                         }}
                     >
-                        <Routes>
+                        <Routes
+                            sx={{
+                                width: '100%', // Ensures the inner box matches the 80% width
+                                padding: 2, // Adds some padding around the content
+                            }}
+                        >
                             {routes.map(({ path, componentKey }) => {
                                 const Component = componentMap[componentKey];
                                 return (

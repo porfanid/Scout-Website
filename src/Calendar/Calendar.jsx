@@ -3,7 +3,7 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { db, auth } from '../firebase';
-import { collection, getDoc, doc, onSnapshot } from 'firebase/firestore';
+import { collection, onSnapshot } from 'firebase/firestore';
 import { Box, Typography, useTheme } from '@mui/material';
 import { FancyBox, FancyButton, SkeletonLoader, Toolbar } from './StyledComponents';
 import EventModal from './EventModal';
@@ -12,7 +12,6 @@ import EventDetailsModal from './EventDetailsModal';
 import LabelModal from './LabelModal';
 import CustomEvent from './CustomEvent';
 import {fetchUserRole} from "../auth/check_permission.js";
-import {useNavigate} from "react-router-dom";
 
 const localizer = momentLocalizer(moment);
 
@@ -163,7 +162,7 @@ function EventCalendar() {
             alignItems: 'center',
             minHeight: '100vh',
             padding: 2,
-            marginTop: 2,
+            paddingTop: 4,
         }}>
             <FancyBox>
                 <Typography variant="h5" gutterBottom sx={{ fontFamily: 'Montserrat, sans-serif' }}>

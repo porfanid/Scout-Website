@@ -19,9 +19,7 @@ export const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     borderRight: '1px solid',
     borderBottom: 'none',
     borderColor: (theme.vars || theme).palette.divider,
-    backgroundColor: theme.vars
-            ? `rgba(${theme.vars.palette.background.defaultChannel} / 0.4)`
-            : alpha(theme.palette.background.default, 0.4),
+    backgroundColor: alpha(theme.palette.background.default, 0.4),
     padding: '8px 12px'
 }));
 
@@ -76,6 +74,7 @@ export const StyledDrawer = styled(Drawer)(({ theme }) => ({
         backgroundSize: 'auto 100%',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
+        backgroundColor: theme.palette.customBlue.main,
         color: theme.palette.text.primary,
         boxShadow: theme.shadows[5],
         transition: 'transform 0.3s ease-in-out, background 0.3s ease-in-out',
@@ -86,7 +85,7 @@ export const StyledDrawer = styled(Drawer)(({ theme }) => ({
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            backgroundColor: alpha(theme.palette.customBlue.dark, 0.5),
             zIndex: 1,
         },
         '& *': {
@@ -98,13 +97,13 @@ export const StyledDrawer = styled(Drawer)(({ theme }) => ({
 
 export const StyledListItem = styled(ListItem)(({ theme }) => ({
     color: theme.palette.text.primary,
-    backgroundColor: alpha(theme.palette.background.paper, 0.8),
+    backgroundColor: alpha(theme.palette.customBlue.light, 0.8),
     margin: '8px auto',
     borderRadius: '20px',
     width: '80%',
     '&:hover': {
-        backgroundColor: alpha(theme.palette.primary.main, 0.2),
-        color: theme.palette.primary.main,
+        backgroundColor: alpha(theme.palette.customBlue.main, 0.8),
+        color: theme.palette.customBlue.dark,
         transition: 'background-color 0.3s ease, color 0.3s ease',
     },
 }));
@@ -113,11 +112,15 @@ export const StyledAppBar = styled(AppBar)(({ theme }) => ({
     position: 'relative',
     zIndex: theme.zIndex.appBar,
     border: 'none',
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.customBlue.main,
     marginBottom: 0,
     paddingBottom: 0,
     boxShadow: 'none',
     height: '80px',
+    width: '80%', // Default width
+    [theme.breakpoints.down('md')]: {
+        width: '100%', // 80% width on small screens and above
+    },
 }));
 
 export const WaveContainer = styled('div')(({ theme }) => ({
@@ -140,7 +143,7 @@ export const Wave = styled('svg')(({ theme }) => ({
     width: '200%',
     height: '100%',
     animation: 'wave-animation 10s linear infinite',
-    fill: theme.palette.background.default,
+    fill: alpha(theme.palette.customBlue.dark,0.4),
     zIndex: 11,
     '@keyframes wave-animation': {
         '0%': { transform: 'translateX(0)' },

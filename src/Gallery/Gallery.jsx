@@ -1,7 +1,7 @@
 //IGAANfrB17XU9BZAE1QVU9aNklIYWlIcmhZARDRCaFI5UHhXZAGZAnZAExTOFBSUUoxaU5iRnU2MWN1RVlRc05VU0hhajQ5TzhWbVd3dXRKVEhiaVh1SzBQMkp2ZAW05RXJ3ZA3Y3cDRjSEtnbUVRc0J6VkFMSXVadzAzXzVXQnBlNkVPTQZDZD
 
 import React, { useEffect, useState } from 'react';
-import {collection, deleteDoc, doc, getDoc, getDocs} from 'firebase/firestore';
+import {collection, deleteDoc, doc, getDocs} from 'firebase/firestore';
 import { auth, db } from '../firebase.js';
 import {
     Box,
@@ -32,7 +32,7 @@ const Gallery = () => {
     const [isAdmin, setIsAdmin] = useState(false);
     const [selectedFolderId, setSelectedFolderId] = useState(null);
 
-    const [tagembedCode] = useState("2145365");//"ioannina-scouts")
+    const [tagembedCode] = useState("2145372");//"ioannina-scouts")
 
     useEffect(() => {
         const fetchGallery = async () => {
@@ -92,7 +92,7 @@ const Gallery = () => {
     };
 
     return (
-            <Box sx={{p: 4, marginTop: 3}}>
+            <Box sx={{p: 4}}>
                 <Typography variant="h3" gutterBottom align="center" sx={{fontWeight: 'bold'}}>
                     Event Gallery
                 </Typography>

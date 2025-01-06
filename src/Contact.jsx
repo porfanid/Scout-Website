@@ -48,7 +48,7 @@ function Contact() {
     };
 
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', padding: 2 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', padding: 2, paddingTop:15, paddingBottom:8 }}>
             <Paper elevation={3} sx={{ padding: 4, maxWidth: 1200, width: '100%' }}>
                 <Typography variant="h4" gutterBottom>Επικοινωνήστε μαζί μας</Typography>
                 <Typography variant="body1" gutterBottom>

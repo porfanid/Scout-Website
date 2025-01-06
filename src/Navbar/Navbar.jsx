@@ -155,11 +155,17 @@ export default function Navbar() {
     };
 
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     return (
             <>
-                <Box sx={{position: 'relative', margin: 0, padding: 0}}>
+                <Box sx={{
+                    position: 'relative',
+                    margin: 0,
+                    padding: 0,
+                    display:"flex",
+                    justifyContent:"center",
+                }}>
                     <StyledAppBar position="sticky">
                         <StyledToolbar>
                             <Typography variant="h6" sx={{flexGrow: 1, fontWeight: 'bold'}}>
@@ -234,7 +240,7 @@ export default function Navbar() {
                                                                     onClose={() => handleMenuClose(option.name)}
                                                             >
                                                                 {option.subMenu.map((subOption) => (
-                                                                        <MenuItem key={subOption.name} component={Link}
+                                                                        <MenuItem onClick={() => handleMenuClose(option.name)} key={subOption.name} component={Link}
                                                                                   to={subOption.link}>
                                                                             {subOption.name}
                                                                         </MenuItem>
@@ -251,12 +257,13 @@ export default function Navbar() {
                                     </>
                             )}
                         </StyledToolbar>
-                    </StyledAppBar>
+
                     <WaveContainer>
                         <Wave viewBox="0 0 1200 120" preserveAspectRatio="none">
                             <path d="M0,0 C150,100 350,0 500,50 C650,100 850,0 1000,50 C1150,100 1350,0 1500,50 L1500,00 L0,0 Z"/>
                         </Wave>
                     </WaveContainer>
+                    </StyledAppBar>
                 </Box>
             </>
     );

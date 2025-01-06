@@ -1,20 +1,13 @@
-import { Box, Grid2 as Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import React from 'react';
 import heroImage from "./hero.png";
-import siteTitleSvg from "./site_title.svg";
+import siteTitlePng from "./site_title.png";
 import Departments from "./Departments/Departments.jsx";
-import backgroundImage from "../Navbar/topShadow.png"
-import {useTheme} from "@mui/styles";
+import backgroundImage from "../Navbar/topShadow.png";
+import { useTheme } from "@mui/styles";
 import BecomeScout from "./BecomeScout/BecomeScout.jsx";
 
-/**
- * Home component that renders the main page with a hero section,
- * a call-to-action section, and a departments section.
- *
- * @returns {JSX.Element} The Home component.
- */
 function Home() {
-
     const theme = useTheme();
     const mainBgColor = theme.palette.background.default;
 
@@ -28,82 +21,83 @@ function Home() {
                             width: "100%",
                             padding: '2rem',
                             position: 'relative',
-                            marginBottom:"0px",
-                            backgroundImage: `url(${backgroundImage})`, // Add the background image
-                            backgroundSize: 'cover', // Ensure the image covers the entire area
-                            backgroundPosition: 'center', // Center the image
-                            paddingTop:"15vh",
-                            '::before': theme.palette.mode==="dark"?{
-                                content: '""',
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                                width: '100%',
-                                height: '100%',
-                                backgroundColor: `${mainBgColor}80`, // Use the main background color with opacity
-                                zIndex: 0,
-                            }:{}
+                            Bottom: "20rem", // Add margin bottom to prevent overlap
+                            backgroundImage: `url(${backgroundImage})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            paddingTop: { xs: "10vh", md: "10vh" },
+                            maxHeight: {
+                                md:"100vh",
+                                lg: "100vh"
+                            },
+                            '::before': theme.palette.mode === "dark"
+                                    ? {
+                                        content: '""',
+                                        position: 'absolute',
+                                        top: 0,
+                                        left: 0,
+                                        width: '100%',
+                                        height: '100%',
+                                        backgroundColor: `${mainBgColor}80`,
+                                        zIndex: -1,
+                                    }
+                                    : {},
                         }}
                 >
                     <Grid
                             container
-                            spacing={0}
+                            spacing={2}
                             alignItems="center"
                             justifyContent="center"
-                            sx={{ flexDirection: { xs: 'column', md: 'row' } }}
+                            sx={{
+                                flexDirection: { xs: 'row', sm: 'row', md:"column" }, // Stack on extra-small screens, row on small and larger
+                            }}
                     >
-                        {/* First Grid item with the SVG image */}
                         <Grid
-                                xs={12}
-                                md={6}
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    position: 'relative',
-                                    zIndex: 1,
-                                    padding: { xs: '20px', md: '0' }, // Add padding for smaller screens
-                                }}
+                                item
+                                xs={12} // Full width on extra-small screens
+                                sm={12} // Full width on small screens
+                                md={6} // Half width on medium screens and above
                         >
                             <Box
                                     component="img"
-                                    src={siteTitleSvg}
+                                    src={siteTitlePng}
                                     alt="Site Title"
                                     sx={{
-                                        minWidth: { md: '50vw', xs: '80vw' },
-                                        maxWidth: '100vw',
-                                        height: 'auto'
+                                        width: '100%',
+                                        height: 'auto',
                                     }}
                             />
                         </Grid>
 
-                        {/* Second Grid item with the hero image */}
                         <Grid
-                                xs={12}
-                                md={6}
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    position: 'relative',
-                                    zIndex: 0,
-                                    marginLeft: { xs: 0, md: '-8vw' }  // Adjust this value for desired overlap
-                                }}
+                                item
+                                xs={12} // Full width on extra-small screens
+                                sm={12} // Full width on small screens
+                                md={6} // Half width on medium screens and above
                         >
-                            <img
+                            <Box
+                                    component="img"
                                     src={heroImage}
                                     alt="Hero Image"
-                                    style={{ width: '100%', height: 'auto', maxWidth: '700px', objectFit: 'contain' }} // Ensure the hero image fits well
+                                    sx={{
+                                        width: '100%',
+                                        height: 'auto',
+                                        maxHeight:{
+                                            xs: "100vh",
+                                            md: "auto"
+                                        }
+                                    }}
                             />
                         </Grid>
                     </Grid>
                 </Box>
 
                 {/* Call-to-Action Section */}
-                <BecomeScout/>
+                <BecomeScout />
 
                 {/* Departments Section */}
-                <Departments/>
+                <Departments />
             </>
     );
 }
