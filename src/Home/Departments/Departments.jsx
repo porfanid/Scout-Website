@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {db} from '../../firebase.js';
 import {Alert, Box, CircularProgress, Grid2 as Grid, Typography} from '@mui/material';
 import {collection, onSnapshot} from 'firebase/firestore';
-import DepartmentCard from './DepartmentCard.jsx';
+import {DepartmentCard} from './DepartmentCard.jsx';
 import lykopoyla from "../../assets/simatakia_kladou_lukopoulon/Logo_cubs_letterless.png";
 import scouts from "./assets/animated_scouts.gif";
 import explorers from "../../assets/simatakia_kladou_anixneuton/Logo_explorers_letterless.png";
@@ -34,7 +34,7 @@ const Departments = () => {
             overlay_img_url: lykopoyla,
             age: "7-11",
             bgColor: "#B8860B",
-            animationProps: useSpring(getAnimationProps(0))
+            animationProps: useSpring(getAnimationProps(0)),
         },
         {
             name: 'Πρόσκοποι',
@@ -45,7 +45,7 @@ const Departments = () => {
             is_component: false,
             age: "11-15",
             bgColor: "#005B33",
-            animationProps: useSpring(getAnimationProps(1))
+            animationProps: useSpring(getAnimationProps(1)),
         },
         {
             name: 'Ανιχνευτές',
@@ -54,7 +54,7 @@ const Departments = () => {
             overlay_img_url: explorers,
             age: "15-18",
             bgColor: "#a32121",
-            animationProps: useSpring(getAnimationProps(2))
+            animationProps: useSpring(getAnimationProps(2)),
         },
         {
             name: 'Προσκοπικό Δίκτυο',
@@ -64,7 +64,7 @@ const Departments = () => {
             is_animated: true,
             age: "18-24",
             bgColor: "#003C5B",
-            animationProps: useSpring(getAnimationProps(3))
+            animationProps: useSpring(getAnimationProps(3)),
         },
         {
             name: 'Εθελοντές',
@@ -73,7 +73,8 @@ const Departments = () => {
             overlay_img_url: null,
             age: "",
             bgColor: "#4B2C6D",
-            animationProps: useSpring(getAnimationProps(4))
+            formLink: 'https://forms.gle/e4cUbZ3k6U7YfcbA7', // Volunteer form
+            animationProps: useSpring(getAnimationProps(4)),
         },
         {
             name: 'Γονείς και Κηδεμόνες',
@@ -82,9 +83,12 @@ const Departments = () => {
             overlay_img_url: null,
             age: "",
             bgColor: "#C75B00",
-            animationProps: useSpring(getAnimationProps(5))
+            formLink: 'https://forms.gle/SfpDDNGE28u7N5vu8', // Parents form
+            animationProps: useSpring(getAnimationProps(5)),
         },
     ]);
+
+
     const backgroundAnimation = useSpring({
         backgroundPosition: '0% 0%',
         to: async (next) => {
