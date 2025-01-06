@@ -125,8 +125,7 @@ const FolderUpload = () => {
                                 labelId="preview-image-label"
                                 value={previewImage}
                                 onChange={(e) => setPreviewImage(e.target.value)}
-                                required
-                             variant={"secondary"}>
+                                required>
                                 {Array.from(selectedFiles).map((file, index) => (
                                     <MenuItem key={index} value={file.name}>
                                         {file.name}
