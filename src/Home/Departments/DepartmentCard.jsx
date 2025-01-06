@@ -6,9 +6,11 @@ import EmailIcon from '@mui/icons-material/Email';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { useSpring, animated } from '@react-spring/web';
 import { useTheme } from '@mui/material/styles';
-import PropTypes from 'prop-types';
+import { Button } from '@mui/material';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import {lighten} from "@mui/material/";
 
-const DepartmentCard = ({ department, chief }) => {
+export const DepartmentCard = ({ department, chief }) => {
     const theme = useTheme();
 
     const overlayAnimation = useSpring({
@@ -16,6 +18,17 @@ const DepartmentCard = ({ department, chief }) => {
         from: { transform: 'rotate(0deg)' },
         to: { transform: 'rotate(360deg)' },
         config: { duration: 5000 },
+    });
+
+    const buttonHoverAnimation = useSpring({
+        from: { transform: 'scale(1)' },
+        to: async (next) => {
+            while (true) {
+                await next({ transform: 'scale(1.1)' });
+                await next({ transform: 'scale(1)' });
+            }
+        },
+        config: { tension: 180, friction: 12 },
     });
 
     return (
@@ -27,23 +40,23 @@ const DepartmentCard = ({ department, chief }) => {
                         width: '100%',
                         borderRadius: 2,
                         boxShadow: 20,
-                        height:"100%",
+                        height: "100%",
                         '&:hover': {
                             transform: 'none',
                             boxShadow: 3,
-                        }
+                        },
                     }}
             >
                 <Box
-                    sx={{
-                        position: 'relative',
-                        background: `radial-gradient(circle, white, ${department.bgColor})`,
-                    }}
+                        sx={{
+                            position: 'relative',
+                            background: `radial-gradient(circle, white, ${department.bgColor})`,
+                        }}
                 >
                     <CardMedia
-                        component="img"
-                        alt={department.name}
-                        image={`https://www.sep.org.gr${department.img_url}`}
+                            component="img"
+                            alt={department.name}
+                            image={`https://www.sep.org.gr${department.img_url}`}
                     />
                     {department.overlay_img_url && (
                             department.is_component ? (
@@ -82,16 +95,16 @@ const DepartmentCard = ({ department, chief }) => {
                                             {chief.meetingDate}
                                         </Typography>
                                 )}
-                                {chief.name ? (
+                                {chief.name && (
                                         <Box sx={theme.customStyles.departmentCardChiefBox}>
                                             <Typography
-                                                variant="subtitle1"
-                                                sx={{
-                                                    ...theme.customStyles.departmentCardChiefText,
-                                                    color: department.bgColor,
-                                                }}
+                                                    variant="subtitle1"
+                                                    sx={{
+                                                        ...theme.customStyles.departmentCardChiefText,
+                                                        color: department.bgColor,
+                                                    }}
                                             >
-                                                Chief: {chief.name}
+                                                Αρχηγός: {chief.name}
                                             </Typography>
                                             {chief.phone && (
                                                     <Typography variant="body2">
@@ -106,35 +119,40 @@ const DepartmentCard = ({ department, chief }) => {
                                                     </Typography>
                                             )}
                                         </Box>
-                                ) : (
-                                        <Typography variant="body2" color="text.secondary">
-                                            No chief information available.
-                                        </Typography>
                                 )}
                             </>
+                    )}
+                    {department.formLink && (
+                            <Box
+                                    sx={{
+                                        marginTop: 2,
+                                        textAlign: 'center',
+                                    }}
+                            >
+                                <animated.div style={buttonHoverAnimation}>
+                                    <Button
+                                            variant="contained"
+                                            color="secondary"
+                                            sx={{
+                                                bgcolor: lighten(department.bgColor, 0.3),
+                                                color: 'white',
+                                                borderRadius: 50,
+                                                padding: '10px 20px',
+                                                '&:hover': {
+                                                    bgcolor: '#ffffff',
+                                                    color: department.bgColor,
+                                                },
+                                            }}
+                                            href={department.formLink}
+                                            target="_blank"
+                                            startIcon={<OpenInNewIcon />}
+                                    >
+                                        🚀 Ζήσε την περιπέτεια!
+                                    </Button>
+                                </animated.div>
+                            </Box>
                     )}
                 </CardContent>
             </Card>
     );
 };
-
-DepartmentCard.propTypes = {
-    department: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        moto: PropTypes.string,
-        img_url: PropTypes.string.isRequired,
-        overlay_img_url: PropTypes.string,
-        is_animated: PropTypes.bool,
-        is_component: PropTypes.bool,
-        age: PropTypes.string,
-        bgColor: PropTypes.string.isRequired,
-    }).isRequired,
-    chief: PropTypes.shape({
-        name: PropTypes.string,
-        phone: PropTypes.string,
-        email: PropTypes.string,
-        meetingDate: PropTypes.string,
-    }),
-};
-
-export default DepartmentCard;

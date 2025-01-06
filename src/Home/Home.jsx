@@ -54,7 +54,6 @@ function Home() {
                             }}
                     >
                         <Grid2
-                                item
                                 size={{
                                     xs: 12,
                                     sm: 12,
@@ -73,7 +72,6 @@ function Home() {
                         </Grid2>
 
                         <Grid2
-                                item
                                 size={{
                                     xs: 12,
                                     sm: 12,
