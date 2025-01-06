@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import {
-    Typography, TextField, Button, Alert, CircularProgress,
-    Box, Paper, MenuItem, Select, FormControl, InputLabel
+    TextField, Button, Alert, CircularProgress,
+    MenuItem, Select, FormControl, InputLabel
 } from '@mui/material';
-import Grid2 from '@mui/material/Grid2';
 import { collection, addDoc, updateDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase.js';
 
@@ -90,7 +89,6 @@ const FolderUpload = () => {
                         value={eventDate}
                         onChange={(e) => setEventDate(e.target.value)}
                         required
-                        InputLabelProps={{ shrink: true }}
                     />
                     <TextField
                         label="Event Description"
