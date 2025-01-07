@@ -167,8 +167,10 @@ export const MonthlyChores = () => {
                                         <ListItemText
                                                 primary={chore.name}
                                                 secondary={chore.completed ? "Ολοκληρώθηκε" : "Σε εκκρεμότητα"}
-                                                primaryTypographyProps={{
-                                                    style: chore.completed ? { textDecoration: "line-through" } : {},
+                                                slotProps={{
+                                                    primary: {
+                                                        style: chore.completed ? { textDecoration: "line-through" } : {},
+                                                    }
                                                 }}
                                         />
                                         {isChief && (
