@@ -2,7 +2,7 @@ import { useDrop } from "react-dnd";
 import Chore from "./Chore.jsx";
 import "./ChoresAdmin.css";
 import { TextField, Button, IconButton, Collapse } from "@mui/material";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import Grid2 from "@mui/material/Grid2";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -10,10 +10,19 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 const Department = ({ department, onDrop, choresData, onUpdatePhone, currentMonth }) => {
+
+    const currentMonthRef = useRef(currentMonth);
+
+    useEffect(() => {
+        currentMonthRef.current = currentMonth; // Update ref whenever currentMonth changes
+    }, [currentMonth]);
+
     const [{ isOver }, drop] = useDrop(() => ({
         accept: "chore",
         drop: (item) => {
-            onDrop(department.id, item?.choreId); // Dropped into this department
+            console.log(currentMonth);
+            console.log(currentMonthRef.current);
+            return onDrop(department.id, item?.choreId, currentMonthRef.current); // Dropped into this department
         },
         collect: (monitor) => ({
             isOver: monitor.isOver(),

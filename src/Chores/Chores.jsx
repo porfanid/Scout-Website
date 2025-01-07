@@ -98,11 +98,12 @@ const ChoresAdmin = () => {
         );
     };
 
-    const handleDrop = (departmentId, choreId) => {
+    const handleDrop = (departmentId, choreId, currentMonth) => {
         if (!choreId) return;
 
         console.log("departmentId", departmentId);
         console.log("choreId", choreId);
+        console.log("currentMonth",currentMonth);
 
         // Update departments
         setDepartments((prevDepartments) =>
@@ -201,6 +202,7 @@ const ChoresAdmin = () => {
                                     getUnassignedChores={getUnassignedChores}
                                     choresData={chores}
                                     onDrop={handleDrop} // Ensure handleDrop is passed here
+                                    currentMonth={currentMonth}
                             />
                         </Grid2>
 
