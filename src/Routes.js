@@ -11,6 +11,7 @@ const routes = [
     { path: '/profile', componentKey: 'ProfilePage' },//
     { path: '/events', componentKey: 'Gallery' },//
     { path: '/chores', componentKey: 'ChoresAdmin' },//
+    { path: '/chief-chores', componentKey: 'MonthlyChores' },
     { path: '/user-admin', componentKey: 'AdminUserManagement' },//
 ];
 

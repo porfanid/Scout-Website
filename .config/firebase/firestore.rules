@@ -5,7 +5,7 @@ service cloud.firestore {
     match /cleaning/{document=**} {
       allow read: if request.auth != null &&
         // Check if the user's roles array contains 'admin' or 'cleaning'
-        anyRoleIn(database,request.auth.uid, ['admin', 'cleaning']);
+        anyRoleIn(database,request.auth.uid, ['admin', 'cleaning', 'chief']);
       allow write: if request.auth != null &&
         // Check if the user's roles array contains 'admin' or 'cleaning'
         anyRoleIn(database,request.auth.uid, ['admin', 'cleaning']);

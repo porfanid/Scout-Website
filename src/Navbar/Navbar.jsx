@@ -59,6 +59,12 @@ export default function Navbar() {
             ]
         },
         {
+            role: ["chief"],
+            links:[
+                {name: "Καθαριότητες", link: "/chief-chores"}
+            ]
+        },
+        {
             role: null,
             links:[
                 {name: "Επικοινωνία", link: "/contact"}

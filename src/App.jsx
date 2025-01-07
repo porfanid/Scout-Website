@@ -1,7 +1,7 @@
 import React,{ useState, useEffect } from 'react';
 import { ThemeProvider, styled } from '@mui/material/styles';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
+import {MonthlyChores} from './Chores/MonthlyChores.jsx';
 import {
     CssBaseline,
     Box
@@ -50,6 +50,7 @@ const componentMap = {
     ProfilePage,
     Gallery,
     ChoresAdmin,
+    MonthlyChores,
     AdminUserManagement
 };
 
@@ -70,7 +71,7 @@ const NextComponent = styled(Box)(({ theme }) => ({
  */
 function App() {
     const { t } = useTranslation(); // Use translation hook
-    const [theme, setTheme] = useState(lightTheme);
+    const [theme, setTheme] = useState(darkTheme);
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     useEffect(() => {
