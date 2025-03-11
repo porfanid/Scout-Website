@@ -8,7 +8,7 @@ import { useSpring, animated } from '@react-spring/web';
 import { useTheme } from '@mui/material/styles';
 import { Button } from '@mui/material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import {lighten} from "@mui/material/";
+import {lighten, darken} from "@mui/material/";
 
 export const DepartmentCard = ({ department, chief }) => {
     const theme = useTheme();
@@ -36,7 +36,7 @@ export const DepartmentCard = ({ department, chief }) => {
                     component={department.is_animated ? animated.div : 'div'}
                     sx={{
                         bgcolor: department.bgColor,
-                        color: '#FFFFFF',
+                        color: "#000000",
                         width: '100%',
                         borderRadius: 2,
                         boxShadow: 20,
@@ -82,7 +82,7 @@ export const DepartmentCard = ({ department, chief }) => {
                     <Typography variant="h5">{department.name}</Typography>
                     <Typography variant="subtitle1">{department.moto}</Typography>
                     {department.age && (
-                            <Typography variant="body2">
+                            <Typography variant="body2" color={"#000000"}>
                                 <FaceIcon sx={{ marginRight: '5px' }} />
                                 {department.age} χρονών
                             </Typography>
@@ -90,7 +90,7 @@ export const DepartmentCard = ({ department, chief }) => {
                     {chief && (
                             <>
                                 {chief.meetingDate && (
-                                        <Typography variant="body2">
+                                        <Typography variant="body2" color={"#000000"}>
                                             <CalendarTodayIcon sx={{ marginRight: '5px' }} />
                                             {chief.meetingDate}
                                         </Typography>
@@ -101,7 +101,7 @@ export const DepartmentCard = ({ department, chief }) => {
                                                     variant="subtitle1"
                                                     sx={{
                                                         ...theme.customStyles.departmentCardChiefText,
-                                                        color: department.bgColor,
+                                                        color: darken(department.bgColor, 0.5),
                                                     }}
                                             >
                                                 Αρχηγός: {chief.name}

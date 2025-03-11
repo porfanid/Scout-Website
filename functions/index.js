@@ -167,7 +167,7 @@ export const sendContactMessage = onCall(async (request, context) => {
 
         Σε περίπτωση που θέλετε να απαντήσετε, μπορείτε να απαντήσετε κατευθείαν σε αυτό το μήνυμα.
     `
-    const to= 'pavlos@orfanidis.net.gr';
+    const to= '1ioaninon@sep.org.gr';
     const subject = `Νέο Μήνυμα από ${name} <${email}>`
     try {
         await sendMail(to, email, subject, mail_message);

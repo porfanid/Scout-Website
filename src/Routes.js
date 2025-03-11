@@ -12,6 +12,7 @@ const routes = [
     { path: '/events', componentKey: 'Gallery' },//
     { path: '/chores', componentKey: 'ChoresAdmin' },//
     { path: '/user-admin', componentKey: 'AdminUserManagement' },//
+    { path: '/about', componentKey: 'AboutUs' }
 ];
 
 export default routes;

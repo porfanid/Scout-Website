@@ -34,6 +34,7 @@ import Contact from './Contact.jsx';
 import {Gallery} from "./Gallery/Gallery.jsx";
 import ChoresAdmin from "./Chores/Chores.jsx";
 import AdminUserManagement from "./AdminPage/AdminUserManagement.jsx";
+import AboutUs from "./about/AboutUs.jsx";
 import {doc, getDoc, updateDoc, arrayUnion} from "firebase/firestore";
 
 // Map keys to components
@@ -50,7 +51,8 @@ const componentMap = {
     ProfilePage,
     Gallery,
     ChoresAdmin,
-    AdminUserManagement
+    AdminUserManagement,
+    AboutUs
 };
 
 /**
@@ -70,7 +72,7 @@ const NextComponent = styled(Box)(({ theme }) => ({
  */
 function App() {
     const { t } = useTranslation(); // Use translation hook
-    const [theme, setTheme] = useState(lightTheme);
+    const [theme, setTheme] = useState(darkTheme);
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     useEffect(() => {

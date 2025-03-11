@@ -33,7 +33,7 @@ const Departments = () => {
             img_url: "/CMS/site/images/participate-1.png",
             overlay_img_url: lykopoyla,
             age: "7-11",
-            bgColor: "#B8860B",
+            bgColor: "#FFAC00",
             animationProps: useSpring(getAnimationProps(0)),
         },
         {
@@ -44,7 +44,7 @@ const Departments = () => {
             is_animated: true,
             is_component: false,
             age: "11-15",
-            bgColor: "#005B33",
+            bgColor: "#007560",
             animationProps: useSpring(getAnimationProps(1)),
         },
         {
@@ -53,7 +53,7 @@ const Departments = () => {
             img_url: "/CMS/site/images/participate-3.png",
             overlay_img_url: explorers,
             age: "15-18",
-            bgColor: "#a32121",
+            bgColor: "#B93A3E",
             animationProps: useSpring(getAnimationProps(2)),
         },
         {
@@ -63,7 +63,7 @@ const Departments = () => {
             overlay_img_url: diktyo,
             is_animated: true,
             age: "18-24",
-            bgColor: "#003C5B",
+            bgColor: "#2760A7",
             animationProps: useSpring(getAnimationProps(3)),
         },
         {
