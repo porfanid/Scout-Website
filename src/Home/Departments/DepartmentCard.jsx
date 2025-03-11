@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Card, CardContent, CardMedia, Typography, Box } from '@mui/material';
 import FaceIcon from '@mui/icons-material/Face';
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -155,4 +156,24 @@ export const DepartmentCard = ({ department, chief }) => {
                 </CardContent>
             </Card>
     );
+};
+
+DepartmentCard.propTypes = {
+    department: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        moto: PropTypes.string,
+        age: PropTypes.number,
+        bgColor: PropTypes.string.isRequired,
+        img_url: PropTypes.string.isRequired,
+        overlay_img_url: PropTypes.string,
+        formLink: PropTypes.string,
+        is_animated: PropTypes.bool,
+        is_component: PropTypes.bool,
+    }).isRequired,
+    chief: PropTypes.shape({
+        name: PropTypes.string,
+        phone: PropTypes.string,
+        email: PropTypes.string,
+        meetingDate: PropTypes.string,
+    }),
 };

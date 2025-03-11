@@ -22,10 +22,10 @@ const AboutUs = () => {
                 <Typography variant="h2" gutterBottom>
                     1ο Σύστημα Προσκόπων Ιωαννίνων
                 </Typography>
-                <Typography variant="body1" paragraph>
+                <Typography variant="body1">
                     Το 1ο Σύστημα Προσκόπων Ιωαννίνων αποτελεί ένα από τα παλαιότερα και πιο ενεργά προσκοπικά συστήματα στην περιοχή της Ηπείρου. Με έδρα τα Ιωάννινα, το Σύστημα μας προάγει τις αξίες του προσκοπισμού, προσφέροντας στα παιδιά και τους νέους της περιοχής ευκαιρίες για προσωπική ανάπτυξη, κοινωνική ευαισθητοποίηση και ενεργή συμμετοχή στην κοινότητα.
                 </Typography>
-                <Typography variant="body1" paragraph>
+                <Typography variant="body1">
                     Οι δράσεις μας περιλαμβάνουν:
                 </Typography>
                 <Grid container spacing={4}>
