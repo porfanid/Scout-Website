@@ -1,10 +1,12 @@
 import React from 'react';
-import { Box, Modal, Typography, IconButton, Divider } from '@mui/material';
+import { Box, Modal, Typography, IconButton, Divider, Button } from '@mui/material';
 import {
     Close as CloseIcon,
     Event as EventIcon,
     CalendarToday as CalendarTodayIcon,
-    Label as LabelIcon
+    Label as LabelIcon,
+    AttachFile as AttachFileIcon,
+    CloudDone as CloudDoneIcon
 } from '@mui/icons-material';
 import { AddToCalendarButton } from 'add-to-calendar-button-react';
 
@@ -105,6 +107,70 @@ const EventDetailsModal = ({ open, handleClose, selectedEvent, getLabelName, the
                             <strong>Label:</strong> {getLabelName(selectedEvent.label)}
                         </Typography>
                     </Box>
+
+                    {/* Attachments Section */}
+                    {selectedEvent.attachments && selectedEvent.attachments.length > 0 && (
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                mb: 2,
+                                p: 2,
+                                borderRadius: '8px',
+                                background: 'rgba(255, 255, 255, 0.1)',
+                            }}
+                        >
+                            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                                <AttachFileIcon sx={{ mr: 2, color: '#a3e635' }} />
+                                <Typography color={"#E0E0E0"} variant="body1" sx={{ fontWeight: 'bold' }}>
+                                    Attached Files:
+                                </Typography>
+                            </Box>
+                            
+                            {selectedEvent.attachments.map((file, index) => (
+                                <Box
+                                    key={file.id || index}
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'space-between',
+                                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                                        borderRadius: '6px',
+                                        p: 1.5,
+                                        mt: 1,
+                                    }}
+                                >
+                                    <Box sx={{ display: 'flex', alignItems: 'center', flex: 1 }}>
+                                        <CloudDoneIcon sx={{ mr: 1, color: '#a3e635', fontSize: '1.2rem' }} />
+                                        <Box>
+                                            <Typography variant="body2" sx={{ color: '#E0E0E0', fontWeight: 'medium' }}>
+                                                {file.name}
+                                            </Typography>
+                                            <Typography variant="caption" sx={{ color: '#a6adc8' }}>
+                                                {file.mimeType} {file.size && `• ${Math.round(file.size / 1024)} KB`}
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                    
+                                    <Button
+                                        variant="outlined"
+                                        size="small"
+                                        onClick={() => window.open(file.viewUrl, '_blank')}
+                                        sx={{
+                                            borderColor: '#74c0fc',
+                                            color: '#74c0fc',
+                                            '&:hover': {
+                                                backgroundColor: 'rgba(116, 192, 252, 0.1)',
+                                                borderColor: '#74c0fc',
+                                            }
+                                        }}
+                                    >
+                                        View
+                                    </Button>
+                                </Box>
+                            ))}
+                        </Box>
+                    )}
 
                     <Box
                         sx={{

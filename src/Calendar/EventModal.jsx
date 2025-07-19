@@ -15,9 +15,11 @@ import { Close as CloseIcon } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../firebase';
+import GoogleDriveFilePicker from '../components/GoogleDriveFilePicker';
 
 const EventModal = ({ open, handleClose, newEvent, handleInputChange, labels }) => {
     const [error, setError] = useState(null);
+    const [attachedFiles, setAttachedFiles] = useState([]);
 
     const handleAddEvent = async () => {
         try {
@@ -25,7 +27,8 @@ const EventModal = ({ open, handleClose, newEvent, handleInputChange, labels }) 
                 title: newEvent.title,
                 start: new Date(newEvent.start),
                 end: new Date(newEvent.end),
-                label: newEvent.label
+                label: newEvent.label,
+                attachments: attachedFiles.length > 0 ? attachedFiles : null
             };
 
             if (!newEventData.title || !newEventData.start || !newEventData.end || !newEventData.label) {
@@ -34,6 +37,7 @@ const EventModal = ({ open, handleClose, newEvent, handleInputChange, labels }) 
             }
 
             await addDoc(collection(db, 'events'), newEventData);
+            setAttachedFiles([]); // Reset attachments
             handleClose();
         } catch (err) {
             console.error('Error adding event:', err);
@@ -180,6 +184,13 @@ const EventModal = ({ open, handleClose, newEvent, handleInputChange, labels }) 
                         ))}
                     </Select>
                 </FormControl>
+
+                {/* Google Drive File Picker */}
+                <GoogleDriveFilePicker
+                    onFilesSelected={setAttachedFiles}
+                    selectedFiles={attachedFiles}
+                    maxFiles={3}
+                />
 
                 {/* Error Message */}
                 {error && (

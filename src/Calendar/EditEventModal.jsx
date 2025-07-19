@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Box,
     Button,
@@ -18,10 +18,21 @@ import {
 import PropTypes from 'prop-types';
 import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../firebase';
+import GoogleDriveFilePicker from '../components/GoogleDriveFilePicker';
 
 const EditEventModal = ({ open, handleClose, editEvent, handleInputChange, labels }) => {
     const [confirmOpen, setConfirmOpen] = useState(false);
     const [error, setError] = useState(null);
+    const [attachedFiles, setAttachedFiles] = useState([]);
+
+    // Initialize attached files when editEvent changes
+    useEffect(() => {
+        if (editEvent && editEvent.attachments) {
+            setAttachedFiles(editEvent.attachments);
+        } else {
+            setAttachedFiles([]);
+        }
+    }, [editEvent]);
 
     const handleConfirmOpen = () => setConfirmOpen(true);
     const handleConfirmClose = () => setConfirmOpen(false);
@@ -32,7 +43,8 @@ const EditEventModal = ({ open, handleClose, editEvent, handleInputChange, label
                 title: editEvent.title,
                 start: new Date(editEvent.start),
                 end: new Date(editEvent.end),
-                label: editEvent.label
+                label: editEvent.label,
+                attachments: attachedFiles.length > 0 ? attachedFiles : null
             };
 
             if (!updatedEventData.title || !updatedEventData.start || !updatedEventData.end || !updatedEventData.label) {
@@ -118,6 +130,28 @@ const EditEventModal = ({ open, handleClose, editEvent, handleInputChange, label
                             ))}
                         </Select>
                     </FormControl>
+                    
+                    {/* Google Drive File Picker */}
+                    <GoogleDriveFilePicker
+                        onFilesSelected={setAttachedFiles}
+                        selectedFiles={attachedFiles}
+                        maxFiles={3}
+                    />
+                    
+                    {error && (
+                        <Typography
+                            variant="body2"
+                            color="error"
+                            sx={{
+                                mt: 2,
+                                fontWeight: 'bold',
+                                textAlign: 'center',
+                            }}
+                        >
+                            {error}
+                        </Typography>
+                    )}
+                    
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
                         <Button variant="contained" color="primary" onClick={handleUpdateEvent}>Update Event</Button>
                         <Button variant="contained" color="error" onClick={handleConfirmOpen}>Delete Event</Button>
