@@ -1729,10 +1729,10 @@
   resolved "https://registry.npmjs.org/@fontsource/indie-flower/-/indie-flower-5.1.1.tgz"
   integrity sha512-SKVEplzahyTOZZcOKKW69AnJOGJ7+v42We/tkzTMlMCLCBxGHW2ppY9z1Uh+hJeMQjJfS1hA9djelhpF1aUSFA==
 
-"@fontsource/montserrat@^5.1.0":
-  version "5.1.0"
-  resolved "https://registry.npmjs.org/@fontsource/montserrat/-/montserrat-5.1.0.tgz"
-  integrity sha512-HB4+rWP9Y8g6T9RGRVJk2SvAJtx2eBAXuivvPOqQdD806/9WESUfucfH9LqFj3bGgdhNCfh0Rv0NGuwEmBLRiw==
+"@fontsource/montserrat@^5.2.6":
+  version "5.2.6"
+  resolved "https://registry.yarnpkg.com/@fontsource/montserrat/-/montserrat-5.2.6.tgz#083aba8d818c843cd2bb461c7f455680a12ad2ce"
+  integrity sha512-AfFxq1q5tgkOsjQfMFsh95uMXh39VbGOuBLlHLFg16/txv93lqK7Sr6jev0neuJzZy1kqRG16SH6xpUYnk4cZg==
 
 "@fontsource/pacifico@^5.1.1":
   version "5.1.1"
