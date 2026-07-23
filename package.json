@@ -39,7 +39,7 @@
     "@mui/styles": "^6.3.1",
     "@react-spring/web": "^9.7.5",
     "add-to-calendar-button-react": "^2.7.3",
-    "axios": "^1.8.2",
+    "axios": "^1.18.1",
     "firebase": "^11.0.1",
     "google-auth-library": "^10.1.0",
     "googleapis": "^153.0.0",
